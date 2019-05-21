@@ -138,7 +138,6 @@ void emscripten_free(git_stream *stream) {
 	//git__free(stream);
 }
 
-extern "C" {
 int git_open_emscripten_stream(git_stream **out, const char *host, const char *port) {		
 	xhrstream.version = GIT_STREAM_VERSION;
 	xhrstream.connect = emscripten_connect;
@@ -153,7 +152,6 @@ int git_open_emscripten_stream(git_stream **out, const char *host, const char *p
 	*out = &xhrstream;
 	printf("Stream setup \n");
 	return 0;
-}
 }
 
 #endif
