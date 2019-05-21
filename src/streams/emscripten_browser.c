@@ -93,7 +93,7 @@ ssize_t emscripten_write(git_stream *stream, const char *data, size_t len, int f
 			gitxhr=new XMLHttpRequest();
 			gitxhrreadoffset = 0;
 			gitxhr.responseType = "arraybuffer";			
-			gitxhr.open("GET",host + data.split("\n")[0].split(" ")[1], true);		
+			gitxhr.open("GET",host + data.split("\n")[0].split(" ")[1], false);		
 			addHeaders();
 			gitxhr.send();
 		} else if(data.indexOf("POST ")===0) {
@@ -101,7 +101,7 @@ ssize_t emscripten_write(git_stream *stream, const char *data, size_t len, int f
 			gitxhrreadoffset = 0;
 			gitxhr.responseType = "arraybuffer";			
 			var requestlines = data.split("\n");			
-			gitxhr.open("POST", host + requestlines[0].split(" ")[1], true);
+			gitxhr.open("POST", host + requestlines[0].split(" ")[1], false);
 			addHeaders();
 			console.log(data);
 			gitxhrdata = null;								
