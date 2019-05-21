@@ -93,7 +93,7 @@ ssize_t emscripten_write(git_stream *stream, const char *data, size_t len, int f
 			gitxhr=new XMLHttpRequest();
 			gitxhrreadoffset = 0;
 			gitxhr.responseType = "arraybuffer";			
-			gitxhr.open("GET",host + data.split("\n")[0].split(" ")[1], false);		
+			gitxhr.open("GET",host + data.split("\n")[0].split(" ")[1], true);		
 			addHeaders();
 			gitxhr.send();
 		} else if(data.indexOf("POST ")===0) {
@@ -101,7 +101,7 @@ ssize_t emscripten_write(git_stream *stream, const char *data, size_t len, int f
 			gitxhrreadoffset = 0;
 			gitxhr.responseType = "arraybuffer";			
 			var requestlines = data.split("\n");			
-			gitxhr.open("POST", host + requestlines[0].split(" ")[1], false);
+			gitxhr.open("POST", host + requestlines[0].split(" ")[1], true);
 			addHeaders();
 			console.log(data);
 			gitxhrdata = null;								
@@ -138,6 +138,7 @@ void emscripten_free(git_stream *stream) {
 	//git__free(stream);
 }
 
+extern "C" {
 int git_open_emscripten_stream(git_stream **out, const char *host, const char *port) {		
 	xhrstream.version = GIT_STREAM_VERSION;
 	xhrstream.connect = emscripten_connect;
@@ -152,6 +153,7 @@ int git_open_emscripten_stream(git_stream **out, const char *host, const char *p
 	*out = &xhrstream;
 	printf("Stream setup \n");
 	return 0;
+}
 }
 
 #endif
