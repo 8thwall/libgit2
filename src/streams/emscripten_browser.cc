@@ -190,10 +190,12 @@ http_parser_settings initSettings() noexcept {
   settings.on_message_complete = [](http_parser *parser) -> int {
     XhrRequest *req = reinterpret_cast<XhrRequest *>(parser->data);
 
+    /*
     printf("method: %s\n", req->method.c_str());
     printf("url: %s\n", req->url.c_str());
     printf("headers: %s\n", req->headers.c_str());
     printf("body: %s\n", req->body.c_str());
+    */
 
   EM_ASM_(
     {
