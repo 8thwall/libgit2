@@ -269,7 +269,7 @@ http_parser_settings settings = initSettings();
 
 ssize_t emscripten_write(
   git_stream *stream, const char *data, size_t len, int flags) {
-  printf("emscripten_write size=%d data=%s\n", len, data);
+  printf("emscripten_write size=%d data=%.*s\n", len, len, data);
   // printf("emscripten_write\n");
 
   printf("Execute http parser\n");
