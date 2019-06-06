@@ -25,7 +25,7 @@ extern "C" {
 git_stream xhrstream;
 
 int emscripten_connect(git_stream *stream) {
-  EM_ASM(gitxhrdata = null;);
+  //EM_ASM(gitxhrdata = null;);
   return 1;
 }
 
@@ -92,13 +92,31 @@ int emscripten_certificate(git_cert **out, git_stream *stream) {
 
 namespace {
 
+  /*
+      template <typename Range, typename Value = typename Range::value_type>
+    std::string Join(Range const& elements, const char *const delimiter) {
+        std::ostringstream os;
+        auto b = begin(elements), e = end(elements);
+
+        if (b != e) {
+            std::copy(b, prev(e), std::ostream_iterator<Value>(os, delimiter));
+            b = prev(e);
+        }
+        if (b != e) {
+            os << *b;
+        }
+
+        return os.str();
+    }
+    */
+
 enum class HeaderState { NONE, FIELD, VALUE };
 
 struct XhrRequest {
   std::string method;
   std::string url;
   std::string httpVersion;
-  std::vector<std::pair<std::string, std::string>> headers;
+  std::string headers;
   std::string body;
   HeaderState previousState = HeaderState::NONE;
 };
@@ -129,11 +147,16 @@ http_parser_settings initSettings() noexcept {
     XhrRequest *req = reinterpret_cast<XhrRequest *>(parser->data);
     switch (req->previousState) {
       case HeaderState::NONE:
+        // First header
+        req->headers = std::string(at, length);
+        break;
       case HeaderState::VALUE:
-        req->headers.push_back(std::make_pair(std::string(at, length), ""));
+        // New header.
+        req->headers += "\n" + std::string(at, length);
         break;
       case HeaderState::FIELD:
-        req->headers.back().first += std::string(at, length);
+        // Append to partial header field.
+        req->headers += std::string(at, length);
         break;
     }
     req->previousState = HeaderState::FIELD;
@@ -147,10 +170,12 @@ http_parser_settings initSettings() noexcept {
         // Error, parsed header value before field.
         return 1;
       case HeaderState::VALUE:
-        req->headers.back().second += std::string(at, length);
+        // Append to partial header value.
+        req->headers += std::string(at, length);
         break;
       case HeaderState::FIELD:
-        req->headers.back().second = std::string(at, length);
+        // New header value
+        req->headers += ":" + std::string(at, length);
         break;
     }
     req->previousState = HeaderState::VALUE;
@@ -167,38 +192,41 @@ http_parser_settings initSettings() noexcept {
 
     printf("method: %s\n", req->method.c_str());
     printf("url: %s\n", req->url.c_str());
-    std::string field, value;
-    for (const auto &item : req->headers) {
-      std::tie(field, value) = item;
-      printf("header: [%s: %s]\n", field.c_str(), value.c_str());
-    }
+    printf("headers: %s\n", req->headers.c_str());
     printf("body: %s\n", req->body.c_str());
 
   EM_ASM_(
     {
       const method = Pointer_stringify($0);
       const url = Pointer_stringify($1);
-      // const body = Pointer_stringify($2);
-      const body = new Uint8Array(Module.HEAPU8.buffer, $2, $3);
+      const rawHeaders = Pointer_stringify($2);
+      const body = new Uint8Array(Module.HEAPU8.buffer, $3, $4);
 
-      var host = Module.jsgithost ? Module.jsgithost : '';
-      var headers = Module.jsgitheaders ? Module.jsgitheaders : [];
-      function addHeaders() {
+      const headerLines = rawHeaders.split("\n");
+
+      const host = Module.jsgithost ? Module.jsgithost : '';
+      const headers = Module.jsgitheaders ? Module.jsgitheaders : [];
+      function addExtraHeaders() {
         for (var n = 0; n < headers.length; n++) {
           gitxhr.setRequestHeader(headers[n].name, headers[n].value);
         }
       }
-
+    
       gitxhr = new XMLHttpRequest();
       gitxhrreadoffset = 0;
       gitxhr.responseType = "arraybuffer";
+      // Send a synchronous request. This will run in a worker thread.
       gitxhr.open(method, host + url, false);
-      addHeaders();
+      for (var i = 0; i < headerLines.length; i++) {
+        const splitHeader = headerLines[i].split(":", 2);
+        gitxhr.setRequestHeader(splitHeader[0], splitHeader[1]);
+      }
+      addExtraHeaders();
       gitxhr.send(body.buffer);
     },
     req->method.c_str(),
     req->url.c_str(),
-    // HEADERS?
+    req->headers.c_str(),
     req->body.c_str(),
     req->body.size());
 
@@ -229,9 +257,9 @@ ssize_t emscripten_write(
   int nparsed = http_parser_execute(httpParser, &settings, data, len);
 
   if (nparsed != len) {
-    // Handle error.
+    // Error.
+    return -1;
   }
-  // http_parser_has_error(&parser)
   return len;
 }
 
