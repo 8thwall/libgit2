@@ -662,7 +662,8 @@ static int gen_pktline(git_buf *buf, git_push *push)
 	old_id[GIT_OID_HEXSZ] = '\0'; new_id[GIT_OID_HEXSZ] = '\0';
 
 	git_vector_foreach(&push->specs, i, spec) {
-		len = 2*GIT_OID_HEXSZ + 7 + strlen(spec->refspec.dst);
+                // Changed from 7->6 in the following line to address pruned LF, see below.
+		len = 2*GIT_OID_HEXSZ + 6 + strlen(spec->refspec.dst);
 
 		if (i == 0) {
 			++len; /* '\0' */
@@ -687,8 +688,13 @@ static int gen_pktline(git_buf *buf, git_push *push)
 			git_buf_printf(buf, GIT_CAP_SIDE_BAND_64K);
 		}
 
-		git_buf_putc(buf, '\n');
-	}
+                // The git http-protocol.txt says clients should at a LF here,
+                // but the 'git' client does not put this LF in. While GitHub
+                // has no problem parsing requests with this LF, AWS CodeCommit
+                // returns empty responses for any multi-packet POST that has
+                // this LF.
+                // git_buf_putc(buf, '\n');
+        }
 
 	git_buf_puts(buf, "0000");
 	return git_buf_oom(buf) ? -1 : 0;
