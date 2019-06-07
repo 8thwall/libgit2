@@ -134,7 +134,7 @@ http_parser_settings initSettings() noexcept {
     return 0;
   };
   settings.on_headers_complete = [](http_parser *parser) -> int {
-    printf("on_headers_complete");
+    printf("on_headers_complete\n");
     XhrRequest *req = reinterpret_cast<XhrRequest *>(parser->data);
     req->method = http_method_str(static_cast<http_method>(parser->method));
 
@@ -245,13 +245,24 @@ http_parser_settings initSettings() noexcept {
     req->body.c_str(),
     req->body.size());
 
-  if (req) {
-    delete req;
-    parser->data = nullptr;
-  }
-  return 0;
-};
-return settings;
+    if (req) {
+      delete req;
+      parser->data = nullptr;
+    }
+    return 0;
+  };
+
+  settings.on_chunk_header = [](http_parser *parser) -> int {
+    printf("on_chunk_header\n");
+    return 0;
+  };
+
+  settings.on_chunk_complete = [](http_parser *parser) -> int {
+    printf("on_chunk_complete\n");
+    return 0;
+  };
+
+  return settings;
 }  // namespace
 
 http_parser* initParser() {
@@ -270,6 +281,7 @@ http_parser_settings settings = initSettings();
 ssize_t emscripten_write(
   git_stream *stream, const char *data, size_t len, int flags) {
   printf("emscripten_write size=%d data=%.*s\n", len, len, data);
+  fflush(NULL);
   // printf("emscripten_write\n");
 
   printf("Execute http parser\n");
@@ -277,10 +289,15 @@ ssize_t emscripten_write(
   printf("Done execute http parser\n");
 
   if (nparsed != len) {
-    printf("ERROR parsing :-(");
+    printf("ERROR: Parse error. Parsed only %d vs len %d. Parser state=%d header_state=%d\n", nparsed, len, 
+      httpParser->state, httpParser->header_state);
+    git_error_set(GIT_ERROR_NET,
+      "HTTP parser error: %s",
+      http_errno_description((enum http_errno)httpParser->http_errno));
     // Error.
     return -1;
   }
+  printf("Returning len=%d\n", len);
   return len;
 }
 
