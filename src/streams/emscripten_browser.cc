@@ -71,8 +71,6 @@ ssize_t emscripten_read(git_stream *stream, void *data, size_t len) {
           var len = availlen > $2 ? $2 : availlen;
 
           var byteArray = new Uint8Array(arrayBuffer, gitxhrreadoffset, len);
-          // console.log("read from
-          // ",arrayBuffer.byteLength,gitxhrreadoffset,len,byteArray[0]);
           writeArrayToMemory(byteArray, $0);
           setValue($1, len, "i32");
 
@@ -85,12 +83,10 @@ ssize_t emscripten_read(git_stream *stream, void *data, size_t len) {
     data,
     &ret,
     len);
-  printf("Returning %d bytes, requested %d\n", ret, len);
   return ret;
 }
 
 int emscripten_certificate(git_cert **out, git_stream *stream) {
-  printf("Checking certificate\n");
   return 0;
 }
 
@@ -128,33 +124,27 @@ struct XhrRequest {
 http_parser_settings initSettings() noexcept {
   http_parser_settings settings;
   settings.on_message_begin = [](http_parser *parser) -> int {
-    printf("on_message_begin\n");
     XhrRequest *req = new XhrRequest;
     parser->data = req;
     return 0;
   };
   settings.on_headers_complete = [](http_parser *parser) -> int {
-    printf("on_headers_complete\n");
     XhrRequest *req = reinterpret_cast<XhrRequest *>(parser->data);
     req->method = http_method_str(static_cast<http_method>(parser->method));
 
     // Reserve space for the full content in advance.
     // printf("Reserving space for http method=%s with content_length=%u\n", req->method.c_str(), parser->content_length);
     // req->body.reserve(parser->content_length);
-    printf("headers completed method=%s\n", req->method.c_str());
     return 0;
   };
   settings.on_url =
     [](http_parser *parser, const char *at, size_t length) -> int {
-    printf("on_url\n");
     XhrRequest *req = reinterpret_cast<XhrRequest *>(parser->data);
     req->url += std::string(at, length);
-    printf("url=%s\n", req->url.c_str());
     return 0;
   };
   settings.on_header_field =
     [](http_parser *parser, const char *at, size_t length) -> int {
-    printf("on_header_field %s\n", std::string(at, length).c_str());
     XhrRequest *req = reinterpret_cast<XhrRequest *>(parser->data);
     switch (req->previousState) {
       case HeaderState::NONE:
@@ -175,7 +165,6 @@ http_parser_settings initSettings() noexcept {
   };
   settings.on_header_value =
     [](http_parser *parser, const char *at, size_t length) -> int {
-    printf("on_header_value %s\n", std::string(at, length).c_str());
     XhrRequest *req = reinterpret_cast<XhrRequest *>(parser->data);
     switch (req->previousState) {
       case HeaderState::NONE:
@@ -195,7 +184,6 @@ http_parser_settings initSettings() noexcept {
   };
   settings.on_body =
     [](http_parser *parser, const char *at, size_t length) -> int {
-    printf("on_body %zu \n", length);
     XhrRequest *req = reinterpret_cast<XhrRequest *>(parser->data);
     req->body += std::string(at, length);
     return 0;
@@ -231,9 +219,12 @@ http_parser_settings initSettings() noexcept {
       gitxhr.responseType = "arraybuffer";
       // Send a synchronous request. This will run in a worker thread.
       gitxhr.open(method, host + url, false);
+      const BLACKLISTED_HEADERS = ["User-Agent", "Host", "Content-Length"];
       for (var i = 0; i < headerLines.length; i++) {
         const splitHeader = headerLines[i].split(":", 2);
-        gitxhr.setRequestHeader(splitHeader[0], splitHeader[1]);
+        if (!BLACKLISTED_HEADERS.includes(splitHeader[0])) {
+          gitxhr.setRequestHeader(splitHeader[0], splitHeader[1]);
+        }
       }
       addExtraHeaders();
       console.log("Sending XHR from emscripten with body size=" + body.length + " content=" + new TextDecoder("utf-8").decode(body));
