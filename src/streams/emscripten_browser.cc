@@ -236,7 +236,7 @@ http_parser_settings initSettings() noexcept {
         gitxhr.setRequestHeader(splitHeader[0], splitHeader[1]);
       }
       addExtraHeaders();
-      console.log("Sending XHR from emscripten with body size=" + body.length + " content=" + new TextDecoder("utf-8").decode(body));
+      console.log("Sending XHR from emscripten");
       gitxhr.send(body);
     },
     req->method.c_str(),
