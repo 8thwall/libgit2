@@ -56,7 +56,7 @@ int git_smart__store_refs(transport_smart *t, int flushes)
 				return recvd;
 
 			if (recvd == 0) {
-				git_error_set(GIT_ERROR_NET, "early EOF");
+				git_error_set(GIT_ERROR_NET, "early EOF git_smart__store_refs");
 				return GIT_EEOF;
 			}
 
@@ -230,7 +230,7 @@ static int recv_pkt(git_pkt **out_pkt, git_pkt_type *out_type, gitno_buffer *buf
 		if ((ret = gitno_recv(buf)) < 0) {
 			return ret;
 		} else if (ret == 0) {
-			git_error_set(GIT_ERROR_NET, "early EOF");
+			git_error_set(GIT_ERROR_NET, "early EOF recv_pkt");
 			return GIT_EEOF;
 		}
 	} while (error);
@@ -821,7 +821,7 @@ static int parse_report(transport_smart *transport, git_push *push)
 			}
 
 			if (recvd == 0) {
-				git_error_set(GIT_ERROR_NET, "early EOF");
+				git_error_set(GIT_ERROR_NET, "early EOF parse_report");
 				error = GIT_EEOF;
 				goto done;
 			}

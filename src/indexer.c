@@ -1147,7 +1147,7 @@ int git_indexer_commit(git_indexer *idx, git_indexer_progress *stats)
 		return error;
 
 	if (stats->indexed_objects != stats->total_objects) {
-		git_error_set(GIT_ERROR_INDEXER, "early EOF");
+		git_error_set(GIT_ERROR_INDEXER, "early EOF git_indexer_commit");
 		return -1;
 	}
 
