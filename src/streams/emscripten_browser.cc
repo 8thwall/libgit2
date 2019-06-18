@@ -233,6 +233,11 @@ http_parser_settings initSettings() noexcept {
       gitxhr.open(method, host + url, false);
       for (var i = 0; i < headerLines.length; i++) {
         const splitHeader = headerLines[i].split(":", 2);
+        if (splitHeader[0] === "User-Agent"  || 
+            splitHeader[0] === "Host" || 
+            splitHeader[0] === "Transfer-Encoding") {
+              continue
+            }
         gitxhr.setRequestHeader(splitHeader[0], splitHeader[1]);
       }
       addExtraHeaders();
