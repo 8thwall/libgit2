@@ -19,6 +19,8 @@ extern "C" {
 #include "streams/stransport.h"
 }
 
+#include "deps/picosha2/picosha2.h"
+
 #include <string>
 #include <vector>
 #include <inttypes.h>
@@ -204,10 +206,16 @@ http_parser_settings initSettings() noexcept {
     printf("on_message_complete\n");
     XhrRequest *req = reinterpret_cast<XhrRequest *>(parser->data);
 
+
+    std::vector<uint8_t> hash(picosha2::k_digest_size);
+    picosha2::hash256(req->body.begin(), req->body.end(), hash.begin(), hash.end());
+    std::string sha256 = picosha2::bytes_to_hex_string(hash.begin(), hash.end());
+
     printf("method: %s\n", req->method.c_str());
     printf("url: %s\n", req->url.c_str());
     printf("headers: %s\n", req->headers.c_str());
     printf("body: %s\n", req->body.c_str());
+    printf("sha256: %s\n", sha256.c_str());
 
   EM_ASM_(
     {
@@ -215,6 +223,7 @@ http_parser_settings initSettings() noexcept {
       const url = Pointer_stringify($1);
       const rawHeaders = Pointer_stringify($2);
       const body = new Uint8Array(Module.HEAPU8.buffer, $3, $4);
+      const sha256 = Pointer_stringify($5);
 
       const headerLines = rawHeaders.split("\n");
 
@@ -225,7 +234,7 @@ http_parser_settings initSettings() noexcept {
           gitxhr.setRequestHeader(headers[n].name, headers[n].value);
         }
       }
-    
+
       gitxhr = new XMLHttpRequest();
       gitxhrreadoffset = 0;
       gitxhr.responseType = "arraybuffer";
@@ -233,13 +242,14 @@ http_parser_settings initSettings() noexcept {
       gitxhr.open(method, host + url, false);
       for (var i = 0; i < headerLines.length; i++) {
         const splitHeader = headerLines[i].split(":", 2);
-        if (splitHeader[0] === "User-Agent"  || 
-            splitHeader[0] === "Host" || 
+        if (splitHeader[0] === "User-Agent"  ||
+            splitHeader[0] === "Host" ||
             splitHeader[0] === "Transfer-Encoding") {
               continue
             }
         gitxhr.setRequestHeader(splitHeader[0], splitHeader[1]);
       }
+      gitxhr.setRequestHeader('x-amz-content-sha256', sha256);
       addExtraHeaders();
       console.log("Sending XHR from emscripten");
       gitxhr.send(body);
@@ -248,7 +258,8 @@ http_parser_settings initSettings() noexcept {
     req->url.c_str(),
     req->headers.c_str(),
     req->body.c_str(),
-    req->body.size());
+    req->body.size(),
+    sha256.c_str());
 
     if (req) {
       delete req;
@@ -294,7 +305,7 @@ ssize_t emscripten_write(
   printf("Done execute http parser\n");
 
   if (nparsed != len) {
-    printf("ERROR: Parse error. Parsed only %d vs len %d. Parser state=%d header_state=%d\n", nparsed, len, 
+    printf("ERROR: Parse error. Parsed only %d vs len %d. Parser state=%d header_state=%d\n", nparsed, len,
       httpParser->state, httpParser->header_state);
     git_error_set(GIT_ERROR_NET,
       "HTTP parser error: %s",
@@ -306,9 +317,9 @@ ssize_t emscripten_write(
   return len;
 }
 
-int emscripten_close(git_stream *stream) { 
+int emscripten_close(git_stream *stream) {
   printf("emscripten_close\n");
-  return 0; 
+  return 0;
 }
 
 void emscripten_free(git_stream *stream) {
