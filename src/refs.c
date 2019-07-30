@@ -7,6 +7,8 @@
 
 #include "refs.h"
 
+#include <stdio.h>
+
 #include "hash.h"
 #include "repository.h"
 #include "fileops.h"
@@ -437,8 +439,13 @@ static int reference__create(
 		assert(symbolic == NULL);
 
 		if (!git_object__is_valid(repo, oid, GIT_OBJECT_ANY)) {
-			git_error_set(GIT_ERROR_REFERENCE,
-				"target OID for the reference doesn't exist on the repository");
+			static char errmsg[256];
+			snprintf(
+				errmsg,
+				255,
+				"target OID %s for the reference doesn't exist on the repository",
+				git_oid_tostr_s(oid));
+			git_error_set(GIT_ERROR_REFERENCE, errmsg);
 			return -1;
 		}
 

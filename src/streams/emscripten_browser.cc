@@ -249,6 +249,8 @@ http_parser_settings initSettings() noexcept {
             }
         gitxhr.setRequestHeader(splitHeader[0], splitHeader[1]);
       }
+      gitxhr.setRequestHeader('Cache-Controle', 'no-cache');
+      gitxhr.setRequestHeader('Pragma', 'no-cache');
       gitxhr.setRequestHeader('x-amz-content-sha256', sha256);
       addExtraHeaders();
       console.log("Sending XHR from emscripten");
