@@ -219,11 +219,11 @@ http_parser_settings initSettings() noexcept {
 
   EM_ASM_(
     {
-      const method = Pointer_stringify($0);
-      const url = Pointer_stringify($1);
-      const rawHeaders = Pointer_stringify($2);
-      const body = new Uint8Array(Module.HEAPU8.buffer, $3, $4);
-      const sha256 = Pointer_stringify($5);
+      const method = UTF8ToString($0, $1);
+      const url = UTF8ToString($2, $3);
+      const rawHeaders = UTF8ToString($4, $5);
+      const body = new Uint8Array(Module.HEAPU8.buffer, $6, $7);
+      const sha256 = UTF8ToString($8, $9);
 
       const headerLines = rawHeaders.split("\n");
 
@@ -257,11 +257,15 @@ http_parser_settings initSettings() noexcept {
       gitxhr.send(body);
     },
     req->method.c_str(),
+    req->method.size(),
     req->url.c_str(),
+    req->url.size(),
     req->headers.c_str(),
+    req->headers.size(),
     req->body.c_str(),
     req->body.size(),
-    sha256.c_str());
+    sha256.c_str(),
+    sha256.size());
 
     if (req) {
       delete req;
