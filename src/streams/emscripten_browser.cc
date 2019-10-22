@@ -32,8 +32,14 @@ int emscripten_connect(git_stream *stream) {
   return 1;
 }
 
+#ifdef DEBUG_PRINT
+#define PRINT_DEBUG printf
+#else
+#define PRINT_DEBUG(...) (0)
+#endif
+
 ssize_t emscripten_read(git_stream *stream, void *data, size_t len) {
-  printf("emscripten_read %zu length\n", len);
+  PRINT_DEBUG("emscripten_read %zu length\n", len);
   size_t ret = 0;
 
   //unsigned int readyState = 0;
@@ -66,8 +72,8 @@ ssize_t emscripten_read(git_stream *stream, void *data, size_t len) {
       if (gitxhr) {
         var arrayBuffer = gitxhr.response;  // Note: not oReq.responseText
 
-        console.log("gitxhr readyState=" + gitxhr.readyState + " responseLength=" + gitxhr.response.byteLength + " readoffset=" + gitxhrreadoffset);
-        console.log("gitxhr responseHeaders=" + gitxhr.getAllResponseHeaders());
+        // console.log("gitxhr readyState=" + gitxhr.readyState + " responseLength=" + gitxhr.response.byteLength + " readoffset=" + gitxhrreadoffset);
+        // console.log("gitxhr responseHeaders=" + gitxhr.getAllResponseHeaders());
         if (gitxhr.readyState === 4 && arrayBuffer) {
           var availlen = (arrayBuffer.byteLength - gitxhrreadoffset);
           var len = availlen > $2 ? $2 : availlen;
@@ -87,12 +93,12 @@ ssize_t emscripten_read(git_stream *stream, void *data, size_t len) {
     data,
     &ret,
     len);
-  printf("Returning %d bytes, requested %d\n", ret, len);
+  PRINT_DEBUG("Returning %d bytes, requested %d\n", ret, len);
   return ret;
 }
 
 int emscripten_certificate(git_cert **out, git_stream *stream) {
-  printf("Checking certificate\n");
+  PRINT_DEBUG("Checking certificate\n");
   return 0;
 }
 
@@ -130,33 +136,33 @@ struct XhrRequest {
 http_parser_settings initSettings() noexcept {
   http_parser_settings settings;
   settings.on_message_begin = [](http_parser *parser) -> int {
-    printf("on_message_begin\n");
+    PRINT_DEBUG("on_message_begin\n");
     XhrRequest *req = new XhrRequest;
     parser->data = req;
     return 0;
   };
   settings.on_headers_complete = [](http_parser *parser) -> int {
-    printf("on_headers_complete\n");
+    PRINT_DEBUG("on_headers_complete\n");
     XhrRequest *req = reinterpret_cast<XhrRequest *>(parser->data);
     req->method = http_method_str(static_cast<http_method>(parser->method));
 
     // Reserve space for the full content in advance.
-    // printf("Reserving space for http method=%s with content_length=%u\n", req->method.c_str(), parser->content_length);
+    // PRINT_DEBUG("Reserving space for http method=%s with content_length=%u\n", req->method.c_str(), parser->content_length);
     // req->body.reserve(parser->content_length);
-    printf("headers completed method=%s\n", req->method.c_str());
+    PRINT_DEBUG("headers completed method=%s\n", req->method.c_str());
     return 0;
   };
   settings.on_url =
     [](http_parser *parser, const char *at, size_t length) -> int {
-    printf("on_url\n");
+    PRINT_DEBUG("on_url\n");
     XhrRequest *req = reinterpret_cast<XhrRequest *>(parser->data);
     req->url += std::string(at, length);
-    printf("url=%s\n", req->url.c_str());
+    PRINT_DEBUG("url=%s\n", req->url.c_str());
     return 0;
   };
   settings.on_header_field =
     [](http_parser *parser, const char *at, size_t length) -> int {
-    printf("on_header_field %s\n", std::string(at, length).c_str());
+    PRINT_DEBUG("on_header_field %s\n", std::string(at, length).c_str());
     XhrRequest *req = reinterpret_cast<XhrRequest *>(parser->data);
     switch (req->previousState) {
       case HeaderState::NONE:
@@ -177,7 +183,7 @@ http_parser_settings initSettings() noexcept {
   };
   settings.on_header_value =
     [](http_parser *parser, const char *at, size_t length) -> int {
-    printf("on_header_value %s\n", std::string(at, length).c_str());
+    PRINT_DEBUG("on_header_value %s\n", std::string(at, length).c_str());
     XhrRequest *req = reinterpret_cast<XhrRequest *>(parser->data);
     switch (req->previousState) {
       case HeaderState::NONE:
@@ -197,13 +203,13 @@ http_parser_settings initSettings() noexcept {
   };
   settings.on_body =
     [](http_parser *parser, const char *at, size_t length) -> int {
-    printf("on_body %zu \n", length);
+    PRINT_DEBUG("on_body %zu \n", length);
     XhrRequest *req = reinterpret_cast<XhrRequest *>(parser->data);
     req->body += std::string(at, length);
     return 0;
   };
   settings.on_message_complete = [](http_parser *parser) -> int {
-    printf("on_message_complete\n");
+    PRINT_DEBUG("on_message_complete\n");
     XhrRequest *req = reinterpret_cast<XhrRequest *>(parser->data);
 
 
@@ -211,11 +217,11 @@ http_parser_settings initSettings() noexcept {
     picosha2::hash256(req->body.begin(), req->body.end(), hash.begin(), hash.end());
     std::string sha256 = picosha2::bytes_to_hex_string(hash.begin(), hash.end());
 
-    printf("method: %s\n", req->method.c_str());
-    printf("url: %s\n", req->url.c_str());
-    printf("headers: %s\n", req->headers.c_str());
-    printf("body: %s\n", req->body.c_str());
-    printf("sha256: %s\n", sha256.c_str());
+    PRINT_DEBUG("method: %s\n", req->method.c_str());
+    PRINT_DEBUG("url: %s\n", req->url.c_str());
+    PRINT_DEBUG("headers: %s\n", req->headers.c_str());
+    PRINT_DEBUG("body: %s\n", req->body.c_str());
+    PRINT_DEBUG("sha256: %s\n", sha256.c_str());
 
   EM_ASM_(
     {
@@ -253,7 +259,7 @@ http_parser_settings initSettings() noexcept {
       gitxhr.setRequestHeader('Pragma', 'no-cache');
       gitxhr.setRequestHeader('x-amz-content-sha256', sha256);
       addExtraHeaders();
-      console.log("Sending XHR from emscripten");
+      // console.log("Sending XHR from emscripten");
       gitxhr.send(body);
     },
     req->method.c_str(),
@@ -275,12 +281,12 @@ http_parser_settings initSettings() noexcept {
   };
 
   settings.on_chunk_header = [](http_parser *parser) -> int {
-    printf("on_chunk_header\n");
+    PRINT_DEBUG("on_chunk_header\n");
     return 0;
   };
 
   settings.on_chunk_complete = [](http_parser *parser) -> int {
-    printf("on_chunk_complete\n");
+    PRINT_DEBUG("on_chunk_complete\n");
     return 0;
   };
 
@@ -288,7 +294,7 @@ http_parser_settings initSettings() noexcept {
 }  // namespace
 
 http_parser* initParser() {
-  printf("Init http parser\n");
+  PRINT_DEBUG("Init http parser\n");
   http_parser *httpParser = new http_parser;
   http_parser_init(httpParser, HTTP_REQUEST);
   return httpParser;
@@ -302,16 +308,16 @@ http_parser_settings settings = initSettings();
 
 ssize_t emscripten_write(
   git_stream *stream, const char *data, size_t len, int flags) {
-  printf("emscripten_write size=%d data=%.*s\n", len, len, data);
+  PRINT_DEBUG("emscripten_write size=%d data=%.*s\n", len, len, data);
   fflush(NULL);
-  // printf("emscripten_write\n");
+  // PRINT_DEBUG("emscripten_write\n");
 
-  printf("Execute http parser\n");
+  PRINT_DEBUG("Execute http parser\n");
   int nparsed = http_parser_execute(httpParser, &settings, data, len);
-  printf("Done execute http parser\n");
+  PRINT_DEBUG("Done execute http parser\n");
 
   if (nparsed != len) {
-    printf("ERROR: Parse error. Parsed only %d vs len %d. Parser state=%d header_state=%d\n", nparsed, len,
+    PRINT_DEBUG("ERROR: Parse error. Parsed only %d vs len %d. Parser state=%d header_state=%d\n", nparsed, len,
       httpParser->state, httpParser->header_state);
     git_error_set(GIT_ERROR_NET,
       "HTTP parser error: %s",
@@ -319,17 +325,17 @@ ssize_t emscripten_write(
     // Error.
     return -1;
   }
-  printf("Returning len=%d\n", len);
+  PRINT_DEBUG("Returning len=%d\n", len);
   return len;
 }
 
 int emscripten_close(git_stream *stream) {
-  printf("emscripten_close\n");
+  PRINT_DEBUG("emscripten_close\n");
   return 0;
 }
 
 void emscripten_free(git_stream *stream) {
-  printf("emscripten_free\n");
+  PRINT_DEBUG("emscripten_free\n");
   // git__free(stream);
 }
 
