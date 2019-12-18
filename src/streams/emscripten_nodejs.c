@@ -1,11 +1,11 @@
 /**
  * Stream for use with emscripten in nodejs. Uses https in child process for synchronous requests
- * 
+ *
  * To use: git_stream_register_tls(git_open_emscripten_node_stream);
- * 
+ *
  * Module.jsgitheaders = [{name: 'Authorization', value: 'Bearer TOKEN'}]
- * 
- * Author: Peter Johan Salomonsen ( https://github.com/petersalomonsen ) 
+ *
+ * Author: Peter Johan Salomonsen ( https://github.com/petersalomonsen )
  */
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -15,41 +15,41 @@
 git_stream xhrstream;
 
 int emscripten_connect(git_stream *stream) {
-	printf("Connecting\n");	
+	printf("Connecting\n");
 	EM_ASM(
-		gitxhrdata = null;
+		self.gitxhrdata = null;
 	);
 	return 1;
 }
 
 ssize_t emscripten_read(git_stream *stream, void *data, size_t len) {
 	size_t ret = 0;
-		
-	EM_ASM_({		
-		if(gitxhrdata!==null) {			
-			const cp = require('child_process');
-			
-			console.log((Buffer.from(gitxhrdata)+'').substr(0, 500));
-			const proc = cp.spawnSync(process.argv0, ['libgit2httpsrequest.js'], {input: 
-				gitxhrdata
-			});
-			gitxhrdata = null;
-			responsedata = proc.stdout;	
-			console.log('response', (responsedata+'').substr(0, 500));		
-		}		
-	});
-		
+
 	EM_ASM_({
-		const availlen = (responsedata.length-gitxhrreadoffset);						
+		if(self.gitxhrdata!==null) {
+			const cp = require('child_process');
+
+			console.log((Buffer.from(self.gitxhrdata)+'').substr(0, 500));
+			const proc = cp.spawnSync(process.argv0, ['libgit2httpsrequest.js'], {input:
+				self.gitxhrdata
+			});
+			self.gitxhrdata = null;
+			responsedata = proc.stdout;
+			console.log('response', (responsedata+'').substr(0, 500));
+		}
+	});
+
+	EM_ASM_({
+		const availlen = (responsedata.length-self.gitxhrreadoffset);
 		const len = availlen > $2 ? $2 : availlen;
-						
-		const byteArray = responsedata.slice(gitxhrreadoffset, gitxhrreadoffset + len);		
-		console.log("read from ",responsedata.length,gitxhrreadoffset,len,byteArray.length);
+
+		const byteArray = responsedata.slice(self.gitxhrreadoffset, self.gitxhrreadoffset + len);
+		console.log("read from ",responsedata.length,self.gitxhrreadoffset,len,byteArray.length);
 		writeArrayToMemory(byteArray,$0);
 		setValue($1,len,"i32");
-		
-		gitxhrreadoffset+=len;						
-	},data,&ret,len);	
+
+		self.gitxhrreadoffset+=len;
+	},data,&ret,len);
 	printf("Returning %d bytes, requested %d\n",ret,len);
 	return ret;
 }
@@ -63,28 +63,28 @@ ssize_t emscripten_write(git_stream *stream, const char *data, size_t len, int f
 	EM_ASM_({
 		const data = new Uint8Array(Module.HEAPU8.buffer, $0, $1);
 		const method = UTF8ToString($0, 4).trim();
-		
-		if(method === 'GET') {						
-			gitxhrreadoffset = 0;
-			const cp = require('child_process');			
+
+		if(method === 'GET') {
+			self.gitxhrreadoffset = 0;
+			const cp = require('child_process');
 			// console.log(Buffer.from(data)+'');
-			const proc = cp.spawnSync(process.argv0, ['libgit2httpsrequest.js'], {input: 
+			const proc = cp.spawnSync(process.argv0, ['libgit2httpsrequest.js'], {input:
 				data
-			});			
-			responsedata = proc.stdout;				
-		} else if(method === 'POST') {	
-			responsedata = null;			
-			gitxhrreadoffset = 0;
-			gitxhrdata = data;
-		} else {			
-			const appended = new Uint8Array(gitxhrdata.length+$1);
-			appended.set(gitxhrdata,0);
-			appended.set(new Uint8Array(Module.HEAPU8.buffer,$0,$1),gitxhrdata.length);
-			gitxhrdata = appended;										
-			console.log("Appended post data",$1,gitxhrdata.length);	
+			});
+			responsedata = proc.stdout;
+		} else if(method === 'POST') {
+			responsedata = null;
+			self.gitxhrreadoffset = 0;
+			self.gitxhrdata = data;
+		} else {
+			const appended = new Uint8Array(self.gitxhrdata.length+$1);
+			appended.set(self.gitxhrdata,0);
+			appended.set(new Uint8Array(Module.HEAPU8.buffer,$0,$1),self.gitxhrdata.length);
+			self.gitxhrdata = appended;
+			console.log("Appended post data",$1,self.gitxhrdata.length);
 		}
 	},data,len);
-	
+
 	return len;
 }
 
@@ -98,7 +98,7 @@ void emscripten_free(git_stream *stream) {
 	//git__free(stream);
 }
 
-int git_open_emscripten_nodejs_stream(git_stream **out, const char *host, const char *port) {		
+int git_open_emscripten_nodejs_stream(git_stream **out, const char *host, const char *port) {
 	xhrstream.version = GIT_STREAM_VERSION;
 	xhrstream.connect = emscripten_connect;
 	xhrstream.read = emscripten_read;
@@ -108,7 +108,7 @@ int git_open_emscripten_nodejs_stream(git_stream **out, const char *host, const 
 	xhrstream.certificate = emscripten_certificate;
 	xhrstream.encrypted = 1;
 	xhrstream.proxy_support = 0;
-		
+
 	*out = &xhrstream;
 	printf("Stream setup \n");
 	return 0;

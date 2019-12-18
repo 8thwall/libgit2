@@ -28,7 +28,7 @@ extern "C" {
 git_stream xhrstream;
 
 int emscripten_connect(git_stream *stream) {
-  //EM_ASM(gitxhrdata = null;);
+  //EM_ASM(self.gitxhrdata = null;);
   return 1;
 }
 
@@ -46,12 +46,12 @@ ssize_t emscripten_read(git_stream *stream, void *data, size_t len) {
   /*
   EM_ASM_(
     {
-      if (gitxhrdata !== null) {
-        // console.log("sending post data",gitxhrdata.length);
-        gitxhr.send(gitxhrdata.buffer);
-        gitxhrdata = null;
+      if (self.gitxhrdata !== null) {
+        // console.log("sending post data",self.gitxhrdata.length);
+        self.gitxhr.send(self.gitxhrdata.buffer);
+        self.gitxhrdata = null;
       }
-      setValue($0, gitxhr.readyState, "i32");
+      setValue($0, self.gitxhr.readyState, "i32");
     },
     &readyState);
     */
@@ -61,7 +61,7 @@ ssize_t emscripten_read(git_stream *stream, void *data, size_t len) {
   while(readyState!=4) {
           EM_ASM_({
                   console.log("Waiting for data");
-                  setValue($0,gitxhr.readyState,"i32");
+                  setValue($0,self.gitxhr.readyState,"i32");
           },&readyState);
 
           emscripten_sleep(10);
@@ -69,22 +69,22 @@ ssize_t emscripten_read(git_stream *stream, void *data, size_t len) {
 
   EM_ASM_(
     {
-      if (gitxhr) {
-        var arrayBuffer = gitxhr.response;  // Note: not oReq.responseText
+      if (self.gitxhr) {
+        var arrayBuffer = self.gitxhr.response;  // Note: not oReq.responseText
 
-        // console.log("gitxhr readyState=" + gitxhr.readyState + " responseLength=" + gitxhr.response.byteLength + " readoffset=" + gitxhrreadoffset);
-        // console.log("gitxhr responseHeaders=" + gitxhr.getAllResponseHeaders());
-        if (gitxhr.readyState === 4 && arrayBuffer) {
-          var availlen = (arrayBuffer.byteLength - gitxhrreadoffset);
+        // console.log("gitxhr readyState=" + self.gitxhr.readyState + " responseLength=" + self.gitxhr.response.byteLength + " readoffset=" + self.gitxhrreadoffset);
+        // console.log("gitxhr responseHeaders=" + self.gitxhr.getAllResponseHeaders());
+        if (self.gitxhr.readyState === 4 && arrayBuffer) {
+          var availlen = (arrayBuffer.byteLength - self.gitxhrreadoffset);
           var len = availlen > $2 ? $2 : availlen;
 
-          var byteArray = new Uint8Array(arrayBuffer, gitxhrreadoffset, len);
+          var byteArray = new Uint8Array(arrayBuffer, self.gitxhrreadoffset, len);
           // console.log("read from
-          // ",arrayBuffer.byteLength,gitxhrreadoffset,len,byteArray[0]);
+          // ",arrayBuffer.byteLength,self.gitxhrreadoffset,len,byteArray[0]);
           writeArrayToMemory(byteArray, $0);
           setValue($1, len, "i32");
 
-          gitxhrreadoffset += len;
+          self.gitxhrreadoffset += len;
         }
       } else {
         setValue($1, -1, "i32");
@@ -237,15 +237,15 @@ http_parser_settings initSettings() noexcept {
       const headers = Module.jsgitheaders ? Module.jsgitheaders : [];
       function addExtraHeaders() {
         for (var n = 0; n < headers.length; n++) {
-          gitxhr.setRequestHeader(headers[n].name, headers[n].value);
+          self.gitxhr.setRequestHeader(headers[n].name, headers[n].value);
         }
       }
 
-      gitxhr = new XMLHttpRequest();
-      gitxhrreadoffset = 0;
-      gitxhr.responseType = "arraybuffer";
+      self.gitxhr = new XMLHttpRequest();
+      self.gitxhrreadoffset = 0;
+      self.gitxhr.responseType = "arraybuffer";
       // Send a synchronous request. This will run in a worker thread.
-      gitxhr.open(method, host + url, false);
+      self.gitxhr.open(method, host + url, false);
       for (var i = 0; i < headerLines.length; i++) {
         const splitHeader = headerLines[i].split(":", 2);
         if (splitHeader[0] === "User-Agent"  ||
@@ -253,14 +253,14 @@ http_parser_settings initSettings() noexcept {
             splitHeader[0] === "Transfer-Encoding") {
               continue
             }
-        gitxhr.setRequestHeader(splitHeader[0], splitHeader[1]);
+        self.gitxhr.setRequestHeader(splitHeader[0], splitHeader[1]);
       }
-      gitxhr.setRequestHeader('Cache-Controle', 'no-cache');
-      gitxhr.setRequestHeader('Pragma', 'no-cache');
-      gitxhr.setRequestHeader('x-amz-content-sha256', sha256);
+      self.gitxhr.setRequestHeader('Cache-Controle', 'no-cache');
+      self.gitxhr.setRequestHeader('Pragma', 'no-cache');
+      self.gitxhr.setRequestHeader('x-amz-content-sha256', sha256);
       addExtraHeaders();
       // console.log("Sending XHR from emscripten");
-      gitxhr.send(body);
+      self.gitxhr.send(body);
     },
     req->method.c_str(),
     req->method.size(),
