@@ -28,7 +28,6 @@ extern "C" {
 git_stream xhrstream;
 
 int emscripten_connect(git_stream *stream) {
-  //EM_ASM(self.gitxhrdata = null;);
   return 1;
 }
 
@@ -42,45 +41,17 @@ ssize_t emscripten_read(git_stream *stream, void *data, size_t len) {
   PRINT_DEBUG("emscripten_read %zu length\n", len);
   size_t ret = 0;
 
-  //unsigned int readyState = 0;
-  /*
-  EM_ASM_(
-    {
-      if (self.gitxhrdata !== null) {
-        // console.log("sending post data",self.gitxhrdata.length);
-        self.gitxhr.send(self.gitxhrdata.buffer);
-        self.gitxhrdata = null;
-      }
-      setValue($0, self.gitxhr.readyState, "i32");
-    },
-    &readyState);
-    */
-
-  /*
-   * We skip this since we are now using a synchronous request
-  while(readyState!=4) {
-          EM_ASM_({
-                  console.log("Waiting for data");
-                  setValue($0,self.gitxhr.readyState,"i32");
-          },&readyState);
-
-          emscripten_sleep(10);
-  }*/
-
   EM_ASM_(
     {
       if (self.gitxhr) {
         var arrayBuffer = self.gitxhr.response;  // Note: not oReq.responseText
 
-        // console.log("gitxhr readyState=" + self.gitxhr.readyState + " responseLength=" + self.gitxhr.response.byteLength + " readoffset=" + self.gitxhrreadoffset);
-        // console.log("gitxhr responseHeaders=" + self.gitxhr.getAllResponseHeaders());
         if (self.gitxhr.readyState === 4 && arrayBuffer) {
           var availlen = (arrayBuffer.byteLength - self.gitxhrreadoffset);
           var len = availlen > $2 ? $2 : availlen;
 
           var byteArray = new Uint8Array(arrayBuffer, self.gitxhrreadoffset, len);
-          // console.log("read from
-          // ",arrayBuffer.byteLength,self.gitxhrreadoffset,len,byteArray[0]);
+
           writeArrayToMemory(byteArray, $0);
           setValue($1, len, "i32");
 
@@ -103,24 +74,6 @@ int emscripten_certificate(git_cert **out, git_stream *stream) {
 }
 
 namespace {
-
-  /*
-      template <typename Range, typename Value = typename Range::value_type>
-    std::string Join(Range const& elements, const char *const delimiter) {
-        std::ostringstream os;
-        auto b = begin(elements), e = end(elements);
-
-        if (b != e) {
-            std::copy(b, prev(e), std::ostream_iterator<Value>(os, delimiter));
-            b = prev(e);
-        }
-        if (b != e) {
-            os << *b;
-        }
-
-        return os.str();
-    }
-    */
 
 enum class HeaderState { NONE, FIELD, VALUE };
 
@@ -146,9 +99,6 @@ http_parser_settings initSettings() noexcept {
     XhrRequest *req = reinterpret_cast<XhrRequest *>(parser->data);
     req->method = http_method_str(static_cast<http_method>(parser->method));
 
-    // Reserve space for the full content in advance.
-    // PRINT_DEBUG("Reserving space for http method=%s with content_length=%u\n", req->method.c_str(), parser->content_length);
-    // req->body.reserve(parser->content_length);
     PRINT_DEBUG("headers completed method=%s\n", req->method.c_str());
     return 0;
   };
@@ -259,7 +209,6 @@ http_parser_settings initSettings() noexcept {
       self.gitxhr.setRequestHeader('Pragma', 'no-cache');
       self.gitxhr.setRequestHeader('x-amz-content-sha256', sha256);
       addExtraHeaders();
-      // console.log("Sending XHR from emscripten");
       self.gitxhr.send(body);
     },
     req->method.c_str(),
@@ -310,7 +259,6 @@ ssize_t emscripten_write(
   git_stream *stream, const char *data, size_t len, int flags) {
   PRINT_DEBUG("emscripten_write size=%d data=%.*s\n", len, len, data);
   fflush(NULL);
-  // PRINT_DEBUG("emscripten_write\n");
 
   PRINT_DEBUG("Execute http parser\n");
   int nparsed = http_parser_execute(httpParser, &settings, data, len);
