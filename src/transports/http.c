@@ -53,6 +53,8 @@ static const char *post_verb = "POST";
 
 #define CHUNK_SIZE	4096
 
+#define UNSPECIFIED_REQ_BODY 0
+
 enum last_cb {
 	NONE,
 	FIELD,
@@ -1040,7 +1042,7 @@ replay:
 
 		clear_parser_state(t);
 
-		if (gen_request(&request, s, 0, 0) < 0)
+		if (gen_request(&request, s, 0, UNSPECIFIED_REQ_BODY) < 0)
 			return -1;
 
 		if (git_stream__write_full(t->server.stream, request.ptr,
@@ -1164,7 +1166,7 @@ static int http_stream_write_chunked(
 
 		clear_parser_state(t);
 
-		if (gen_request(&request, s, 0, 0) < 0)
+		if (gen_request(&request, s, 0, UNSPECIFIED_REQ_BODY) < 0)
 			return -1;
 
 		if (git_stream__write_full(t->server.stream, request.ptr,
