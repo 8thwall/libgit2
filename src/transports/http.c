@@ -22,6 +22,8 @@
 #include "streams/tls.h"
 #include "streams/socket.h"
 
+#include "deps/picosha2/picosha2-c.h"
+
 git_http_auth_scheme auth_schemes[] = {
 	{ GIT_AUTHTYPE_NEGOTIATE, "Negotiate", GIT_CREDTYPE_DEFAULT, git_http_auth_negotiate },
 	{ GIT_AUTHTYPE_BASIC, "Basic", GIT_CREDTYPE_USERPASS_PLAINTEXT, git_http_auth_basic },
@@ -50,6 +52,8 @@ static const char *post_verb = "POST";
 #define PARSE_ERROR_EXT         -3
 
 #define CHUNK_SIZE	4096
+
+#define UNSPECIFIED_REQ_BODY 0
 
 enum last_cb {
 	NONE,
@@ -217,7 +221,8 @@ static int apply_credentials(
 static int gen_request(
 	git_buf *buf,
 	http_stream *s,
-	size_t content_length)
+	size_t content_length,
+	const char* buffer)
 {
 	http_subtransport *t = OWNING_SUBTRANSPORT(s);
 	const char *path = t->server.url.path ? t->server.url.path : "/";
@@ -257,6 +262,12 @@ static int gen_request(
 	for (i = 0; i < t->owner->custom_headers.count; i++) {
 		if (t->owner->custom_headers.strings[i])
 			git_buf_printf(buf, "%s\r\n", t->owner->custom_headers.strings[i]);
+	}
+
+	if (buffer != 0 && content_length != 0) {
+		char hash[65];
+		picosha2_256(buffer, content_length, hash);
+		git_buf_printf(buf, "x-amz-content-sha256: %s\r\n", hash);
 	}
 
 	/* Apply proxy and server credentials to the request */
@@ -1031,7 +1042,7 @@ replay:
 
 		clear_parser_state(t);
 
-		if (gen_request(&request, s, 0) < 0)
+		if (gen_request(&request, s, 0, UNSPECIFIED_REQ_BODY) < 0)
 			return -1;
 
 		if (git_stream__write_full(t->server.stream, request.ptr,
@@ -1155,7 +1166,7 @@ static int http_stream_write_chunked(
 
 		clear_parser_state(t);
 
-		if (gen_request(&request, s, 0) < 0)
+		if (gen_request(&request, s, 0, UNSPECIFIED_REQ_BODY) < 0)
 			return -1;
 
 		if (git_stream__write_full(t->server.stream, request.ptr,
@@ -1231,7 +1242,7 @@ static int http_stream_write_single(
 
 	clear_parser_state(t);
 
-	if (gen_request(&request, s, len) < 0)
+	if (gen_request(&request, s, len, buffer) < 0)
 		return -1;
 
 	if (git_stream__write_full(t->server.stream, request.ptr, request.size, 0) < 0)
@@ -1348,7 +1359,10 @@ static int http_receivepack(
 
 	s = (http_stream *)*stream;
 
-	/* Use Transfer-Encoding: chunked for this request */
+	/*
+		Use Transfer-Encoding: chunked for this request
+		Warning: This may make it so the whole body is not available for computing sha256.
+	*/
 	s->chunked = 1;
 	s->parent.write = http_stream_write_chunked;
 
