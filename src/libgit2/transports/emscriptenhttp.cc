@@ -53,22 +53,23 @@ uint64_t xhrConnect(
 }
 
 // This call buffers the writes. The buffer is sent on the wire when xhrRead() is called.
-void xhrWrite(uint64_t connectionNumber, const char *buffer, size_t size) {
+int xhrWrite(uint64_t connectionNumber, const char *buffer, size_t size) {
   if (connectionMap.count(connectionNumber) != 1) {
     printf("Attempting to write to connection %l but it is not connected", connectionNumber);
-    return;
+    return -1;
   }
   auto &connection = connectionMap[connectionNumber];
   connection.writeBuffer.insert(end(connection.writeBuffer), buffer, buffer + size);
+	return 0;
 }
 
 // Sends pending writes and returns response async. The result is buffered so this can be invoked
 // until the full length of the buffer is read.
-void xhrRead(uint64_t connectionNumber, char *buffer, size_t bufferSize, size_t *bytesRead) {
+int xhrRead(uint64_t connectionNumber, char *buffer, size_t bufferSize, size_t *bytesRead) {
   if (connectionMap.count(connectionNumber) != 1) {
     printf("Attempting to read from connection %l but it is not connected\n", connectionNumber);
     *bytesRead = 0;
-    return;
+    return -1;
   }
   auto &connection = connectionMap[connectionNumber];
   std::vector<const char *> headersToSend = connection.headers;
@@ -102,6 +103,7 @@ void xhrRead(uint64_t connectionNumber, char *buffer, size_t bufferSize, size_t 
   *bytesRead = min(f->numBytes - connection.totalBytesRead, bufferSize);
   std::memcpy(buffer, f->data + connection.totalBytesRead, *bytesRead);
   connection.totalBytesRead += *bytesRead;
+	return 0;
 }
 
 void xhrFree(uint64_t connectionNumber) {
@@ -138,9 +140,7 @@ static int emscriptenhttp_stream_read(
   if (s->connectionNo == -1) {
     s->connectionNo = xhrConnect(git_str_cstr(&s->service_url), "GET", {});
   }
-  xhrRead(s->connectionNo, buffer, buf_size, bytes_read);
-
-  return 0;
+  return xhrRead(s->connectionNo, buffer, buf_size, bytes_read);
 }
 
 static int emscriptenhttp_stream_write_single(
@@ -163,9 +163,7 @@ static int emscriptenhttp_stream_write_single(
         "no-cache",
       });
   }
-  xhrWrite(s->connectionNo, buffer, len);
-
-  return 0;
+  return xhrWrite(s->connectionNo, buffer, len);
 }
 
 static void emscriptenhttp_stream_free(git_smart_subtransport_stream *stream) {
