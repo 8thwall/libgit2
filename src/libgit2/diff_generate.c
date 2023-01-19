@@ -1041,6 +1041,7 @@ static int handle_unmatched_new_item(
 		delta_type = GIT_DELTA_IGNORED;
 
 	if (nitem->mode == GIT_FILEMODE_TREE) {
+		void *t = c8_ScopeTimerBegin("unmatched-tree");
 		bool recurse_into_dir = contains_oitem;
 
 		/* check if user requests recursion into this type of dir */
@@ -1053,8 +1054,10 @@ static int handle_unmatched_new_item(
 		/* do not advance into directories that contain a .git file */
 		if (recurse_into_dir && !contains_oitem) {
 			git_str *full = NULL;
-			if (git_iterator_current_workdir_path(&full, info->new_iter) < 0)
+			if (git_iterator_current_workdir_path(&full, info->new_iter) < 0) {
+				c8_ScopeTimerEnd(t);
 				return -1;
+			}
 			if (full && git_fs_path_contains(full, DOT_GIT)) {
 				/* TODO: warning if not a valid git repository */
 				recurse_into_dir = false;
@@ -1072,18 +1075,29 @@ static int handle_unmatched_new_item(
 			git_iterator_status_t untracked_state;
 
 			/* attempt to insert record for this directory */
-			if ((error = diff_delta__from_one(diff, delta_type, NULL, nitem)) != 0)
+			void *t2 = c8_ScopeTimerBegin("diff_delta__from_one");
+			error = diff_delta__from_one(diff, delta_type, NULL, nitem);
+			c8_ScopeTimerEnd(t2);
+			if (error != 0){
+				c8_ScopeTimerEnd(t);
 				return error;
+			}
 
 			/* if delta wasn't created (because of rules), just skip ahead */
+			t2 = c8_ScopeTimerBegin("diff_delta__last_for_item");
 			last = diff_delta__last_for_item(diff, nitem);
-			if (!last)
+			c8_ScopeTimerEnd(t2);
+			if (!last) {
+				c8_ScopeTimerEnd(t);
 				return iterator_advance(&info->nitem, info->new_iter);
+			}
 
 			/* iterate into dir looking for an actual untracked file */
 			if ((error = iterator_advance_over(
-					&info->nitem, &untracked_state, info->new_iter)) < 0)
-				return error;
+					&info->nitem, &untracked_state, info->new_iter)) < 0) {
+					c8_ScopeTimerEnd(t);
+					return error;
+				}
 
 			/* if we found nothing that matched our pathlist filter, exclude */
 			if (untracked_state == GIT_ITERATOR_STATUS_FILTERED) {
@@ -1103,21 +1117,30 @@ static int handle_unmatched_new_item(
 				}
 			}
 
+			c8_ScopeTimerEnd(t);
 			return 0;
 		}
 
 		/* try to advance into directory if necessary */
 		if (recurse_into_dir) {
+			void *t2 = c8_ScopeTimerBegin("recurse_into_dir");
+			void *t3 = c8_ScopeTimerBegin("iterator_advance_into");
 			error = iterator_advance_into(&info->nitem, info->new_iter);
+			c8_ScopeTimerEnd(t3);
 
 			/* if directory is empty, can't advance into it, so skip it */
 			if (error == GIT_ENOTFOUND) {
 				git_error_clear();
+				t3 = c8_ScopeTimerBegin("iterator_advance");
 				error = iterator_advance(&info->nitem, info->new_iter);
+				c8_ScopeTimerEnd(t3);
 			}
 
+			c8_ScopeTimerEnd(t2);
+			c8_ScopeTimerEnd(t);
 			return error;
 		}
+		c8_ScopeTimerEnd(t);
 	}
 
 	else if (delta_type == GIT_DELTA_IGNORED &&
@@ -1230,6 +1253,66 @@ static int handle_matched_item(
 	return error;
 }
 
+typedef struct {
+	const git_index_entry *start;  // inclusive start
+	const git_index_entry *end;		// exclusive end; null for end of list
+} git_pawel_thread_data;
+
+int git_pawel_test(git_repository *repo) {
+	// GIT_ASSERT_ARG(repo);
+	printf("vvvvv\tgit_pawel_test\tvvvvv\n");
+	c8_ScopeTimerBegin2("git_pawel_test");
+
+	git_iterator_options opts = GIT_ITERATOR_OPTIONS_INIT;
+	git_iterator *it = NULL;
+	int error = 0;
+
+	git_index *index;
+	error = git_repository_index(&index, repo);
+	if (error) goto bad;
+
+	error = git_iterator_for_index(&it, repo, index, &opts);
+	if (error) goto bad;
+
+	git_index_entry *entry;
+	error = iterator_current(&entry, it);
+	if (error) goto bad;
+
+	int numEntries = 0;
+
+	while (true) {
+		if (!entry) {
+			break;
+		}
+		numEntries++;
+		// printf("%s\n", entry->path);
+		error = iterator_advance(&entry, it);
+		if (error == GIT_ITEROVER) {
+			break;
+		}
+		if (error) goto bad;
+	}
+
+	size_t entryCount = git_index_entrycount(index);
+	// at this point i can launch entryCount/5,000 threads and give each one a start point
+	// and an end point.
+	size_t threadCount = (entryCount / 5000) + 1;  // ensure there is always at least one thread.
+
+	git_pawel_thread_data *threadData = calloc(threadCount, sizeof(git_pawel_thread_data));
+
+	free(threadData);
+
+	printf("total entries %d\tentry count %ld\n", numEntries, entryCount);
+	c8_ScopeTimerEnd2("git_pawel_test");
+	printf("^^^^^\tgit_pawel_test\t^^^^^\n");
+	git_index_free(index);
+	return GIT_OK;
+
+	bad:
+	printf("^^^^^\tgit_pawel_test\t^^^^^\n");
+	return error;
+}
+
 int git_diff__from_iterators(
 	git_diff **out,
 	git_repository *repo,
@@ -1257,6 +1340,7 @@ int git_diff__from_iterators(
 			goto cleanup;
 	}
 
+
 	/* finish initialization */
 	if ((error = diff_generated_apply_options(diff, opts)) < 0)
 		goto cleanup;
@@ -1264,6 +1348,9 @@ int git_diff__from_iterators(
 	if ((error = iterator_current(&info.oitem, old_iter)) < 0 ||
 		(error = iterator_current(&info.nitem, new_iter)) < 0)
 		goto cleanup;
+
+	int numMatched = 0;
+	int numUnmatched = 0;
 
 	/* run iterators building diffs */
 	while (!error && (info.oitem || info.nitem)) {
@@ -1274,29 +1361,51 @@ int git_diff__from_iterators(
 			if ((error = opts->progress_cb(&diff->base,
 					info.oitem ? info.oitem->path : NULL,
 					info.nitem ? info.nitem->path : NULL,
-					opts->payload)))
-				break;
+					opts->payload))){
+					break;
+				}
 		}
 
 		cmp = info.oitem ?
 			(info.nitem ? diff->base.entrycomp(info.oitem, info.nitem) : -1) : 1;
 
+		const char *left = info.oitem ? info.oitem->path : "[null]";
+		const char *right = info.nitem ? info.nitem->path : "[null]";
+		const char *pre = strcmp(left, right) ? " " : "Y";
+
+		// printf("%s\t%s\t%s\n", pre, left, right);
+
 		/* create DELETED records for old items not matched in new */
-		if (cmp < 0)
+		if (cmp < 0){
+			void *t = c8_ScopeTimerBegin("handle_unmatched_old_item");
 			error = handle_unmatched_old_item(diff, &info);
+			c8_ScopeTimerEnd(t);
+		}
 
 		/* create ADDED, TRACKED, or IGNORED records for new items not
 		 * matched in old (and/or descend into directories as needed)
 		 */
-		else if (cmp > 0)
+		else if (cmp > 0){
+			char str[4096];
+			sprintf(str, "%s => %s ", info.oitem->path, info.nitem->path);
+			void *t = c8_ScopeTimerBegin("handle_unmatched_new_item");
+			numUnmatched++;
 			error = handle_unmatched_new_item(diff, &info);
+			c8_ScopeTimerEnd(t);
+		}
 
 		/* otherwise item paths match, so create MODIFIED record
 		 * (or ADDED and DELETED pair if type changed)
 		 */
-		else
+		else {
+			// void *t = c8_ScopeTimerBegin("handle_matched_item");
+			numMatched++;
 			error = handle_matched_item(diff, &info);
+			// c8_ScopeTimerEnd(t);
+		}
 	}
+
+	printf("matched %d\tunmatched %d\n", numMatched, numUnmatched);
 
 	diff->base.perf.stat_calls +=
 		old_iter->stat_calls + new_iter->stat_calls;
@@ -1308,7 +1417,6 @@ cleanup:
 		git_diff_free(&diff->base);
 	if (info.submodule_cache)
 		git_submodule_cache_free(info.submodule_cache);
-
 	return error;
 }
 
@@ -1316,6 +1424,7 @@ static int diff_prepare_iterator_opts(char **prefix, git_iterator_options *a, in
 		git_iterator_options *b, int bflags,
 		const git_diff_options *opts)
 {
+	void *t1 = c8_ScopeTimerBegin("libgit2:diff_prepare_iterator_opts");
 	GIT_ERROR_CHECK_VERSION(opts, GIT_DIFF_OPTIONS_VERSION, "git_diff_options");
 
 	*prefix = NULL;
@@ -1335,6 +1444,7 @@ static int diff_prepare_iterator_opts(char **prefix, git_iterator_options *a, in
 	a->start = b->start = *prefix;
 	a->end = b->end = *prefix;
 
+	c8_ScopeTimerEnd(t1);
 	return 0;
 }
 
@@ -1726,4 +1836,3 @@ on_error:
 
 	return error;
 }
-

@@ -103,11 +103,11 @@ endif()
 
 # realtime support
 
-check_library_exists(rt clock_gettime "time.h" NEED_LIBRT)
-if(NEED_LIBRT)
-	list(APPEND LIBGIT2_SYSTEM_LIBS rt)
-	list(APPEND LIBGIT2_PC_LIBS "-lrt")
-endif()
+#check_library_exists(rt clock_gettime "time.h" NEED_LIBRT)
+#if(NEED_LIBRT)
+#	list(APPEND LIBGIT2_SYSTEM_LIBS rt)
+#	list(APPEND LIBGIT2_PC_LIBS "-lrt")
+#endif()
 
 # platform libraries
 

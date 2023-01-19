@@ -22,6 +22,10 @@
 #include <stdio.h>
 #include <ctype.h>
 
+
+void c8_ScopeTimerBegin2(const char *desc);
+void c8_ScopeTimerEnd2(const char *desc);
+
 #define ensure_error_set(code) do { \
 		const git_error *e = git_error_last(); \
 		if (!e || !e->message) \
@@ -1378,7 +1382,11 @@ int git_fs_path_diriter_init(
 		return -1;
 	}
 
-	if ((diriter->dir = opendir(diriter->path.ptr)) == NULL) {
+	c8_ScopeTimerBegin2("opendir");
+	diriter->dir = opendir(diriter->path.ptr);
+	c8_ScopeTimerEnd2("opendir");
+
+	if (diriter->dir == NULL) {
 		git_str_dispose(&diriter->path);
 
 		git_error_set(GIT_ERROR_OS, "failed to open directory '%s'", path);

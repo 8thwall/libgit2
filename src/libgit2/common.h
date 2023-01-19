@@ -7,6 +7,11 @@
 #ifndef INCLUDE_common_h__
 #define INCLUDE_common_h__
 
+void *c8_ScopeTimerBegin(const char *desc);
+void c8_ScopeTimerEnd(void *timer);
+void c8_ScopeTimerBegin2(const char *desc);
+void c8_ScopeTimerEnd2(const char *desc);
+
 #include "git2_util.h"
 #include "errors.h"
 

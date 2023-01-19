@@ -3514,11 +3514,18 @@ static int index_apply_to_wd_diff(git_index *index, int action, const git_strarr
 			opts.flags |= GIT_DIFF_INCLUDE_IGNORED;
 	}
 
-	if ((error = git_diff_index_to_workdir(&diff, repo, index, &opts)) < 0)
+
+	void *t1 = c8_ScopeTimerBegin("libgit2:git_diff_index_to_workdir");
+	error = git_diff_index_to_workdir(&diff, repo, index, &opts);
+	c8_ScopeTimerEnd(t1);
+
+	if (error < 0)
 		goto cleanup;
 
 	data.pathspec = &ps;
+	t1 = c8_ScopeTimerBegin("libgit2:git_diff_foreach");
 	error = git_diff_foreach(diff, apply_each_file, NULL, NULL, NULL, &data);
+	c8_ScopeTimerEnd(t1);
 	git_diff_free(diff);
 
 	if (error) /* make sure error is set if callback stopped iteration */
@@ -3625,6 +3632,7 @@ int git_index_update_all(
 	git_index_matched_path_cb cb,
 	void *payload)
 {
+	printf("git_index_update_all\n");
 	int error = index_apply_to_wd_diff(index, INDEX_ACTION_UPDATE, pathspec, 0, cb, payload);
 	if (error) /* make sure error is set if callback stopped iteration */
 		git_error_set_after_callback(error);

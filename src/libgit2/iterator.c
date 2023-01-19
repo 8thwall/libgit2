@@ -1370,25 +1370,43 @@ static int filesystem_iterator_frame_push(
 	new_frame->path_len = frame_entry ? frame_entry->path_len : 0;
 
 	/* Any error here is equivalent to the dir not existing, skip over it */
-	if ((error = git_fs_path_diriter_init(
-			&diriter, root.ptr, iter->dirload_flags)) < 0) {
+	c8_ScopeTimerBegin2("git_fs_path_diriter_init");
+	error = git_fs_path_diriter_init(&diriter, root.ptr, iter->dirload_flags);
+	c8_ScopeTimerEnd2("git_fs_path_diriter_init");
+	if (error < 0) {
 		error = GIT_ENOTFOUND;
 		goto done;
 	}
 
-	if ((error = git_vector_init(&new_frame->entries, 64,
-			iterator__ignore_case(&iter->base) ?
-			filesystem_iterator_entry_cmp_icase :
-			filesystem_iterator_entry_cmp)) < 0)
+	c8_ScopeTimerBegin2("git_vector_init");
+	error = git_vector_init(&new_frame->entries, 64,
+				iterator__ignore_case(&iter->base) ?
+				filesystem_iterator_entry_cmp_icase :
+				filesystem_iterator_entry_cmp);
+	c8_ScopeTimerEnd2("git_vector_init");
+
+	if (error < 0)
 		goto done;
 
 	if ((error = git_pool_init(&new_frame->entry_pool, 1)) < 0)
 		goto done;
 
 	/* check if this directory is ignored */
+	c8_ScopeTimerBegin2("push-ignores");
 	filesystem_iterator_frame_push_ignores(iter, frame_entry, new_frame);
+	c8_ScopeTimerEnd2("push-ignores");
 
-	while ((error = git_fs_path_diriter_next(&diriter)) == 0) {
+	// while ((error = git_fs_path_diriter_next(&diriter)) == 0) {
+	c8_ScopeTimerBegin2("while");
+	while(true) {
+		// c8_ScopeTimerBegin2("git_fs_path_diriter_next");
+		error = git_fs_path_diriter_next(&diriter);
+		// c8_ScopeTimerEnd2("git_fs_path_diriter_next");
+		if (error) {
+			break;
+		}
+
+
 		iterator_pathlist_search_t pathlist_match = ITERATOR_PATHLIST_FULL;
 		git_str path_str = GIT_STR_INIT;
 		bool dir_expected = false;
@@ -1413,15 +1431,23 @@ static int filesystem_iterator_frame_push(
 		 * whether it's a directory yet or not, so this can give us an
 		 * expected type (S_IFDIR or S_IFREG) that we should examine)
 		 */
-		if (!filesystem_iterator_examine_path(&dir_expected, &pathlist_match,
-			iter, frame_entry, path, path_len))
+		// c8_ScopeTimerBegin2("filesystem_iterator_examine_path");
+		int res = filesystem_iterator_examine_path(&dir_expected, &pathlist_match,
+			iter, frame_entry, path, path_len);
+		// c8_ScopeTimerEnd2("filesystem_iterator_examine_path");
+
+		if (!res)
 			continue;
 
 		/* TODO: don't need to stat if assume unchanged for this path and
 		 * we have an index, we can just copy the data out of it.
 		 */
 
-		if ((error = git_fs_path_diriter_stat(&statbuf, &diriter)) < 0) {
+		// c8_ScopeTimerBegin2("git_fs_path_diriter_stat");
+		error = git_fs_path_diriter_stat(&statbuf, &diriter);
+		// c8_ScopeTimerEnd2("git_fs_path_diriter_stat");
+
+		if (error < 0) {
 			/* file was removed between readdir and lstat */
 			if (error == GIT_ENOTFOUND)
 				continue;
@@ -1449,8 +1475,12 @@ static int filesystem_iterator_frame_push(
 		if (S_ISDIR(statbuf.st_mode)) {
 			bool submodule = false;
 
-			if ((error = filesystem_iterator_is_submodule(&submodule,
-					iter, path, path_len)) < 0)
+			// c8_ScopeTimerBegin2("filesystem_iterator_is_submodule");
+			error = filesystem_iterator_is_submodule(&submodule,
+								iter, path, path_len);
+			// c8_ScopeTimerEnd2("filesystem_iterator_is_submodule");
+
+			if (error < 0)
 				goto done;
 
 			if (submodule)
@@ -1461,18 +1491,28 @@ static int filesystem_iterator_frame_push(
 		else if (dir_expected)
 			continue;
 
-		if ((error = filesystem_iterator_entry_init(&entry,
-			iter, new_frame, path, path_len, &statbuf, pathlist_match)) < 0)
+		// c8_ScopeTimerBegin2("filesystem_iterator_entry_init");
+		error = filesystem_iterator_entry_init(&entry,
+			iter, new_frame, path, path_len, &statbuf, pathlist_match);
+		// c8_ScopeTimerEnd2("filesystem_iterator_entry_init");
+
+		if (error < 0)
 			goto done;
 
+		// c8_ScopeTimerBegin2("git_vector_insert");
 		git_vector_insert(&new_frame->entries, entry);
+		// c8_ScopeTimerEnd2("git_vector_insert");
 	}
+
+	c8_ScopeTimerEnd2("while");
 
 	if (error == GIT_ITEROVER)
 		error = 0;
 
 	/* sort now that directory suffix is added */
+	c8_ScopeTimerBegin2("git_vector_sort");
 	git_vector_sort(&new_frame->entries);
+	c8_ScopeTimerEnd2("git_vector_sort");
 
 done:
 	if (error < 0)
@@ -1647,6 +1687,7 @@ static int filesystem_iterator_advance(
 static int filesystem_iterator_advance_into(
 	const git_index_entry **out, git_iterator *i)
 {
+	c8_ScopeTimerBegin2("filesystem_iterator_advance_into");
 	filesystem_iterator *iter = GIT_CONTAINER_OF(i, filesystem_iterator, base);
 	filesystem_iterator_frame *frame;
 	filesystem_iterator_entry *prev_entry;
@@ -1659,7 +1700,9 @@ static int filesystem_iterator_advance_into(
 		return GIT_ITEROVER;
 
 	/* get the last seen entry */
+	c8_ScopeTimerBegin2("filesystem_iterator_current_entry");
 	prev_entry = filesystem_iterator_current_entry(frame);
+	c8_ScopeTimerEnd2("filesystem_iterator_current_entry");
 
 	/* it's legal to call advance_into when auto-expand is on.  in this case,
 	 * we will have pushed a new (empty) frame on to the stack for this
@@ -1672,14 +1715,23 @@ static int filesystem_iterator_advance_into(
 			!S_ISDIR(prev_entry->st.st_mode))
 			return 0;
 
-		if ((error = filesystem_iterator_frame_push(iter, prev_entry)) < 0)
+		c8_ScopeTimerBegin2("filesystem_iterator_frame_push");
+		error = filesystem_iterator_frame_push(iter, prev_entry);
+		c8_ScopeTimerEnd2("filesystem_iterator_frame_push");
+
+		if (error < 0)
 			return error;
 	}
 
 	/* we've advanced into the directory in question, let advance
 	 * find the first entry
 	 */
-	return filesystem_iterator_advance(out, i);
+
+	c8_ScopeTimerBegin2("filesystem_iterator_advance");
+	error = filesystem_iterator_advance(out, i);
+	c8_ScopeTimerEnd2("filesystem_iterator_advance");
+	c8_ScopeTimerEnd2("filesystem_iterator_advance_into");
+	return error;
 }
 
 int git_iterator_current_workdir_path(git_str **out, git_iterator *i)
@@ -2233,6 +2285,16 @@ static int index_iterator_reset(git_iterator *i)
 
 	index_iterator_clear(iter);
 	return index_iterator_init(iter);
+}
+
+static int index_iterator_reset_to(git_iterator *i, size_t pos)
+{
+	index_iterator *iter = GIT_CONTAINER_OF(i, index_iterator, base);
+
+	index_iterator_clear(iter);
+	index_iterator_init(iter);
+	iter->next_idx = 0;
+	return 0;
 }
 
 static void index_iterator_free(git_iterator *i)
