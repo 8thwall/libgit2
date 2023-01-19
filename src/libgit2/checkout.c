@@ -6,6 +6,7 @@
  */
 
 #include "checkout.h"
+#include "parallel.h"
 
 #include "git2/repository.h"
 #include "git2/refs.h"
@@ -1509,7 +1510,8 @@ static int blob_content_to_file(
 	git_blob *blob,
 	const char *path,
 	const char *hint_path,
-	mode_t entry_filemode)
+	mode_t entry_filemode,
+	git_mutex *mutex)
 {
 	int flags = data->opts.file_open_flags;
 	mode_t file_mode = data->opts.file_mode ?
@@ -1556,6 +1558,7 @@ static int blob_content_to_file(
 	writer.fd = fd;
 	writer.open = 1;
 
+	// This is the thing that needs to get parallelized.
 	error = git_filter_list_stream_blob(fl, blob, &writer.base);
 
 	GIT_ASSERT(writer.open == 0);
@@ -1740,7 +1743,8 @@ static int checkout_write_content(
 	const char *full_path,
 	const char *hint_path,
 	unsigned int mode,
-	struct stat *st)
+	struct stat *st,
+	git_mutex *mutex)
 {
 	int error = 0;
 	git_blob *blob;
@@ -1751,7 +1755,7 @@ static int checkout_write_content(
 	if (S_ISLNK(mode))
 		error = blob_content_to_link(data, st, blob, full_path);
 	else
-		error = blob_content_to_file(data, st, blob, full_path, hint_path, mode);
+		error = blob_content_to_file(data, st, blob, full_path, hint_path, mode, mutex);
 
 	git_blob_free(blob);
 
@@ -1771,7 +1775,8 @@ static int checkout_write_content(
 
 static int checkout_blob(
 	checkout_data *data,
-	const git_diff_file *file)
+	const git_diff_file *file,
+	git_mutex *mutex)
 {
 	git_str *fullpath;
 	struct stat st;
@@ -1789,7 +1794,7 @@ static int checkout_blob(
 	}
 
 	error = checkout_write_content(
-		data, &file->id, fullpath->ptr, file->path, file->mode, &st);
+		data, &file->id, fullpath->ptr, file->path, file->mode, &st, mutex);
 
 	/* update the index unless prevented */
 	if (!error && (data->strategy & GIT_CHECKOUT_DONT_UPDATE_INDEX) == 0)
@@ -1861,6 +1866,30 @@ static int checkout_remove_the_old(
 	return 0;
 }
 
+
+typedef struct {
+	checkout_data *data;
+	const git_diff_file *file;
+	git_mutex *mutex;
+} parallel_params;
+
+static int checkout__create_the_new_parallel(parallel_params *params) {
+	int error = 0;
+	if ((error = git_mutex_lock(params->mutex)) != 0) {
+		return error;
+	}
+	error = checkout_blob(params->data, params->file, params->mutex);
+	if (error < 0) {
+		// Clean up
+	} else {
+		params->data->completed_steps++;
+		report_progress(params->data, params->file->path);
+	}
+	git_mutex_unlock(params->mutex);
+	free(params);
+	return error;
+}
+
 static int checkout_create_the_new(
 	unsigned int *actions,
 	checkout_data *data)
@@ -1869,18 +1898,44 @@ static int checkout_create_the_new(
 	git_diff_delta *delta;
 	size_t i;
 
+#ifdef C8_PARALLEL_CHECKOUT
+
+	Parallel *parallel = initParallel(16);
+	git_mutex mutex;
+	git_mutex_init(&mutex);
+
 	git_vector_foreach(&data->diff->deltas, i, delta) {
 		if (actions[i] & CHECKOUT_ACTION__UPDATE_BLOB && !S_ISLNK(delta->new_file.mode)) {
-			if ((error = checkout_blob(data, &delta->new_file)) < 0)
+			parallel_params *params = malloc(sizeof(parallel_params));
+			params->data = data;
+			params->file = &delta->new_file,
+			params->mutex = &mutex;
+			scheduleParallel(parallel, checkout__create_the_new_parallel, params);
+		}
+	}
+
+	error = runParallel(parallel);
+	git_mutex_free(&mutex);
+	freeParallel(parallel);
+
+	if (error < 0) {
+		return error;
+	}
+
+#else
+	git_vector_foreach(&data->diff->deltas, i, delta) {
+		if (actions[i] & CHECKOUT_ACTION__UPDATE_BLOB && !S_ISLNK(delta->new_file.mode)) {
+			if ((error = checkout_blob(data, &delta->new_file, NULL)) < 0)
 				return error;
 			data->completed_steps++;
 			report_progress(data, delta->new_file.path);
 		}
 	}
+#endif
 
 	git_vector_foreach(&data->diff->deltas, i, delta) {
 		if (actions[i] & CHECKOUT_ACTION__UPDATE_BLOB && S_ISLNK(delta->new_file.mode)) {
-			if ((error = checkout_blob(data, &delta->new_file)) < 0)
+			if ((error = checkout_blob(data, &delta->new_file, NULL)) < 0)
 				return error;
 			data->completed_steps++;
 			report_progress(data, delta->new_file.path);
@@ -2008,7 +2063,7 @@ static int checkout_write_entry(
 
 	if (!S_ISGITLINK(side->mode))
 		return checkout_write_content(data,
-					      &side->id, fullpath->ptr, hint_path, side->mode, &st);
+					      &side->id, fullpath->ptr, hint_path, side->mode, &st, NULL);
 
 	return 0;
 }
