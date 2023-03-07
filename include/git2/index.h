@@ -140,7 +140,9 @@ typedef enum {
 	GIT_INDEX_ADD_DEFAULT = 0,
 	GIT_INDEX_ADD_FORCE = (1u << 0),
 	GIT_INDEX_ADD_DISABLE_PATHSPEC_MATCH = (1u << 1),
-	GIT_INDEX_ADD_CHECK_PATHSPEC = (1u << 2)
+	GIT_INDEX_ADD_CHECK_PATHSPEC = (1u << 2),
+  // NOTE(pawel) Let git_index_add_all() know that we want to update the index.
+  GIT_INDEX_UPDATE_INDEX = (1u << 7)
 } git_index_add_option_t;
 
 /** Git index stage states */
