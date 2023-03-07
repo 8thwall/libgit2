@@ -3510,9 +3510,11 @@ static int index_apply_to_wd_diff(git_index *index, int action, const git_strarr
 		opts.flags |= GIT_DIFF_INCLUDE_UNTRACKED |
 			GIT_DIFF_RECURSE_UNTRACKED_DIRS;
 
-		if (flags == GIT_INDEX_ADD_FORCE)
+		if (flags & GIT_INDEX_ADD_FORCE)
 			opts.flags |= GIT_DIFF_INCLUDE_IGNORED;
 	}
+  if (flags & GIT_INDEX_UPDATE_INDEX)
+      opts.flags |= GIT_DIFF_UPDATE_INDEX;
 
 	if ((error = git_diff_index_to_workdir(&diff, repo, index, &opts)) < 0)
 		goto cleanup;
