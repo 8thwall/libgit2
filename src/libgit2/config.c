@@ -610,14 +610,14 @@ static int get_backend_for_use(git_config_backend **out,
       *out = backend->backend;
       entry = NULL;
 
-      // If this backend has an entry for this config, use it.
+      /* If this backend has an entry for this config, use it. */
       backend->backend->get(backend->backend, name, &entry);
       if (entry != NULL) {
         git_config_entry_free(entry);
         return 0;
       }
 
-      // Don't use worktree config as an eager implied destination.
+      /* Don't use worktree config as an eager implied destination. */
       if (backend->level == GIT_CONFIG_LEVEL_WORKTREE) {
         continue;
       }
