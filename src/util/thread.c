@@ -67,8 +67,8 @@ int git_tlsdata_dispose(git_tlsdata_key key)
 	if (value && destroy_fn)
 		destroy_fn(value);
 
-	// NOTE(pawel) In a single-threaded environment this should be okay but multithreaded
-	// setups may need some additional verification (my intuition is there is an edge case here).
+	/* NOTE(pawel) In a single-threaded environment this should be okay but multithreaded */
+	/* setups may need some additional verification (my intuition is there is an edge case here). */
 	if (key == (tlsdata_cnt - 1)) {
 		tlsdata_cnt--;
 	} else {
