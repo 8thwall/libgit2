@@ -594,6 +594,7 @@ static int get_backend_for_use(git_config_backend **out,
 {
 	size_t i;
 	backend_internal *backend;
+  git_config_entry *entry;
 
 	*out = NULL;
 
@@ -606,10 +607,26 @@ static int get_backend_for_use(git_config_backend **out,
 
 	git_vector_foreach(&cfg->backends, i, backend) {
 		if (!backend->backend->readonly) {
-			*out = backend->backend;
-			return 0;
-		}
-	}
+      *out = backend->backend;
+      entry = NULL;
+
+      /* If this backend has an entry for this config, use it. */
+      backend->backend->get(backend->backend, name, &entry);
+      if (entry != NULL) {
+        git_config_entry_free(entry);
+        return 0;
+      }
+
+      /* Don't use worktree config as an eager implied destination. */
+      if (backend->level == GIT_CONFIG_LEVEL_WORKTREE) {
+        continue;
+      }
+    }
+  }
+
+  if (*out) {
+    return 0;
+  }
 
 	git_error_set(GIT_ERROR_CONFIG,
 		"cannot %s value for '%s' when all config backends are readonly",
