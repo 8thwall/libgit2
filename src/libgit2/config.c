@@ -621,8 +621,8 @@ static int get_backend_for_use(git_config_backend **out,
       if (backend->level == GIT_CONFIG_LEVEL_WORKTREE) {
         continue;
       }
-		}
-	}
+    }
+  }
 
   if (*out) {
     return 0;
