@@ -1485,13 +1485,9 @@ int git_diff_index_to_workdir(
 	    (error = git_diff__from_iterators(&diff, repo, a, b, opts)) < 0)
 		goto out;
 
-  printf("%d %d\n", diff->opts.flags & GIT_DIFF_UPDATE_INDEX, ((git_diff_generated *)diff)->index_updated);
-
-	if ((diff->opts.flags & GIT_DIFF_UPDATE_INDEX) && ((git_diff_generated *)diff)->index_updated) {
-    printf("INDEX UPDATED, WRITING TO DISK\n");
+	if ((diff->opts.flags & GIT_DIFF_UPDATE_INDEX) && ((git_diff_generated *)diff)->index_updated)
 		if ((error = git_index_write(index)) < 0)
 			goto out;
-  }
 
 	*out = diff;
 	diff = NULL;
