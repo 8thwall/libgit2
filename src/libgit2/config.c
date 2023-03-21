@@ -621,6 +621,9 @@ static int get_backend_for_use(git_config_backend **out,
       if (backend->level == GIT_CONFIG_LEVEL_WORKTREE) {
         continue;
       }
+
+      /* The original behavior was to return the first writeable backend found. */
+      return 0;
     }
   }
 
