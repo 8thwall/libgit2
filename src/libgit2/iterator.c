@@ -995,7 +995,7 @@ int git_iterator_for_tree(
 	if (git_repository__configmap_lookup(&sparse_checkout_enabled, repo, GIT_CONFIGMAP_SPARSECHECKOUT) < 0)
 		git_error_clear();
 	
-	if (sparse_checkout_enabled == true)
+	if (sparse_checkout_enabled == true && options != NULL)
 		options->flags |= GIT_ITERATOR_HONOR_SPARSE;
 
 	if ((error = iterator_init_common(&iter->base,
