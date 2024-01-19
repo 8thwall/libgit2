@@ -3473,6 +3473,11 @@ static int apply_each_file(const git_diff_delta *delta, float progress, void *pa
 
 	path = delta->old_file.path;
 
+	if (delta->old_file.skip_worktree) {
+		// Ignore files that should skip the worktree due to sparse checkout.
+		return 0;
+	}
+
 	/* We only want those which match the pathspecs */
 	if (!git_pathspec__match(
 		    &data->pathspec->pathspec, path, false, (bool)data->index->ignore_case,

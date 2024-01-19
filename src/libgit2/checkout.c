@@ -305,7 +305,11 @@ static int checkout_action_no_wd(
 		*action = CHECKOUT_ACTION_IF(SAFE, UPDATE_BLOB, NONE);
 		break;
 	case GIT_DELTA_MODIFIED: /* case 13 (and 35 but not really) */
-		*action = CHECKOUT_ACTION_IF(RECREATE_MISSING, UPDATE_BLOB, CONFLICT);
+		if (delta->new_file.skip_worktree) {
+			*action = CHECKOUT_ACTION__UPDATE_BLOB;
+		} else {
+			*action = CHECKOUT_ACTION_IF(RECREATE_MISSING, UPDATE_BLOB, CONFLICT);
+		}
 		break;
 	case GIT_DELTA_TYPECHANGE: /* case 21 (B->T) and 28 (T->B)*/
 		if (delta->new_file.mode == GIT_FILEMODE_TREE)
@@ -516,9 +520,13 @@ static int checkout_action_with_wd(
 			*action = CHECKOUT_ACTION_IF(FORCE, UPDATE_BLOB, CONFLICT);
 		break;
 	case GIT_DELTA_DELETED: /* case 9 or 10 (or 26 but not really) */
-		if (checkout_is_workdir_modified(data, &delta->old_file, &delta->new_file, wd))
-			*action = CHECKOUT_ACTION_IF(FORCE, REMOVE, CONFLICT);
-		else
+		if (checkout_is_workdir_modified(data, &delta->old_file, &delta->new_file, wd)) {
+			if (git_iterator_current_skip_checkout(workdir)) {
+				*action = CHECKOUT_ACTION_IF(FORCE, REMOVE, NONE);
+			} else {
+				*action = CHECKOUT_ACTION_IF(FORCE, REMOVE, CONFLICT);
+			}
+		} else
 			*action = CHECKOUT_ACTION_IF(SAFE, REMOVE, NONE);
 		break;
 	case GIT_DELTA_MODIFIED: /* case 16, 17, 18 (or 36 but not really) */
@@ -2578,7 +2586,6 @@ int git_checkout_iterator(
 		GIT_DIFF_INCLUDE_TYPECHANGE_TREES |
 		GIT_DIFF_SKIP_BINARY_CHECK |
 		GIT_DIFF_INCLUDE_CASECHANGE;
-	diff_opts.skip_sparse_files = 1;
 
 	if (data.opts.checkout_strategy & GIT_CHECKOUT_DISABLE_PATHSPEC_MATCH)
 		diff_opts.flags |= GIT_DIFF_DISABLE_PATHSPEC_MATCH;

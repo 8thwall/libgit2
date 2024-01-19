@@ -464,6 +464,20 @@ typedef struct {
 	git_sparse_status current_sparse_status;
 } tree_iterator;
 
+/* Index iterator */
+typedef struct {
+	git_iterator base;
+	git_vector entries;
+	size_t next_idx;
+
+	/* the pseudotree entry */
+	git_index_entry tree_entry;
+	git_str tree_buf;
+	bool skip_tree;
+
+	const git_index_entry *entry;
+} index_iterator;
+
 GIT_INLINE(tree_iterator_frame *) tree_iterator_parent_frame(
 	tree_iterator *iter)
 {
@@ -1064,6 +1078,7 @@ typedef struct {
 
 	size_t path_len;
 	int is_ignored;
+	git_sparse_status sparse_status;
 } filesystem_iterator_frame;
 
 typedef struct {
@@ -1080,6 +1095,8 @@ typedef struct {
 	git_array_t(filesystem_iterator_frame) frames;
 	git_ignores ignores;
 
+	git_sparse sparse;
+
 	/* info about the current entry */
 	git_index_entry entry;
 	git_str current_path;
@@ -1087,6 +1104,7 @@ typedef struct {
 
 	/* temporary buffer for advance_over */
 	git_str tmp_buf;
+	git_sparse_status current_sparse_status;
 } filesystem_iterator;
 
 
@@ -1576,6 +1594,7 @@ static void filesystem_iterator_set_current(
 	iter->entry.path = entry->path;
 
 	iter->current_is_ignored = GIT_IGNORE_UNCHECKED;
+	iter->current_sparse_status = GIT_SPARSE_UNCHECKED;
 }
 
 static int filesystem_iterator_current(
@@ -1834,12 +1853,57 @@ GIT_INLINE(bool) tree_iterator_current_skip_checkout(
 	return (iter->current_sparse_status == GIT_SPARSE_NOCHECKOUT);
 }
 
+static void filesystem_iterator_update_sparse_checkout(filesystem_iterator *iter)
+{
+	filesystem_iterator_frame *frame;
+	git_dir_flag dir_flag = entry_dir_flag(&iter->entry);
+
+	if (git_sparse__lookup(&iter->current_sparse_status,
+		  &iter->sparse, iter->entry.path, dir_flag) < 0) {
+		git_error_clear();
+		iter->current_sparse_status = GIT_SPARSE_NOTFOUND;
+	}
+
+	/* use sparse checkout from containing frame stack */
+	if (iter->current_sparse_status <= GIT_SPARSE_NOTFOUND) {
+		frame = filesystem_iterator_current_frame(iter);
+		iter->current_sparse_status = frame->sparse_status;
+	}
+}
+
+
+GIT_INLINE(bool) filesystem_iterator_current_skip_checkout(
+	filesystem_iterator *iter)
+{
+	if (iter->current_sparse_status == GIT_SPARSE_UNCHECKED)
+		filesystem_iterator_update_sparse_checkout(iter);
+	
+	return (iter->current_sparse_status == GIT_SPARSE_NOCHECKOUT);
+}
+
+
 bool git_iterator_current_skip_checkout(git_iterator *i)
 {
 	tree_iterator *iter = NULL;
+
+	if (i->type == GIT_ITERATOR_INDEX) {
+		index_iterator *index_iter = NULL;
+		index_iter = GIT_CONTAINER_OF(i, index_iterator, base);
+		return 0 != (index_iter->entry->flags_extended & GIT_INDEX_ENTRY_SKIP_WORKTREE);
+	}
+
+	if (i->type == GIT_ITERATOR_WORKDIR) {
+		filesystem_iterator *workdir_iter = NULL;
+		workdir_iter = GIT_CONTAINER_OF(i, filesystem_iterator, base);
+		if (iterator__honor_sparse(&workdir_iter->base) == false)
+			return false;
+		
+		return filesystem_iterator_current_skip_checkout(workdir_iter);
+	}
 	
-	if (i->type != GIT_ITERATOR_TREE)
+	if (i->type != GIT_ITERATOR_TREE) {
 		return false;
+	}
 	
 	iter = GIT_CONTAINER_OF(i, tree_iterator, base);
 	if (iterator__honor_sparse(&iter->base) == false)
@@ -1950,6 +2014,9 @@ static void filesystem_iterator_clear(filesystem_iterator *iter)
 
 	git_str_dispose(&iter->tmp_buf);
 
+	if (iterator__honor_sparse(&iter->base))
+		git_sparse__free(&iter->sparse);
+
 	iterator_clear(&iter->base);
 }
 
@@ -1960,6 +2027,10 @@ static int filesystem_iterator_init(filesystem_iterator *iter)
 	if (iterator__honor_ignores(&iter->base) &&
 		(error = git_ignore__for_path(iter->base.repo,
 			".gitignore", &iter->ignores)) < 0)
+		return error;
+
+	if (iterator__honor_sparse(&iter->base) &&
+			(error = git_sparse__init(iter->base.repo, &iter->sparse)) < 0)
 		return error;
 
 	if ((error = filesystem_iterator_frame_push(iter, NULL)) < 0)
@@ -2098,28 +2169,12 @@ int git_iterator_for_workdir_ext(
 		memcpy(&options, given_opts, sizeof(git_iterator_options));
 
 	options.flags |= GIT_ITERATOR_HONOR_IGNORES |
-		GIT_ITERATOR_IGNORE_DOT_GIT;
+		GIT_ITERATOR_IGNORE_DOT_GIT | GIT_ITERATOR_HONOR_SPARSE;
 
 	return iterator_for_filesystem(out,
 		repo, repo_workdir, index, tree, GIT_ITERATOR_WORKDIR, &options);
 }
 
-
-/* Index iterator */
-
-
-typedef struct {
-	git_iterator base;
-	git_vector entries;
-	size_t next_idx;
-
-	/* the pseudotree entry */
-	git_index_entry tree_entry;
-	git_str tree_buf;
-	bool skip_tree;
-
-	const git_index_entry *entry;
-} index_iterator;
 
 static int index_iterator_current(
 	const git_index_entry **out, git_iterator *i)

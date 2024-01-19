@@ -7,6 +7,8 @@
 #ifndef INCLUDE_git_diff_h__
 #define INCLUDE_git_diff_h__
 
+#include <stdbool.h>
+
 #include "common.h"
 #include "types.h"
 #include "oid.h"
@@ -279,6 +281,11 @@ typedef struct {
 	 * abbreviated to something reasonable, like 7 characters.
 	 */
 	uint16_t           id_abbrev;
+
+	/**
+	 * Sparse checkout file that should not be checked out.
+	*/
+	bool skip_worktree;
 } git_diff_file;
 
 /**
