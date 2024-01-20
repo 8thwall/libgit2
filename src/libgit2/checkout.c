@@ -520,13 +520,9 @@ static int checkout_action_with_wd(
 			*action = CHECKOUT_ACTION_IF(FORCE, UPDATE_BLOB, CONFLICT);
 		break;
 	case GIT_DELTA_DELETED: /* case 9 or 10 (or 26 but not really) */
-		if (checkout_is_workdir_modified(data, &delta->old_file, &delta->new_file, wd)) {
-			if (git_iterator_current_skip_checkout(workdir)) {
-				*action = CHECKOUT_ACTION_IF(FORCE, REMOVE, NONE);
-			} else {
-				*action = CHECKOUT_ACTION_IF(FORCE, REMOVE, CONFLICT);
-			}
-		} else
+		if (checkout_is_workdir_modified(data, &delta->old_file, &delta->new_file, wd))
+			*action = CHECKOUT_ACTION_IF(FORCE, REMOVE, CONFLICT);
+		else
 			*action = CHECKOUT_ACTION_IF(SAFE, REMOVE, NONE);
 		break;
 	case GIT_DELTA_MODIFIED: /* case 16, 17, 18 (or 36 but not really) */
@@ -1645,6 +1641,10 @@ static int checkout_update_index(
 	git_index_entry__init_from_stat(&entry, st, true);
 	git_oid_cpy(&entry.id, &file->id);
 
+	if (file->skip_worktree) {
+		entry.flags_extended |= GIT_INDEX_ENTRY_SKIP_WORKTREE;
+	}
+
 	return git_index_add(data->index, &entry);
 }
 
@@ -1803,8 +1803,10 @@ static int checkout_blob(
 			return rval;
 	}
 
-	error = checkout_write_content(
-		data, &file->id, fullpath->ptr, file->path, file->mode, &st);
+	if (!file->skip_worktree) {
+		error = checkout_write_content(
+			data, &file->id, fullpath->ptr, file->path, file->mode, &st);
+	}
 
 	/* update the index unless prevented */
 	if (!error && (data->strategy & GIT_CHECKOUT_DONT_UPDATE_INDEX) == 0)
