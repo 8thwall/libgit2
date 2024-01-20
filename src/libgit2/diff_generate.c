@@ -804,10 +804,6 @@ static int maybe_modified(
 	if (!diff_pathspec_match(&matched_pathspec, diff, oitem))
 		return 0;
 
-	if (diff->base.opts.skip_sparse_files &&
-			git_iterator_current_skip_checkout(info->new_iter))
-		return 0;
-	
 	memset(&noid, 0, sizeof(noid));
 
 	/* on platforms with no symlinks, preserve mode of existing symlinks */
@@ -1036,11 +1032,6 @@ static int handle_unmatched_new_item(
 	git_delta_t delta_type = GIT_DELTA_UNTRACKED;
 	bool contains_oitem;
 	
-	/* check if this item should be skipped due to sparse checkout */
-	if (diff->base.opts.skip_sparse_files &&
-			git_iterator_current_skip_checkout(info->new_iter))
-		return iterator_advance(&info->nitem, info->new_iter);
-
 	/* check if this is a prefix of the other side */
 	contains_oitem = entry_is_prefixed(diff, info->oitem, nitem);
 

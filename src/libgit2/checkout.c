@@ -1643,6 +1643,7 @@ static int checkout_update_index(
 
 	if (file->skip_worktree) {
 		entry.flags_extended |= GIT_INDEX_ENTRY_SKIP_WORKTREE;
+		entry.mode = file->mode;
 	}
 
 	return git_index_add(data->index, &entry);
