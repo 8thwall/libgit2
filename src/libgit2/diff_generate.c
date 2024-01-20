@@ -193,6 +193,7 @@ static int diff_delta__from_one(
 		git_oid_cpy(&delta->old_file.id, &entry->id);
 		git_oid_clear(&delta->new_file.id, GIT_OID_SHA1);
 		delta->old_file.id_abbrev = GIT_OID_SHA1_HEXSIZE;
+		delta->old_file.skip_worktree = (0 != (entry->flags_extended & GIT_INDEX_ENTRY_SKIP_WORKTREE));
 	} else /* ADDED, IGNORED, UNTRACKED */ {
 		delta->new_file.mode = entry->mode;
 		delta->new_file.size = entry->file_size;
@@ -200,6 +201,7 @@ static int diff_delta__from_one(
 		git_oid_clear(&delta->old_file.id, GIT_OID_SHA1);
 		git_oid_cpy(&delta->new_file.id, &entry->id);
 		delta->new_file.id_abbrev = GIT_OID_SHA1_HEXSIZE;
+		delta->new_file.skip_worktree = (0 != (entry->flags_extended & GIT_INDEX_ENTRY_SKIP_WORKTREE));
 	}
 
 	delta->old_file.flags |= GIT_DIFF_FLAG_VALID_ID;
@@ -249,6 +251,9 @@ static int diff_delta__from_two(
 	delta = diff_delta__alloc(diff, status, canonical_path);
 	GIT_ERROR_CHECK_ALLOC(delta);
 	delta->nfiles = 2;
+
+	delta->old_file.skip_worktree = (0 != (old_entry->flags_extended & GIT_INDEX_ENTRY_SKIP_WORKTREE));
+	delta->new_file.skip_worktree = (0 != (new_entry->flags_extended & GIT_INDEX_ENTRY_SKIP_WORKTREE));
 
 	if (!git_index_entry_is_conflict(old_entry)) {
 		delta->old_file.size = old_entry->file_size;
@@ -799,10 +804,6 @@ static int maybe_modified(
 	if (!diff_pathspec_match(&matched_pathspec, diff, oitem))
 		return 0;
 
-	if (diff->base.opts.skip_sparse_files &&
-			git_iterator_current_skip_checkout(info->new_iter))
-		return 0;
-	
 	memset(&noid, 0, sizeof(noid));
 
 	/* on platforms with no symlinks, preserve mode of existing symlinks */
@@ -823,10 +824,6 @@ static int maybe_modified(
 
 	/* support "assume unchanged" (poorly, b/c we still stat everything) */
 	} else if ((oitem->flags & GIT_INDEX_ENTRY_VALID) != 0) {
-		status = GIT_DELTA_UNMODIFIED;
-
-	/* support "skip worktree" index bit */
-	} else if ((oitem->flags_extended & GIT_INDEX_ENTRY_SKIP_WORKTREE) != 0) {
 		status = GIT_DELTA_UNMODIFIED;
 
 	/* if basic type of file changed, then split into delete and add */
@@ -1035,11 +1032,6 @@ static int handle_unmatched_new_item(
 	git_delta_t delta_type = GIT_DELTA_UNTRACKED;
 	bool contains_oitem;
 	
-	/* check if this item should be skipped due to sparse checkout */
-	if (diff->base.opts.skip_sparse_files &&
-			git_iterator_current_skip_checkout(info->new_iter))
-		return iterator_advance(&info->nitem, info->new_iter);
-
 	/* check if this is a prefix of the other side */
 	contains_oitem = entry_is_prefixed(diff, info->oitem, nitem);
 
@@ -1199,11 +1191,6 @@ static int handle_unmatched_old_item(
 	if (git_index_entry_is_conflict(info->oitem))
 		delta_type = GIT_DELTA_CONFLICTED;
 
-	if ((diff->base.opts.skip_sparse_files &&
-			 git_iterator_current_skip_checkout(info->new_iter)) ||
-			(info->oitem->flags_extended & GIT_INDEX_ENTRY_SKIP_WORKTREE) != 0)
-		delta_type = GIT_DELTA_UNMODIFIED;
-	
 	else if ((error = diff_delta__from_one(diff, delta_type, info->oitem, NULL)) < 0)
 		return error;
 
@@ -1284,6 +1271,13 @@ int git_diff__from_iterators(
 	/* run iterators building diffs */
 	while (!error && (info.oitem || info.nitem)) {
 		int cmp;
+
+		if (info.oitem && git_iterator_current_skip_checkout(old_iter)) {
+			((git_index_entry*)info.oitem)->flags_extended |= GIT_INDEX_ENTRY_SKIP_WORKTREE;
+		}
+		if (info.nitem && git_iterator_current_skip_checkout(new_iter)) {
+			((git_index_entry*)info.nitem)->flags_extended |= GIT_INDEX_ENTRY_SKIP_WORKTREE;
+		}
 
 		/* report progress */
 		if (opts && opts->progress_cb) {

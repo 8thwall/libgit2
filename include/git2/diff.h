@@ -7,6 +7,8 @@
 #ifndef INCLUDE_git_diff_h__
 #define INCLUDE_git_diff_h__
 
+#include <stdbool.h>
+
 #include "common.h"
 #include "types.h"
 #include "oid.h"
@@ -279,6 +281,11 @@ typedef struct {
 	 * abbreviated to something reasonable, like 7 characters.
 	 */
 	uint16_t           id_abbrev;
+
+	/**
+	 * Sparse checkout file that should not be checked out.
+	*/
+	bool skip_worktree;
 } git_diff_file;
 
 /**
@@ -445,11 +452,6 @@ typedef struct {
 	 * Defaults to "b".
 	 */
 	const char *new_prefix;
-
-	/** Skip files in the diff that are excluded by the `sparse-checkout` file.
-	 * Set to 1 to skip sparse files, 0 otherwise
-	 */
-	int skip_sparse_files;
 } git_diff_options;
 
 /* The current version of the diff options structure */
