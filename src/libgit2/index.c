@@ -3541,6 +3541,9 @@ static int index_apply_to_wd_diff(git_index *index, int action, const git_strarr
 		opts.flags |= GIT_DIFF_INCLUDE_UNTRACKED |
 			GIT_DIFF_RECURSE_UNTRACKED_DIRS;
 
+		// Skip sparse no-checkout files.
+		opts.skip_sparse_files = 1;
+
 		if (flags & GIT_INDEX_ADD_FORCE)
 			opts.flags |= GIT_DIFF_INCLUDE_IGNORED;
 	}

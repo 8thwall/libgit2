@@ -2168,8 +2168,15 @@ int git_iterator_for_workdir_ext(
 	if (given_opts)
 		memcpy(&options, given_opts, sizeof(git_iterator_options));
 
-	options.flags |= GIT_ITERATOR_HONOR_IGNORES |
-		GIT_ITERATOR_IGNORE_DOT_GIT | GIT_ITERATOR_HONOR_SPARSE;
+	options.flags |= GIT_ITERATOR_HONOR_IGNORES | GIT_ITERATOR_IGNORE_DOT_GIT;
+
+	int sparse_checkout_enabled = false;
+
+	if (git_repository__configmap_lookup(&sparse_checkout_enabled, repo, GIT_CONFIGMAP_SPARSECHECKOUT) < 0)
+		git_error_clear();
+
+	if (sparse_checkout_enabled == true)
+		options.flags |= GIT_ITERATOR_HONOR_SPARSE;
 
 	return iterator_for_filesystem(out,
 		repo, repo_workdir, index, tree, GIT_ITERATOR_WORKDIR, &options);
