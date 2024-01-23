@@ -452,6 +452,10 @@ typedef struct {
 	 * Defaults to "b".
 	 */
 	const char *new_prefix;
+
+	/** Skip files in the diff that are excluded by the `sparse-checkout` file.
+	 */
+	bool skip_sparse_files;
 } git_diff_options;
 
 /* The current version of the diff options structure */
