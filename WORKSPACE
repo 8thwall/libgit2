@@ -1,0 +1,2 @@
+workspace(name = "libgit2")
+

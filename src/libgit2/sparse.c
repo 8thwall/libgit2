@@ -13,6 +13,70 @@
 #include "index.h"
 #include "ignore.h"
 
+/* With the following rules:
+
+/A/
+!/A/<wildcard>/
+/A/B/C/
+/A/B/D/E/F/
+
+The following paths return true:
+  A/
+  A/B/
+  A/B/C/
+  A/B/D/E/
+
+The following paths return false:
+  G/
+  A/H/
+  A/B/I/
+  A/B/CC/
+*/
+
+static bool is_included_dir_prefix(
+	git_attr_file * sparse_info,
+	const char * pathname) {
+
+	size_t full_length = strlen(pathname);
+	if (full_length == 0 || pathname[full_length - 1] != '/') {
+		return false;
+	}
+
+	size_t prefix_length = full_length - 1;
+
+	size_t j;
+	git_attr_fnmatch * match;
+
+	git_vector_rforeach(&sparse_info->rules, j, match) {
+		if (match->length < prefix_length) {
+			// Can't be a prefix if it's longer.
+			continue;
+		}
+		
+		if (match->length > prefix_length && match->pattern[prefix_length] != '/') {
+			// The pattern doesn't end or have a slash at the expected position.
+			// Examples: pathname = "A/B/C", pattern = "A/B/CC" -> exit
+			//					 pathname = "A/B/C", pattern = "A/B/C" -> continue
+			//					 pathname = "A/B/C", pattern = "A/B/C/D" -> continue
+			continue;
+		}
+
+		bool did_match = true;
+		for (int i = 0; i < prefix_length; i++) {
+			if (pathname[i] != (match->pattern[i])) {
+				did_match = false;
+				break;
+			}
+		}
+
+		if (did_match) {
+			return (match->flags & GIT_ATTR_FNMATCH_NEGATIVE) == 0;
+		}
+	}
+
+  return false;
+}
+
 static bool sparse_lookup_in_rules(
         int *checkout,
         git_attr_file *file,
@@ -152,6 +216,13 @@ int git_sparse__lookup(
 	GIT_ASSERT_ARG(pathname);
 
 	*status = GIT_SPARSE_CHECKOUT;
+
+	// NOTE(christoph): tree_iterator_frame_handle_sparse_checkout passes prefixes like "folder/"
+	// to decide if it should recurse further. If any sparse rule looks like it matches,
+	// it should recurse.
+	if (is_included_dir_prefix(sparse->sparse, pathname)) {
+		return 0;
+	}
 
 	workdir = git_repository_workdir(sparse->repo);
 	if ((error = git_attr_path__init(&path, pathname, workdir, dir_flag)))

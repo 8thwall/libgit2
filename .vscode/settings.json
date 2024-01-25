@@ -1,0 +1,17 @@
+{
+  "files.associations": {
+    "BUILD": "python",
+    "*.bzl": "python",
+    "*.md": "markdown",
+    "*.BUILD": "python",
+    "WORKSPACE": "python",
+    "__config": "c",
+    "complex": "c",
+    "ios": "c",
+    "iosfwd": "c",
+    "istream": "c",
+    "locale": "c",
+    "ostream": "c",
+    "functional": "c"
+  }
+}
