@@ -13,7 +13,99 @@
 #include "index.h"
 #include "ignore.h"
 
-static bool sparse_lookup_in_rules(
+#define HAS_FLAG(entity, flag) (((entity->flags & flag) != 0))
+
+static bool pattern_is_cone(const git_attr_fnmatch *match) {
+	size_t i;
+
+	if (match->length == 0) {
+		return false;
+	}
+
+  if (match->length == 1 && match->pattern[0] == '*') {
+		// NOTE(christoph): "/*" and "!/*/" both parse to "*", either to:
+		//   positive, wildcard, non-directory, or
+		//   negative, wildcard, directory.
+		bool is_dir = HAS_FLAG(match, GIT_ATTR_FNMATCH_DIRECTORY);
+		bool is_negative =  HAS_FLAG(match, GIT_ATTR_FNMATCH_NEGATIVE);
+		return is_dir == is_negative;
+  }
+
+	if (!HAS_FLAG(match, GIT_ATTR_FNMATCH_DIRECTORY)) {
+    return false;
+  };
+
+	if (HAS_FLAG(match, GIT_ATTR_FNMATCH_HASWILD)) {
+		for (i = 0; i < match->length - 1; i++) {
+			if (match->pattern[i] == '*') {
+				// NOTE(christoph): The ony acceptable wildcard is at the end.
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+static bool is_top_level_file(git_attr_path *path) {
+	return !path->is_dir && (strchr(path->path, '/') == NULL);
+}
+
+static bool pattern_matches_path(git_attr_fnmatch *match, git_attr_path *path, size_t path_length) {
+	// This is the number of characters that must match exactly.
+	// Ex: "A/B"  -> 3,
+	//     "A/B/C/*" -> 5
+	size_t exact_match_length = match->length;
+
+	size_t i;
+
+	// If we have a pattern like "A/B/C/*", we have to match "A/B/C" exactly, then have a slash,
+	// then have at least one more slash (or be a directory).
+	bool expected_extra_nesting = false;
+
+	if (HAS_FLAG(match, GIT_ATTR_FNMATCH_HASWILD)) {
+		expected_extra_nesting = true;
+		exact_match_length = match->length - 2; // Cut off the trailing "/*"
+	}
+
+	if (path_length < exact_match_length) {
+		return false;
+	}
+
+	if (expected_extra_nesting) {
+		if (path_length < exact_match_length + 2) {
+			return false;
+		}
+
+		if (!path->is_dir) {
+			bool found_slash = false;
+			for (i = exact_match_length + 1; i < path_length; i++) {
+				if (path->path[i] == '/') {
+					found_slash = true;
+					break;
+				}
+			}
+
+			if (!found_slash) {
+				return false;
+			}
+		}
+	}
+
+	if (path_length > exact_match_length && path->path[exact_match_length] != '/') {
+		return false;
+	}
+
+	for (i = 0; i < exact_match_length; i++) {
+		if (path->path[i] != match->pattern[i]) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+static int sparse_lookup_in_rules(
         int *checkout,
         git_attr_file *file,
         git_attr_path *path)
@@ -21,18 +113,24 @@ static bool sparse_lookup_in_rules(
 	size_t j;
 	git_attr_fnmatch *match;
 	
+  int path_length = strlen(path->path);
+	if (is_top_level_file(path) ) {
+*checkout  =GIT_SPARSE_CHECKOUT;
+return 0;
+	}
+
+
 	git_vector_rforeach(&file->rules, j, match) {
-		if (match->flags & GIT_ATTR_FNMATCH_DIRECTORY &&
-				path->is_dir == GIT_DIR_FLAG_FALSE)
-			continue;
-		if (git_attr_fnmatch__match(match, path)) {
-			*checkout = ((match->flags & GIT_ATTR_FNMATCH_NEGATIVE) == 0) ?
-			GIT_SPARSE_CHECKOUT : GIT_SPARSE_NOCHECKOUT;
-			return true;
+		if (pattern_matches_path(match, path, path_length)) {
+			*checkout = HAS_FLAG(match, GIT_ATTR_FNMATCH_NEGATIVE)
+				? GIT_SPARSE_NOCHECKOUT
+				: GIT_SPARSE_CHECKOUT;
+			return 0;
 		}
 	}
-	
-	return false;
+
+	*checkout = GIT_SPARSE_NOCHECKOUT;
+	return 0;
 }
 
 static int parse_sparse_file(
@@ -41,13 +139,27 @@ static int parse_sparse_file(
         const char *data,
         bool allow_macros)
 {
-	/* Todo: Support for cone mode */
-	return parse_ignore_file(
+	int error = parse_ignore_file(
 			repo,
 			attrs,
 			data,
 			NULL,
 			allow_macros);
+
+	if (error != 0 ) {
+		return error;
+	}
+
+	size_t j;
+	git_attr_fnmatch *match;
+	git_vector_rforeach(&attrs->rules, j, match) {
+		if (!pattern_is_cone(match)) {
+			git_error_set(GIT_ERROR_INVALID, "sparse-checkout patterns must be in cone format");
+			return -1;
+		}
+	}
+
+	return 0;
 }
 
 int git_sparse_attr_file__init_(
@@ -155,29 +267,13 @@ int git_sparse__lookup(
 
 	workdir = git_repository_workdir(sparse->repo);
 	if ((error = git_attr_path__init(&path, pathname, workdir, dir_flag)))
-		return -1;
-	
-	/* No match -> no checkout */
-	*status = GIT_SPARSE_NOCHECKOUT;
-	
-	while (1) {
-		if (sparse_lookup_in_rules(status, sparse->sparse, &path))
-			goto cleanup;
-		
-		/* move up one directory */
-		if (path.basename == path.path)
-			break;
-		path.basename[-1] = '\0';
-		while (path.basename > path.path && *path.basename != '/')
-			path.basename--;
-		if (path.basename > path.path)
-			path.basename++;
-		path.is_dir = 1;
-	}
+		return error;
 
-cleanup:
+	error = sparse_lookup_in_rules(status, sparse->sparse, &path);
+
 	git_attr_path__free(&path);
-	return 0;
+
+	return error;
 }
 
 void git_sparse__free(git_sparse *sparse)
