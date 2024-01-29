@@ -159,6 +159,45 @@ static int parse_sparse_file(
 		}
 	}
 
+	// Check for positive patterns that have their parent excluded.
+	// Ex: "A/B/C" without "A/B" is considered invalid.
+	git_vector_foreach(&attrs->rules, j, match) {
+		if (HAS_FLAG(match, GIT_ATTR_FNMATCH_NEGATIVE)) {
+			continue;
+		}
+
+		char *parent_end_slash = strrchr(match->pattern, '/');
+		if (parent_end_slash == NULL) {
+			continue;
+		}
+
+		size_t parent_length = parent_end_slash - match->pattern;
+		char* parent_pathname = git__strndup(match->pattern, parent_length);
+
+		git_attr_path parent_path;
+		if ((error = git_attr_path__init(&parent_path, parent_pathname, git_repository_workdir(repo), GIT_DIR_FLAG_TRUE))) {
+			git__free(parent_pathname);
+			return error;
+		}
+
+		bool matched = false;
+		size_t k;
+		git_attr_fnmatch *parent_match;
+		git_vector_foreach(&attrs->rules, k, parent_match) {
+			if (pattern_matches_path(parent_match, &parent_path, parent_length)) {
+				matched = true;
+			}
+		}
+		
+		git__free(parent_pathname);
+		git_attr_path__free(&parent_path);
+
+		if (!matched) {
+			git_error_set(GIT_ERROR_INVALID, "sparse-checkout requires that deeply-nested includes have their parents included as well.");
+			return -1;
+		}
+	}
+
 	return 0;
 }
 

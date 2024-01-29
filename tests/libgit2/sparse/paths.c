@@ -39,8 +39,6 @@ void test_sparse_paths__check_path(void)
 	git_sparse_checkout_init_options scopts = GIT_SPARSE_CHECKOUT_INIT_OPTIONS_INIT;
 	g_repo = cl_git_sandbox_init("sparse");
 
-	printf("test_sparse_paths__check_path\n");
-
 	cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
 	{
 		char *pattern_strings[] = {
@@ -136,15 +134,12 @@ void test_sparse_paths__validate_cone(void)
 	size_t i;
 
 	git_sparse_checkout_init_options scopts = GIT_SPARSE_CHECKOUT_INIT_OPTIONS_INIT;
-	g_repo = cl_git_sandbox_init("sparse");
-
-	cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
 
 	char *good_patterns[] = {
 		"/*",
 		"!/*/",
 		"!/A/B/C/*/",
-		"/A/B/C/",
+		"/A/\n/A/B/C/", // To allow /A/B/C/, it needs to be included by a parent pattern.
 	};
 
 	char *bad_patterns[] = {
@@ -156,18 +151,45 @@ void test_sparse_paths__validate_cone(void)
 		"/A/B*/C/",
 		"/A/B/C",
 		"A/B/C",
-		"!A/B/C",
+	};
+
+	char *missing_parent_patterns[] = {
+		"/A/B/C/",
+		"/*\n!/A/B/*/\n/A/B/C/"
 	};
 
 	for (i = 0; i < ARRAY_SIZE(good_patterns); i++) {
+		g_repo = cl_git_sandbox_init("sparse");
+		cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
 		git_strarray patterns = { &good_patterns[i], 1 };
 		int error = git_sparse_checkout_set(g_repo, &patterns);
 		clar__assert(error == 0, __FILE__, __func__, __LINE__, "Expected success on:", good_patterns[i], 0);
+		cl_git_sandbox_cleanup();
 	}
 
 	for (i = 0; i < ARRAY_SIZE(bad_patterns); i++) {
+		g_repo = cl_git_sandbox_init("sparse");
+		cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
+		git_error_clear();
 		git_strarray patterns = { &bad_patterns[i], 1 };
 		int error = git_sparse_checkout_set(g_repo, &patterns);
 		clar__assert(error != 0, __FILE__, __func__, __LINE__, "Expected rejection on:", bad_patterns[i], 0);
+		if (error != 0) {
+			clar__assert(strstr(git_error_last()->message, "cone format") != NULL, __FILE__, __func__, __LINE__, "Expected error message to complain about cone format", bad_patterns[i], 0);
+		}
+		cl_git_sandbox_cleanup();
+	}
+
+	for (i = 0; i < ARRAY_SIZE(missing_parent_patterns); i++) {
+		g_repo = cl_git_sandbox_init("sparse");
+		cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
+		git_error_clear();
+		git_strarray patterns = { &missing_parent_patterns[i], 1 };
+		int error = git_sparse_checkout_set(g_repo, &patterns);
+		clar__assert(error != 0, __FILE__, __func__, __LINE__, "Expected parent rejection on:", missing_parent_patterns[i], 0);
+		if (error != 0) {
+			clar__assert(strstr(git_error_last()->message, "deeply-nested") != NULL, __FILE__, __func__, __LINE__, "Expected error message to complain about nesting", missing_parent_patterns[i], 0);
+		}
+		cl_git_sandbox_cleanup();
 	}
 }
