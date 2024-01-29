@@ -188,7 +188,7 @@ static int parse_sparse_file(
 				matched = true;
 			}
 		}
-		
+
 		git__free(parent_pathname);
 		git_attr_path__free(&parent_path);
 

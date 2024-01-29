@@ -138,6 +138,7 @@ void test_sparse_paths__validate_cone(void)
 	char *good_patterns[] = {
 		"/*",
 		"!/*/",
+		"/A/",
 		"!/A/B/C/*/",
 		"/A/\n/A/B/C/", // To allow /A/B/C/, it needs to be included by a parent pattern.
 	};
@@ -151,9 +152,13 @@ void test_sparse_paths__validate_cone(void)
 		"/A/B*/C/",
 		"/A/B/C",
 		"A/B/C",
+		// Using extra paths here to prevent parse_ignore_file from stripping out an
+		// "unneeded" negative pattern.
+		"/A/\n/A/B/C/\n!/A/B/C",
 	};
 
 	char *missing_parent_patterns[] = {
+		"/A/B/",
 		"/A/B/C/",
 		"/*\n!/A/B/*/\n/A/B/C/"
 	};
@@ -175,7 +180,7 @@ void test_sparse_paths__validate_cone(void)
 		int error = git_sparse_checkout_set(g_repo, &patterns);
 		clar__assert(error != 0, __FILE__, __func__, __LINE__, "Expected rejection on:", bad_patterns[i], 0);
 		if (error != 0) {
-			clar__assert(strstr(git_error_last()->message, "cone format") != NULL, __FILE__, __func__, __LINE__, "Expected error message to complain about cone format", bad_patterns[i], 0);
+			clar__assert(strstr(git_error_last()->message, "cone format") != NULL, __FILE__, __func__, __LINE__, "Expected error message to complain about syntax", bad_patterns[i], 0);
 		}
 		cl_git_sandbox_cleanup();
 	}
