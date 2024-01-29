@@ -22,23 +22,23 @@ static bool pattern_is_cone(const git_attr_fnmatch *match) {
 		return false;
 	}
 
-  if (match->length == 1 && match->pattern[0] == '*') {
-		// NOTE(christoph): "/*" and "!/*/" both parse to "*", either to:
+	if (match->length == 1 && match->pattern[0] == '*') {
+		// NOTE: "/*" and "!/*/" both parse to "*", either to:
 		//   positive, wildcard, non-directory, or
 		//   negative, wildcard, directory.
 		bool is_dir = HAS_FLAG(match, GIT_ATTR_FNMATCH_DIRECTORY);
 		bool is_negative =  HAS_FLAG(match, GIT_ATTR_FNMATCH_NEGATIVE);
 		return is_dir == is_negative;
-  }
+	}
 
 	if (!HAS_FLAG(match, GIT_ATTR_FNMATCH_DIRECTORY)) {
-    return false;
-  };
+		return false;
+	};
 
 	if (HAS_FLAG(match, GIT_ATTR_FNMATCH_HASWILD)) {
 		for (i = 0; i < match->length - 1; i++) {
 			if (match->pattern[i] == '*') {
-				// NOTE(christoph): The ony acceptable wildcard is at the end.
+				// NOTE: The ony acceptable wildcard is at the end.
 				return false;
 			}
 		}
@@ -113,10 +113,10 @@ static int sparse_lookup_in_rules(
 	size_t j;
 	git_attr_fnmatch *match;
 	
-  int path_length = strlen(path->path);
+	int path_length = strlen(path->path);
 	if (is_top_level_file(path) ) {
-*checkout  =GIT_SPARSE_CHECKOUT;
-return 0;
+		*checkout = GIT_SPARSE_CHECKOUT;
+		return 0;
 	}
 
 
