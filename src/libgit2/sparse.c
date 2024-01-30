@@ -185,7 +185,8 @@ static int parse_sparse_file(
 		git_attr_fnmatch *parent_match;
 		git_vector_foreach(&attrs->rules, k, parent_match) {
 			if (pattern_matches_path(parent_match, &parent_path, parent_length)) {
-				matched = true;
+				matched = !HAS_FLAG(parent_match, GIT_ATTR_FNMATCH_NEGATIVE);
+        break;
 			}
 		}
 
