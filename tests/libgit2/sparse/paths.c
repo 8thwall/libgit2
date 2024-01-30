@@ -160,7 +160,7 @@ void test_sparse_paths__validate_cone(void)
 	char *missing_parent_patterns[] = {
 		"/A/B/",
 		"/A/B/C/",
-		"/*\n!/A/B/*/\n/A/B/C/"
+		"/*\n!/A/B/*/\n/A/B/C/D/"
 	};
 
 	for (i = 0; i < ARRAY_SIZE(good_patterns); i++) {
