@@ -129,6 +129,31 @@ void test_sparse_paths__check_toplevel(void)
 	}
 }
 
+void test_sparse_paths__check_toplevelwildcard(void)
+{
+	git_sparse_checkout_init_options scopts = GIT_SPARSE_CHECKOUT_INIT_OPTIONS_INIT;
+	g_repo = cl_git_sandbox_init("sparse");
+
+	cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
+	{
+		char *pattern_strings[] = {"/*"};
+		git_strarray patterns = { pattern_strings, ARRAY_SIZE(pattern_strings) };
+		cl_git_pass(git_sparse_checkout_add(g_repo, &patterns));
+	}
+
+	char *matches[] = {
+		"_", // Even with no include patterns, toplevel files are included.
+		"A/",
+		"A/_",
+	};
+
+	size_t j;
+	for ( j = 0; j < ARRAY_SIZE(matches); j++) {
+		assert_is_checkout(matches[j]);
+	}
+
+}
+
 void test_sparse_paths__validate_cone(void)
 {
 	size_t i;
@@ -160,7 +185,8 @@ void test_sparse_paths__validate_cone(void)
 	char *missing_parent_patterns[] = {
 		"/A/B/",
 		"/A/B/C/",
-		"/*\n!/A/B/*/\n/A/B/C/D/"
+		"/*\n!/A/B/*/\n/A/B/C/D/",
+		"/A/\n!/A/B/*/\n/A/B/C/D/"
 	};
 
 	for (i = 0; i < ARRAY_SIZE(good_patterns); i++) {
