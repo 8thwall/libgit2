@@ -65,6 +65,10 @@ static bool pattern_matches_path(git_attr_fnmatch *match, git_attr_path *path, s
 
 	if (HAS_FLAG(match, GIT_ATTR_FNMATCH_HASWILD)) {
 		expected_extra_nesting = true;
+		if (match->length <= 1) {
+			// Top level wildcard always matches
+			return true;
+		}
 		exact_match_length = match->length - 2; // Cut off the trailing "/*"
 	}
 
@@ -183,7 +187,7 @@ static int parse_sparse_file(
 		bool matched = false;
 		size_t k;
 		git_attr_fnmatch *parent_match;
-		git_vector_foreach(&attrs->rules, k, parent_match) {
+		git_vector_rforeach(&attrs->rules, k, parent_match) {
 			if (pattern_matches_path(parent_match, &parent_path, parent_length)) {
 				matched = !HAS_FLAG(parent_match, GIT_ATTR_FNMATCH_NEGATIVE);
 				break;
