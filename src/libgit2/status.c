@@ -355,6 +355,22 @@ int git_status_list_new(
 			goto done;
 		}
 
+		git_vector filtered_diffs = GIT_VECTOR_INIT;
+		git_vector_init(&filtered_diffs, 0, NULL);
+
+		size_t i;
+		git_diff_delta *delta;
+		git_vector_foreach(&status->idx2wd->deltas, i, delta) {
+			git_diff_delta *delta = git_vector_get(&status->idx2wd->deltas, i);
+			if (delta->old_file.skip_worktree && delta->status == GIT_DELTA_DELETED) {
+				// printf("Skipping \"deleted\" sparse file %s\n", delta->old_file.path);
+				continue;
+			}
+			git_vector_insert(&filtered_diffs, delta);
+		}
+		git_vector_free(&status->idx2wd->deltas);
+		status->idx2wd->deltas = filtered_diffs;
+
 		if ((flags & GIT_STATUS_OPT_RENAMES_INDEX_TO_WORKDIR) != 0 &&
 			(error = git_diff_find_similar(status->idx2wd, &findopt)) < 0)
 			goto done;
