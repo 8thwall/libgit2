@@ -360,6 +360,7 @@ int git_status_list_new(
 
 		size_t i;
 		git_diff_delta *delta;
+		// BLOCKME: If we like this solution, I'll look at filtering in place rather than creating a new vector
 		git_vector_foreach(&status->idx2wd->deltas, i, delta) {
 			git_diff_delta *delta = git_vector_get(&status->idx2wd->deltas, i);
 			if (delta->old_file.skip_worktree && delta->status == GIT_DELTA_DELETED) {
