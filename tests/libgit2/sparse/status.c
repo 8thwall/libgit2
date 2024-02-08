@@ -66,7 +66,7 @@ struct test_case{ \
 	{ NULL, 0 } \
 }, *one_test; \
 
-void test_sparse_status__0(void)
+void test_sparse_status__cache_attr(void)
 {
 	define_test_cases
 	git_sparse_checkout_init_options scopts = GIT_SPARSE_CHECKOUT_INIT_OPTIONS_INIT;
@@ -356,22 +356,22 @@ void test_sparse_status__ignorecase(void)
 
 	cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
 	{
-		char *pattern_strings[] = { "/C/" };
+		char *pattern_strings[] = { "/b/file5/" };
 		git_strarray patterns = { pattern_strings, ARRAY_SIZE(pattern_strings) };
 		cl_git_pass(git_sparse_checkout_add(g_repo, &patterns));
 	}
 	
-	cl_must_pass(git_futils_mkdir("sparse/c", 0777, 0));
-	cl_git_mkfile("sparse/c/file5", "/hello world\n");
+	cl_must_pass(git_futils_mkdir("sparse/b", 0777, 0));
+	cl_git_mkfile("sparse/b/File5", "/hello world\n");
 	
 	cl_git_pass(git_repository_index(&index, g_repo));
 	ignore_case = (git_index_caps(index) & GIT_INDEX_CAPABILITY_IGNORE_CASE) != 0;
 	git_index_free(index);
 	
 	if (ignore_case)
-		assert_is_checkout("c/file5");
+		assert_is_checkout("b/File5");
 	else
-		refute_is_checkout("c/file5");
+		refute_is_checkout("b/File5");
 	
 	git_index_free(index);
 }
