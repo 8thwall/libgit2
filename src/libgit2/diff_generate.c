@@ -1486,6 +1486,7 @@ int git_diff_index_to_workdir(
 	if (!index && (error = diff_load_index(&index, repo)) < 0)
 		return error;
 
+	// THE bug is here
 	if ((error = diff_prepare_iterator_opts(&prefix, &a_opts, GIT_ITERATOR_INCLUDE_CONFLICTS,
 						&b_opts, GIT_ITERATOR_DONT_AUTOEXPAND, opts)) < 0 ||
 	    (error = git_iterator_for_index(&a, repo, index, &a_opts)) < 0 ||
@@ -1672,9 +1673,13 @@ int git_diff__paired_foreach(
 		git_vector_sort(&idx2wd->deltas);
 	}
 
+	// printf("i_max: %d, j_max: %d\n", i_max, j_max);
+
 	for (i = 0, j = 0; i < i_max || j < j_max; ) {
 		h2i = head2idx ? GIT_VECTOR_GET(&head2idx->deltas, i) : NULL;
 		i2w = idx2wd ? GIT_VECTOR_GET(&idx2wd->deltas, j) : NULL;
+
+		// printf("i: %d, j: %d\n", i, j);
 
 		cmp = !i2w ? -1 : !h2i ? 1 :
 			strcomp(h2i->new_file.path, i2w->old_file.path);
@@ -1686,6 +1691,8 @@ int git_diff__paired_foreach(
 		} else {
 			i++; j++;
 		}
+
+		// You have a match
 
 		if ((error = cb(h2i, i2w, payload)) != 0) {
 			git_error_set_after_callback(error);

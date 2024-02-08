@@ -1,0 +1,24 @@
+{
+  "files.associations": {
+    "BUILD": "python",
+    "*.bzl": "python",
+    "*.md": "markdown",
+    "*.BUILD": "python",
+    "WORKSPACE": "python",
+    "__config": "c",
+    "complex": "c",
+    "ios": "c",
+    "iosfwd": "c",
+    "istream": "c",
+    "locale": "c",
+    "ostream": "c",
+    "functional": "c",
+    "strarray.h": "c",
+    "git2_features.h": "c",
+    "config.h": "c",
+    "sparse.h": "c",
+    "attr.h": "c",
+    "attr_file.h": "c",
+    "common.h": "c"
+  }
+}

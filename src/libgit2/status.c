@@ -71,7 +71,14 @@ static unsigned int workdir_delta2status(
 		st = GIT_STATUS_WT_UNREADABLE;
 		break;
 	case GIT_DELTA_DELETED:
-		st = GIT_STATUS_WT_DELETED;
+			// printf("GIT_STATUS_WT_DELETED rewrite to worktree %s\n", idx2wd->new_file.path);
+		// if (idx2wd->old_file.skip_worktree) {
+			// printf("ignoring\n");
+			// st = GIT_STATUS_IGNORED;
+		// } else {
+			// printf("actually deleted.\n");
+			st = GIT_STATUS_WT_DELETED;
+		// }
 		break;
 	case GIT_DELTA_MODIFIED:
 		st = GIT_STATUS_WT_MODIFIED;
@@ -117,16 +124,28 @@ static unsigned int workdir_delta2status(
 	return st;
 }
 
+// BOOK status_is_included
 static bool status_is_included(
 	git_status_list *status,
 	git_diff_delta *head2idx,
 	git_diff_delta *idx2wd)
 {
-	if (!(status->opts.flags & GIT_STATUS_OPT_EXCLUDE_SUBMODULES))
+	// printf("\n\nstatus_is_included, status->opts.flags: %d\n", status->opts.flags);
+
+	// if (head2idx && head2idx-> status == GIT_DELTA_UNMODIFIED && idx2wd && idx2wd->status == GIT_DELTA_DELETED) {
+	// 	printf("status_is_included: unmodified and deleted\n");
+	// 	return 0;
+	// }
+
+	if (!(status->opts.flags & GIT_STATUS_OPT_EXCLUDE_SUBMODULES)) {
+		// printf("status_is_included: not excluding submodules\n");
 		return 1;
+	}
 
 	/* if excluding submodules and this is a submodule everywhere */
 	if (head2idx) {
+			// printf("head2idx status: %d (%s)\n", head2idx->status, head2idx->old_file.path);
+
 		if (head2idx->status != GIT_DELTA_ADDED &&
 			head2idx->old_file.mode != GIT_FILEMODE_COMMIT)
 			return 1;
@@ -135,6 +154,7 @@ static bool status_is_included(
 			return 1;
 	}
 	if (idx2wd) {
+			// printf("idx2wd status: %d (%s)\n", idx2wd->status, idx2wd->old_file.path);
 		if (idx2wd->status != GIT_DELTA_ADDED &&
 			idx2wd->old_file.mode != GIT_FILEMODE_COMMIT)
 			return 1;
@@ -142,6 +162,8 @@ static bool status_is_included(
 			idx2wd->new_file.mode != GIT_FILEMODE_COMMIT)
 			return 1;
 	}
+
+	// printf("NEITHER ARE PRESENT\n");
 
 	/* only get here if every valid mode is GIT_FILEMODE_COMMIT */
 	return 0;
@@ -171,8 +193,13 @@ static int status_collect(
 	git_status_list *status = payload;
 	git_status_entry *status_entry;
 
-	if (!status_is_included(status, head2idx, idx2wd))
+	// printf("\n\nPrinting status for %s", head2idx ? head2idx->old_file.path : idx2wd->old_file.path);
+	if (!status_is_included(status, head2idx, idx2wd)) {
+		// printf("status_collect: not included\n");
 		return 0;
+	}
+
+	// printf("Pushing status for %s", head2idx ? head2idx->old_file.path : idx2wd->old_file.path);
 
 	status_entry = git__malloc(sizeof(git_status_entry));
 	GIT_ERROR_CHECK_ALLOC(status_entry);
@@ -180,6 +207,8 @@ static int status_collect(
 	status_entry->status = status_compute(status, head2idx, idx2wd);
 	status_entry->head_to_index = head2idx;
 	status_entry->index_to_workdir = idx2wd;
+
+	// printf("Inserting status for %s", head2idx ? head2idx->old_file.path : idx2wd->old_file.path);
 
 	return git_vector_insert(&status->paired, status_entry);
 }
@@ -330,6 +359,15 @@ int git_status_list_new(
 	if ((flags & GIT_STATUS_OPT_INCLUDE_UNREADABLE_AS_UNTRACKED) != 0)
 		diffopt.flags = diffopt.flags | GIT_DIFF_INCLUDE_UNREADABLE_AS_UNTRACKED;
 
+	// Erik doesn't like this because
+	// // BOOK
+	// if (git_repository__configmap_lookup(&diffopt.skip_sparse_files, repo, GIT_CONFIGMAP_SPARSECHECKOUT) < 0)
+	// 	goto done;
+
+	// diffopt.skip_sparse_files = true;
+
+	// printf("sparse_checkout_enabled: %d\n", diffopt.skip_sparse_files);
+
 	if ((flags & GIT_STATUS_OPT_RENAMES_FROM_REWRITES) != 0)
 		findopt.flags = findopt.flags |
 			GIT_DIFF_FIND_AND_BREAK_REWRITES |
@@ -355,10 +393,30 @@ int git_status_list_new(
 			goto done;
 		}
 
+		// printf("Finished with git_diff_index_to_workdir\n");
+
+		git_vector filtered_diffs = GIT_VECTOR_INIT;
+		git_vector_init(&filtered_diffs, 0, NULL);
+
+		size_t i;
+		git_diff_delta *delta;
+		git_vector_foreach(&status->idx2wd->deltas, i, delta) {
+			git_diff_delta *delta = git_vector_get(&status->idx2wd->deltas, i);
+			if (delta->old_file.skip_worktree && delta->status == GIT_DELTA_DELETED) {
+				// printf("Skipping \"deleted\" sparse file %s\n", delta->old_file.path);
+				continue;
+			}
+			git_vector_insert(&filtered_diffs, delta);
+		}
+		git_vector_free(&status->idx2wd->deltas);
+		status->idx2wd->deltas = filtered_diffs;
+
 		if ((flags & GIT_STATUS_OPT_RENAMES_INDEX_TO_WORKDIR) != 0 &&
 			(error = git_diff_find_similar(status->idx2wd, &findopt)) < 0)
 			goto done;
 	}
+
+	// printf("\n\nAbout to git_diff__paired_foreach\n");
 
 	error = git_diff__paired_foreach(
 		status->head2idx, status->idx2wd, status_collect, status);
