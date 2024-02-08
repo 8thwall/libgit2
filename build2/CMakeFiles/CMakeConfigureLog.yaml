@@ -1,0 +1,1574 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeDetermineSystem.cmake:233 (message)"
+      - "CMakeLists.txt:9 (project)"
+    message: |
+      The system is: Darwin - 23.2.0 - arm64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:9 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      1
+      ld: library 'System' not found
+      clang: error: linker command failed with exit code 1 (use -v to see invocation)
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:9 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc 
+      Build flags: 
+      Id flags: -c 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+      
+      The C compiler identification is AppleClang, found in:
+        /Users/cbartschat/repo/libgit8/build2/CMakeFiles/3.28.1/CompilerIdC/CMakeCCompilerId.o
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:9 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-VFUg2D"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-VFUg2D"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-VFUg2D'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_ffe26/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_ffe26.dir/build.make CMakeFiles/cmTC_ffe26.dir/build
+        Building C object CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -v -Wl,-v -MD -MT CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeCCompilerABI.c
+        Apple clang version 15.0.0 (clang-1500.0.40.1)
+        Target: arm64-apple-darwin23.2.0
+        Thread model: posix
+        InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+        clang: warning: -Wl,-v: 'linker' input unused [-Wunused-command-line-argument]
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx14.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=14.0 -fvisibility-inlines-hidden-static-local-var -target-cpu apple-m1 -target-feature +v8.5a -target-feature +crc -target-feature +lse -target-feature +rdm -target-feature +crypto -target-feature +dotprod -target-feature +fp-armv8 -target-feature +neon -target-feature +fp16fml -target-feature +ras -target-feature +rcpc -target-feature +zcm -target-feature +zcz -target-feature +fullfp16 -target-feature +sm4 -target-feature +sha3 -target-feature +sha2 -target-feature +aes -target-abi darwinpcs -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=lldb -target-linker-version 1015.6 -v -fcoverage-compilation-dir=/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-VFUg2D -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0 -dependency-file CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -Wno-reserved-identifier -Wno-gnu-folding-constant -fdebug-compilation-dir=/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-VFUg2D -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -mllvm -disable-aligned-alloc-awareness=1 -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o -x c /opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeCCompilerABI.c
+        clang -cc1 version 15.0.0 (clang-1500.0.40.1) default target arm64-apple-darwin23.2.0
+        ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/local/include"
+        ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/Library/Frameworks"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include
+         /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include
+         /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include
+         /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/System/Library/Frameworks (framework directory)
+        End of search list.
+        Linking C executable cmTC_ffe26
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ffe26.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o -o cmTC_ffe26 
+        Apple clang version 15.0.0 (clang-1500.0.40.1)
+        Target: arm64-apple-darwin23.2.0
+        Thread model: posix
+        InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 14.0.0 14.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -o cmTC_ffe26 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/lib/darwin/libclang_rt.osx.a
+        @(#)PROGRAM:ld  PROJECT:dyld-1015.7
+        BUILD 19:43:18 Aug 22 2023
+        configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
+        will use ld-classic for: armv6 armv7 armv7s arm64_32 i386 armv6m armv7k armv7m armv7em
+        LTO support using: LLVM version 15.0.0 (static support for 29, runtime is 29)
+        TAPI support using: Apple TAPI version 15.0.0 (tapi-1500.0.12.3)
+        Library search paths:
+        Framework search paths:
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:127 (message)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:9 (project)"
+    message: |
+      Parsed C implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include]
+          add: [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include]
+          add: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include]
+        end of search list found
+        collapse include dir [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include] ==> [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include]
+        collapse include dir [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include] ==> [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include]
+        collapse include dir [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include] ==> [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include]
+        implicit include dirs: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include;/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:159 (message)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:9 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        ignore line: [Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-VFUg2D']
+        ignore line: []
+        ignore line: [Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_ffe26/fast]
+        ignore line: [/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_ffe26.dir/build.make CMakeFiles/cmTC_ffe26.dir/build]
+        ignore line: [Building C object CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o]
+        ignore line: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -v -Wl -v -MD -MT CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [Apple clang version 15.0.0 (clang-1500.0.40.1)]
+        ignore line: [Target: arm64-apple-darwin23.2.0]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin]
+        ignore line: [clang: warning: -Wl -v: 'linker' input unused [-Wunused-command-line-argument]]
+        ignore line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx14.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -mrelax-all --mrelax-relocations -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=14.0 -fvisibility-inlines-hidden-static-local-var -target-cpu apple-m1 -target-feature +v8.5a -target-feature +crc -target-feature +lse -target-feature +rdm -target-feature +crypto -target-feature +dotprod -target-feature +fp-armv8 -target-feature +neon -target-feature +fp16fml -target-feature +ras -target-feature +rcpc -target-feature +zcm -target-feature +zcz -target-feature +fullfp16 -target-feature +sm4 -target-feature +sha3 -target-feature +sha2 -target-feature +aes -target-abi darwinpcs -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=lldb -target-linker-version 1015.6 -v -fcoverage-compilation-dir=/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-VFUg2D -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0 -dependency-file CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -Wno-reserved-identifier -Wno-gnu-folding-constant -fdebug-compilation-dir=/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-VFUg2D -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -mllvm -disable-aligned-alloc-awareness=1 -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o -x c /opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [clang -cc1 version 15.0.0 (clang-1500.0.40.1) default target arm64-apple-darwin23.2.0]
+        ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/local/include"]
+        ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/Library/Frameworks"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/include]
+        ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include]
+        ignore line: [ /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include]
+        ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/System/Library/Frameworks (framework directory)]
+        ignore line: [End of search list.]
+        ignore line: [Linking C executable cmTC_ffe26]
+        ignore line: [/opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ffe26.dir/link.txt --verbose=1]
+        ignore line: [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl -search_paths_first -Wl -headerpad_max_install_names  -v -Wl -v CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o -o cmTC_ffe26 ]
+        ignore line: [Apple clang version 15.0.0 (clang-1500.0.40.1)]
+        ignore line: [Target: arm64-apple-darwin23.2.0]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin]
+        link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 14.0.0 14.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -o cmTC_ffe26 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/lib/darwin/libclang_rt.osx.a]
+          arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld] ==> ignore
+          arg [-demangle] ==> ignore
+          arg [-lto_library] ==> ignore, skip following value
+          arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib] ==> skip value of -lto_library
+          arg [-dynamic] ==> ignore
+          arg [-arch] ==> ignore
+          arg [arm64] ==> ignore
+          arg [-platform_version] ==> ignore
+          arg [macos] ==> ignore
+          arg [14.0.0] ==> ignore
+          arg [14.0] ==> ignore
+          arg [-syslibroot] ==> ignore
+          arg [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_ffe26] ==> ignore
+          arg [-search_paths_first] ==> ignore
+          arg [-headerpad_max_install_names] ==> ignore
+          arg [-v] ==> ignore
+          arg [CMakeFiles/cmTC_ffe26.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [-lSystem] ==> lib [System]
+          arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/lib/darwin/libclang_rt.osx.a] ==> lib [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/lib/darwin/libclang_rt.osx.a]
+        remove lib [System]
+        remove lib [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/15.0.0/lib/darwin/libclang_rt.osx.a]
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCSourceCompiles.cmake:52 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/FindThreads.cmake:97 (CHECK_C_SOURCE_COMPILES)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "CMakeLists.txt:105 (include)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-HVFQt6"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-HVFQt6"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-HVFQt6'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_85d23/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_85d23.dir/build.make CMakeFiles/cmTC_85d23.dir/build
+        Building C object CMakeFiles/cmTC_85d23.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -MD -MT CMakeFiles/cmTC_85d23.dir/src.c.o -MF CMakeFiles/cmTC_85d23.dir/src.c.o.d -o CMakeFiles/cmTC_85d23.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-HVFQt6/src.c
+        Linking C executable cmTC_85d23
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_85d23.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_85d23.dir/src.c.o -o cmTC_85d23 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckSourceCompiles.cmake:77 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckStructHasMember.cmake:77 (CHECK_SOURCE_COMPILES)"
+      - "cmake/FindStatNsec.cmake:3 (check_struct_has_member)"
+      - "CMakeLists.txt:106 (include)"
+    checks:
+      - "Performing Test HAVE_STRUCT_STAT_ST_MTIM"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-I5uygP"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-I5uygP"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "HAVE_STRUCT_STAT_ST_MTIM"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-I5uygP'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_3589e/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_3589e.dir/build.make CMakeFiles/cmTC_3589e.dir/build
+        Building C object CMakeFiles/cmTC_3589e.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DHAVE_STRUCT_STAT_ST_MTIM  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -MD -MT CMakeFiles/cmTC_3589e.dir/src.c.o -MF CMakeFiles/cmTC_3589e.dir/src.c.o.d -o CMakeFiles/cmTC_3589e.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-I5uygP/src.c
+        /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-I5uygP/src.c:7:36: error: no member named 'st_mtim' in 'struct stat'
+          (void)sizeof(((struct stat *)0)->st_mtim);
+                       ~~~~~~~~~~~~~~~~~~  ^
+        1 error generated.
+        make[1]: *** [CMakeFiles/cmTC_3589e.dir/src.c.o] Error 1
+        make: *** [cmTC_3589e/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckSourceCompiles.cmake:77 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckStructHasMember.cmake:77 (CHECK_SOURCE_COMPILES)"
+      - "cmake/FindStatNsec.cmake:5 (check_struct_has_member)"
+      - "CMakeLists.txt:106 (include)"
+    checks:
+      - "Performing Test HAVE_STRUCT_STAT_ST_MTIMESPEC"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-9usKmt"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-9usKmt"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "HAVE_STRUCT_STAT_ST_MTIMESPEC"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-9usKmt'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_6d978/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_6d978.dir/build.make CMakeFiles/cmTC_6d978.dir/build
+        Building C object CMakeFiles/cmTC_6d978.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DHAVE_STRUCT_STAT_ST_MTIMESPEC  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -MD -MT CMakeFiles/cmTC_6d978.dir/src.c.o -MF CMakeFiles/cmTC_6d978.dir/src.c.o.d -o CMakeFiles/cmTC_6d978.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-9usKmt/src.c
+        Linking C executable cmTC_6d978
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6d978.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_6d978.dir/src.c.o -o cmTC_6d978 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckSourceCompiles.cmake:77 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckStructHasMember.cmake:77 (CHECK_SOURCE_COMPILES)"
+      - "cmake/FindStatNsec.cmake:7 (check_struct_has_member)"
+      - "CMakeLists.txt:106 (include)"
+    checks:
+      - "Performing Test HAVE_STRUCT_STAT_MTIME_NSEC"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-RaNwCu"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-RaNwCu"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "HAVE_STRUCT_STAT_MTIME_NSEC"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-RaNwCu'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_71395/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_71395.dir/build.make CMakeFiles/cmTC_71395.dir/build
+        Building C object CMakeFiles/cmTC_71395.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DHAVE_STRUCT_STAT_MTIME_NSEC  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -MD -MT CMakeFiles/cmTC_71395.dir/src.c.o -MF CMakeFiles/cmTC_71395.dir/src.c.o.d -o CMakeFiles/cmTC_71395.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-RaNwCu/src.c
+        /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-RaNwCu/src.c:6:36: error: no member named 'st_mtime_nsec' in 'struct stat'; did you mean 'st_mtimespec'?
+          (void)sizeof(((struct stat *)0)->st_mtime_nsec);
+                                           ^~~~~~~~~~~~~
+                                           st_mtimespec
+        /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/sys/stat.h:182:13: note: 'st_mtimespec' declared here
+        struct stat __DARWIN_STRUCT_STAT64;
+                    ^
+        /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/sys/stat.h:166:2: note: expanded from macro '__DARWIN_STRUCT_STAT64'
+                __DARWIN_STRUCT_STAT64_TIMES \\
+                ^
+        /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/sys/stat.h:130:18: note: expanded from macro '__DARWIN_STRUCT_STAT64_TIMES'
+                struct timespec st_mtimespec;           /* time of last data modification */ \\
+                                ^
+        1 error generated.
+        make[1]: *** [CMakeFiles/cmTC_71395.dir/src.c.o] Error 1
+        make: *** [cmTC_71395/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckSourceCompiles.cmake:77 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckStructHasMember.cmake:77 (CHECK_SOURCE_COMPILES)"
+      - "cmake/FindStatNsec.cmake:14 (check_struct_has_member)"
+      - "CMakeLists.txt:106 (include)"
+    checks:
+      - "Performing Test HAVE_STRUCT_STAT_NSEC"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-lIe8yR"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-lIe8yR"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "HAVE_STRUCT_STAT_NSEC"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-lIe8yR'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_d607c/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_d607c.dir/build.make CMakeFiles/cmTC_d607c.dir/build
+        Building C object CMakeFiles/cmTC_d607c.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DHAVE_STRUCT_STAT_NSEC  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -MD -MT CMakeFiles/cmTC_d607c.dir/src.c.o -MF CMakeFiles/cmTC_d607c.dir/src.c.o.d -o CMakeFiles/cmTC_d607c.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-lIe8yR/src.c
+        Linking C executable cmTC_d607c
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d607c.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_d607c.dir/src.c.o -o cmTC_d607c 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "cmake/Findfutimens.cmake:9 (enable_warnings)"
+      - "CMakeLists.txt:107 (include)"
+    checks:
+      - "Performing Test IS_WERROR_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-slOKQm"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-slOKQm"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WERROR_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-slOKQm'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_93560/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_93560.dir/build.make CMakeFiles/cmTC_93560.dir/build
+        Building C object CMakeFiles/cmTC_93560.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WERROR_SUPPORTED  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Werror -MD -MT CMakeFiles/cmTC_93560.dir/src.c.o -MF CMakeFiles/cmTC_93560.dir/src.c.o.d -o CMakeFiles/cmTC_93560.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-slOKQm/src.c
+        Linking C executable cmTC_93560
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_93560.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_93560.dir/src.c.o -o cmTC_93560 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckSymbolExists.cmake:140 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckSymbolExists.cmake:66 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "cmake/Findfutimens.cmake:10 (check_symbol_exists)"
+      - "CMakeLists.txt:107 (include)"
+    checks:
+      - "Looking for futimens"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-RwCNjM"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-RwCNjM"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " "
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "HAVE_FUTIMENS"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-RwCNjM'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_4ba93/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_4ba93.dir/build.make CMakeFiles/cmTC_4ba93.dir/build
+        Building C object CMakeFiles/cmTC_4ba93.dir/CheckSymbolExists.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -MD -MT CMakeFiles/cmTC_4ba93.dir/CheckSymbolExists.c.o -MF CMakeFiles/cmTC_4ba93.dir/CheckSymbolExists.c.o.d -o CMakeFiles/cmTC_4ba93.dir/CheckSymbolExists.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-RwCNjM/CheckSymbolExists.c
+        Linking C executable cmTC_4ba93
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4ba93.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_4ba93.dir/CheckSymbolExists.c.o -o cmTC_4ba93 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:6 (add_c_flag_if_supported)"
+      - "cmake/Findfutimens.cmake:11 (disable_warnings)"
+      - "CMakeLists.txt:107 (include)"
+    checks:
+      - "Performing Test IS_WNO_ERROR_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-s9L0CV"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-s9L0CV"
+    cmakeVariables:
+      CMAKE_C_FLAGS: " -Werror"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WNO_ERROR_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-s9L0CV'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_946d8/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_946d8.dir/build.make CMakeFiles/cmTC_946d8.dir/build
+        Building C object CMakeFiles/cmTC_946d8.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WNO_ERROR_SUPPORTED  -Werror  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wno-error -MD -MT CMakeFiles/cmTC_946d8.dir/src.c.o -MF CMakeFiles/cmTC_946d8.dir/src.c.o.d -o CMakeFiles/cmTC_946d8.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-s9L0CV/src.c
+        Linking C executable cmTC_946d8
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_946d8.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -Werror  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_946d8.dir/src.c.o -o cmTC_946d8 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:101 (enable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WALL_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-w7kIsG"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-w7kIsG"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WALL_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-w7kIsG'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_fbac1/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_fbac1.dir/build.make CMakeFiles/cmTC_fbac1.dir/build
+        Building C object CMakeFiles/cmTC_fbac1.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WALL_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wall -MD -MT CMakeFiles/cmTC_fbac1.dir/src.c.o -MF CMakeFiles/cmTC_fbac1.dir/src.c.o.d -o CMakeFiles/cmTC_fbac1.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-w7kIsG/src.c
+        Linking C executable cmTC_fbac1
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fbac1.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_fbac1.dir/src.c.o -o cmTC_fbac1 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:102 (enable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WEXTRA_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-VndNmG"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-VndNmG"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WEXTRA_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-VndNmG'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_47266/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_47266.dir/build.make CMakeFiles/cmTC_47266.dir/build
+        Building C object CMakeFiles/cmTC_47266.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WEXTRA_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wextra -MD -MT CMakeFiles/cmTC_47266.dir/src.c.o -MF CMakeFiles/cmTC_47266.dir/src.c.o.d -o CMakeFiles/cmTC_47266.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-VndNmG/src.c
+        Linking C executable cmTC_47266
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_47266.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_47266.dir/src.c.o -o cmTC_47266 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/DefaultCFlags.cmake:113 (add_c_flag_IF_SUPPORTED)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_FVISIBILITY_HIDDEN_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-sV0Kex"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-sV0Kex"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_FVISIBILITY_HIDDEN_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-sV0Kex'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_2d4c3/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_2d4c3.dir/build.make CMakeFiles/cmTC_2d4c3.dir/build
+        Building C object CMakeFiles/cmTC_2d4c3.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_FVISIBILITY_HIDDEN_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -fvisibility=hidden -MD -MT CMakeFiles/cmTC_2d4c3.dir/src.c.o -MF CMakeFiles/cmTC_2d4c3.dir/src.c.o.d -o CMakeFiles/cmTC_2d4c3.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-sV0Kex/src.c
+        Linking C executable cmTC_2d4c3
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2d4c3.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_2d4c3.dir/src.c.o -o cmTC_2d4c3 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:125 (enable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WDOCUMENTATION_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-4IJFg8"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-4IJFg8"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WDOCUMENTATION_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-4IJFg8'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_fd710/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_fd710.dir/build.make CMakeFiles/cmTC_fd710.dir/build
+        Building C object CMakeFiles/cmTC_fd710.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WDOCUMENTATION_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wdocumentation -MD -MT CMakeFiles/cmTC_fd710.dir/src.c.o -MF CMakeFiles/cmTC_fd710.dir/src.c.o.d -o CMakeFiles/cmTC_fd710.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-4IJFg8/src.c
+        Linking C executable cmTC_fd710
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fd710.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_fd710.dir/src.c.o -o cmTC_fd710 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:6 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:126 (disable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WNO_DOCUMENTATION_DEPRECATED_SYNC_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-9ClBju"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-9ClBju"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WNO_DOCUMENTATION_DEPRECATED_SYNC_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-9ClBju'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_d1b2e/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_d1b2e.dir/build.make CMakeFiles/cmTC_d1b2e.dir/build
+        Building C object CMakeFiles/cmTC_d1b2e.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WNO_DOCUMENTATION_DEPRECATED_SYNC_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wno-documentation-deprecated-sync -MD -MT CMakeFiles/cmTC_d1b2e.dir/src.c.o -MF CMakeFiles/cmTC_d1b2e.dir/src.c.o.d -o CMakeFiles/cmTC_d1b2e.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-9ClBju/src.c
+        Linking C executable cmTC_d1b2e
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d1b2e.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_d1b2e.dir/src.c.o -o cmTC_d1b2e 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:6 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:127 (disable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WNO_MISSING_FIELD_INITIALIZERS_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-ekUp9t"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-ekUp9t"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WNO_MISSING_FIELD_INITIALIZERS_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-ekUp9t'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_e243a/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_e243a.dir/build.make CMakeFiles/cmTC_e243a.dir/build
+        Building C object CMakeFiles/cmTC_e243a.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WNO_MISSING_FIELD_INITIALIZERS_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wno-missing-field-initializers -MD -MT CMakeFiles/cmTC_e243a.dir/src.c.o -MF CMakeFiles/cmTC_e243a.dir/src.c.o.d -o CMakeFiles/cmTC_e243a.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-ekUp9t/src.c
+        Linking C executable cmTC_e243a
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e243a.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_e243a.dir/src.c.o -o cmTC_e243a 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:128 (enable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WMISSING_DECLARATIONS_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-6wSMW9"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-6wSMW9"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WMISSING_DECLARATIONS_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-6wSMW9'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_5ad21/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_5ad21.dir/build.make CMakeFiles/cmTC_5ad21.dir/build
+        Building C object CMakeFiles/cmTC_5ad21.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WMISSING_DECLARATIONS_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wmissing-declarations -MD -MT CMakeFiles/cmTC_5ad21.dir/src.c.o -MF CMakeFiles/cmTC_5ad21.dir/src.c.o.d -o CMakeFiles/cmTC_5ad21.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-6wSMW9/src.c
+        Linking C executable cmTC_5ad21
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5ad21.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_5ad21.dir/src.c.o -o cmTC_5ad21 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:129 (enable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WSTRICT_ALIASING_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-s3BnmG"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-s3BnmG"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WSTRICT_ALIASING_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-s3BnmG'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_b7cd4/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_b7cd4.dir/build.make CMakeFiles/cmTC_b7cd4.dir/build
+        Building C object CMakeFiles/cmTC_b7cd4.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WSTRICT_ALIASING_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wstrict-aliasing -MD -MT CMakeFiles/cmTC_b7cd4.dir/src.c.o -MF CMakeFiles/cmTC_b7cd4.dir/src.c.o.d -o CMakeFiles/cmTC_b7cd4.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-s3BnmG/src.c
+        Linking C executable cmTC_b7cd4
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b7cd4.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_b7cd4.dir/src.c.o -o cmTC_b7cd4 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:130 (enable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WSTRICT_PROTOTYPES_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-ke3zia"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-ke3zia"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WSTRICT_PROTOTYPES_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-ke3zia'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_5bf72/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_5bf72.dir/build.make CMakeFiles/cmTC_5bf72.dir/build
+        Building C object CMakeFiles/cmTC_5bf72.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WSTRICT_PROTOTYPES_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wstrict-prototypes -MD -MT CMakeFiles/cmTC_5bf72.dir/src.c.o -MF CMakeFiles/cmTC_5bf72.dir/src.c.o.d -o CMakeFiles/cmTC_5bf72.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-ke3zia/src.c
+        Linking C executable cmTC_5bf72
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5bf72.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_5bf72.dir/src.c.o -o cmTC_5bf72 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:131 (enable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WDECLARATION_AFTER_STATEMENT_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-bE4QkO"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-bE4QkO"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WDECLARATION_AFTER_STATEMENT_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-bE4QkO'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_efd06/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_efd06.dir/build.make CMakeFiles/cmTC_efd06.dir/build
+        Building C object CMakeFiles/cmTC_efd06.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WDECLARATION_AFTER_STATEMENT_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wdeclaration-after-statement -MD -MT CMakeFiles/cmTC_efd06.dir/src.c.o -MF CMakeFiles/cmTC_efd06.dir/src.c.o.d -o CMakeFiles/cmTC_efd06.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-bE4QkO/src.c
+        Linking C executable cmTC_efd06
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_efd06.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_efd06.dir/src.c.o -o cmTC_efd06 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:132 (enable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WSHIFT_COUNT_OVERFLOW_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-AOYmbb"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-AOYmbb"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WSHIFT_COUNT_OVERFLOW_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-AOYmbb'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_052c8/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_052c8.dir/build.make CMakeFiles/cmTC_052c8.dir/build
+        Building C object CMakeFiles/cmTC_052c8.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WSHIFT_COUNT_OVERFLOW_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wshift-count-overflow -MD -MT CMakeFiles/cmTC_052c8.dir/src.c.o -MF CMakeFiles/cmTC_052c8.dir/src.c.o.d -o CMakeFiles/cmTC_052c8.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-AOYmbb/src.c
+        Linking C executable cmTC_052c8
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_052c8.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_052c8.dir/src.c.o -o cmTC_052c8 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:133 (enable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WUNUSED_CONST_VARIABLE_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-4jM13u"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-4jM13u"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WUNUSED_CONST_VARIABLE_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-4jM13u'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_bb539/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_bb539.dir/build.make CMakeFiles/cmTC_bb539.dir/build
+        Building C object CMakeFiles/cmTC_bb539.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WUNUSED_CONST_VARIABLE_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wunused-const-variable -MD -MT CMakeFiles/cmTC_bb539.dir/src.c.o -MF CMakeFiles/cmTC_bb539.dir/src.c.o.d -o CMakeFiles/cmTC_bb539.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-4jM13u/src.c
+        Linking C executable cmTC_bb539
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bb539.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_bb539.dir/src.c.o -o cmTC_bb539 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:134 (enable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WUNUSED_FUNCTION_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-SRREGd"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-SRREGd"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WUNUSED_FUNCTION_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-SRREGd'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_a5907/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_a5907.dir/build.make CMakeFiles/cmTC_a5907.dir/build
+        Building C object CMakeFiles/cmTC_a5907.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WUNUSED_FUNCTION_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wunused-function -MD -MT CMakeFiles/cmTC_a5907.dir/src.c.o -MF CMakeFiles/cmTC_a5907.dir/src.c.o.d -o CMakeFiles/cmTC_a5907.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-SRREGd/src.c
+        Linking C executable cmTC_a5907
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a5907.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_a5907.dir/src.c.o -o cmTC_a5907 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:135 (enable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WINT_CONVERSION_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-A3aM6E"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-A3aM6E"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WINT_CONVERSION_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-A3aM6E'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_7a64a/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_7a64a.dir/build.make CMakeFiles/cmTC_7a64a.dir/build
+        Building C object CMakeFiles/cmTC_7a64a.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WINT_CONVERSION_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wint-conversion -MD -MT CMakeFiles/cmTC_7a64a.dir/src.c.o -MF CMakeFiles/cmTC_7a64a.dir/src.c.o.d -o CMakeFiles/cmTC_7a64a.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-A3aM6E/src.c
+        Linking C executable cmTC_7a64a
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7a64a.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_7a64a.dir/src.c.o -o cmTC_7a64a 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:136 (enable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WC11_EXTENSIONS_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-WGuBwT"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-WGuBwT"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WC11_EXTENSIONS_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-WGuBwT'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_d2279/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_d2279.dir/build.make CMakeFiles/cmTC_d2279.dir/build
+        Building C object CMakeFiles/cmTC_d2279.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WC11_EXTENSIONS_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wc11-extensions -MD -MT CMakeFiles/cmTC_d2279.dir/src.c.o -MF CMakeFiles/cmTC_d2279.dir/src.c.o.d -o CMakeFiles/cmTC_d2279.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-WGuBwT/src.c
+        Linking C executable cmTC_d2279
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d2279.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_d2279.dir/src.c.o -o cmTC_d2279 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:137 (enable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WC99_C11_COMPAT_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-nHmFFQ"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-nHmFFQ"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WC99_C11_COMPAT_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-nHmFFQ'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_2fc66/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_2fc66.dir/build.make CMakeFiles/cmTC_2fc66.dir/build
+        Building C object CMakeFiles/cmTC_2fc66.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WC99_C11_COMPAT_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wc99-c11-compat -MD -MT CMakeFiles/cmTC_2fc66.dir/src.c.o -MF CMakeFiles/cmTC_2fc66.dir/src.c.o.d -o CMakeFiles/cmTC_2fc66.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-nHmFFQ/src.c
+        warning: unknown warning option '-Wc99-c11-compat' [-Wunknown-warning-option]
+        1 warning generated.
+        Linking C executable cmTC_2fc66
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2fc66.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_2fc66.dir/src.c.o -o cmTC_2fc66 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:146 (enable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WFORMAT_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-3jEM7Q"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-3jEM7Q"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WFORMAT_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-3jEM7Q'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_b7164/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_b7164.dir/build.make CMakeFiles/cmTC_b7164.dir/build
+        Building C object CMakeFiles/cmTC_b7164.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WFORMAT_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wformat -MD -MT CMakeFiles/cmTC_b7164.dir/src.c.o -MF CMakeFiles/cmTC_b7164.dir/src.c.o.d -o CMakeFiles/cmTC_b7164.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-3jEM7Q/src.c
+        Linking C executable cmTC_b7164
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b7164.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_b7164.dir/src.c.o -o cmTC_b7164 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "cmake/DefaultCFlags.cmake:147 (enable_warnings)"
+      - "CMakeLists.txt:112 (include)"
+    checks:
+      - "Performing Test IS_WFORMAT_SECURITY_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-AoQyQL"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-AoQyQL"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WFORMAT_SECURITY_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-AoQyQL'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_ec348/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_ec348.dir/build.make CMakeFiles/cmTC_ec348.dir/build
+        Building C object CMakeFiles/cmTC_ec348.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WFORMAT_SECURITY_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wformat-security -MD -MT CMakeFiles/cmTC_ec348.dir/src.c.o -MF CMakeFiles/cmTC_ec348.dir/src.c.o.d -o CMakeFiles/cmTC_ec348.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-AoQyQL/src.c
+        Linking C executable cmTC_ec348
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ec348.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_ec348.dir/src.c.o -o cmTC_ec348 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckLibraryExists.cmake:69 (try_compile)"
+      - "cmake/FindSecurity.cmake:18 (check_library_exists)"
+      - "cmake/SelectHTTPSBackend.cmake:7 (find_package)"
+      - "src/CMakeLists.txt:40 (include)"
+    checks:
+      - "Looking for SSLCreateContext in /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/System/Library/Frameworks/Security.framework"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-QyLhhV"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-QyLhhV"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "SECURITY_HAS_SSLCREATECONTEXT"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-QyLhhV'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_f272f/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_f272f.dir/build.make CMakeFiles/cmTC_f272f.dir/build
+        Building C object CMakeFiles/cmTC_f272f.dir/CheckFunctionExists.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc  -F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/System/Library/Frameworks -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security -DCHECK_FUNCTION_EXISTS=SSLCreateContext -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -MD -MT CMakeFiles/cmTC_f272f.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_f272f.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_f272f.dir/CheckFunctionExists.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-QyLhhV/CheckFunctionExists.c
+        Linking C executable cmTC_f272f
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f272f.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security -DCHECK_FUNCTION_EXISTS=SSLCreateContext -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_f272f.dir/CheckFunctionExists.c.o -o cmTC_f272f   -L/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-QyLhhV/Security/SecureTransport.h  -Wl,-rpath,/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-QyLhhV/Security/SecureTransport.h -framework Security 
+        ld: warning: search path '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-QyLhhV/Security/SecureTransport.h' not found
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:2 (add_c_flag_if_supported)"
+      - "deps/http-parser/CMakeLists.txt:6 (enable_warnings)"
+    checks:
+      - "Performing Test IS_WIMPLICIT_FALLTHROUGH_1_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-K3WJts"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-K3WJts"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WIMPLICIT_FALLTHROUGH_1_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-K3WJts'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_0c7f4/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_0c7f4.dir/build.make CMakeFiles/cmTC_0c7f4.dir/build
+        Building C object CMakeFiles/cmTC_0c7f4.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WIMPLICIT_FALLTHROUGH_1_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wimplicit-fallthrough=1 -MD -MT CMakeFiles/cmTC_0c7f4.dir/src.c.o -MF CMakeFiles/cmTC_0c7f4.dir/src.c.o.d -o CMakeFiles/cmTC_0c7f4.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-K3WJts/src.c
+        warning: unknown warning option '-Wimplicit-fallthrough=1'; did you mean '-Wimplicit-fallthrough'? [-Wunknown-warning-option]
+        1 warning generated.
+        Linking C executable cmTC_0c7f4
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0c7f4.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_0c7f4.dir/src.c.o -o cmTC_0c7f4 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckSymbolExists.cmake:140 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckSymbolExists.cmake:66 (__CHECK_SYMBOL_EXISTS_IMPL)"
+      - "cmake/SelectRegex.cmake:5 (check_symbol_exists)"
+      - "src/CMakeLists.txt:43 (include)"
+    checks:
+      - "Looking for regcomp_l"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-tic4FT"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-tic4FT"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "HAVE_REGCOMP_L"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-tic4FT'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_4066e/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_4066e.dir/build.make CMakeFiles/cmTC_4066e.dir/build
+        Building C object CMakeFiles/cmTC_4066e.dir/CheckSymbolExists.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -D_GNU_SOURCE  -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -MD -MT CMakeFiles/cmTC_4066e.dir/CheckSymbolExists.c.o -MF CMakeFiles/cmTC_4066e.dir/CheckSymbolExists.c.o.d -o CMakeFiles/cmTC_4066e.dir/CheckSymbolExists.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-tic4FT/CheckSymbolExists.c
+        Linking C executable cmTC_4066e
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4066e.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_4066e.dir/CheckSymbolExists.c.o -o cmTC_4066e 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckPrototypeDefinition.cmake:98 (try_compile)"
+      - "src/CMakeLists.txt:61 (check_prototype_definition)"
+    checks:
+      - "Checking prototype qsort_r for GIT_QSORT_R_BSD"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-rVmaCm"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-rVmaCm"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "GIT_QSORT_R_BSD"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-rVmaCm'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_fe986/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_fe986.dir/build.make CMakeFiles/cmTC_fe986.dir/build
+        Building C object CMakeFiles/cmTC_fe986.dir/CheckPrototypeDefinition.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -MD -MT CMakeFiles/cmTC_fe986.dir/CheckPrototypeDefinition.c.o -MF CMakeFiles/cmTC_fe986.dir/CheckPrototypeDefinition.c.o.d -o CMakeFiles/cmTC_fe986.dir/CheckPrototypeDefinition.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-rVmaCm/CheckPrototypeDefinition.c
+        /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-rVmaCm/CheckPrototypeDefinition.c:14:20: warning: unused parameter 'base' [-Wunused-parameter]
+        void qsort_r(void *base, size_t nmemb, size_t size, void *thunk, int (*compar)(void *, const void *, const void *)) {
+                           ^
+        /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-rVmaCm/CheckPrototypeDefinition.c:14:33: warning: unused parameter 'nmemb' [-Wunused-parameter]
+        void qsort_r(void *base, size_t nmemb, size_t size, void *thunk, int (*compar)(void *, const void *, const void *)) {
+                                        ^
+        /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-rVmaCm/CheckPrototypeDefinition.c:14:47: warning: unused parameter 'size' [-Wunused-parameter]
+        void qsort_r(void *base, size_t nmemb, size_t size, void *thunk, int (*compar)(void *, const void *, const void *)) {
+                                                      ^
+        /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-rVmaCm/CheckPrototypeDefinition.c:14:59: warning: unused parameter 'thunk' [-Wunused-parameter]
+        void qsort_r(void *base, size_t nmemb, size_t size, void *thunk, int (*compar)(void *, const void *, const void *)) {
+                                                                  ^
+        /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-rVmaCm/CheckPrototypeDefinition.c:14:72: warning: unused parameter 'compar' [-Wunused-parameter]
+        void qsort_r(void *base, size_t nmemb, size_t size, void *thunk, int (*compar)(void *, const void *, const void *)) {
+                                                                               ^
+        5 warnings generated.
+        Linking C executable cmTC_fe986
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fe986.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_fe986.dir/CheckPrototypeDefinition.c.o -o cmTC_fe986 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckPrototypeDefinition.cmake:98 (try_compile)"
+      - "src/CMakeLists.txt:65 (check_prototype_definition)"
+    checks:
+      - "Checking prototype qsort_r for GIT_QSORT_R_GNU"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-YvjOrG"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-YvjOrG"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "GIT_QSORT_R_GNU"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-YvjOrG'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_46d8f/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_46d8f.dir/build.make CMakeFiles/cmTC_46d8f.dir/build
+        Building C object CMakeFiles/cmTC_46d8f.dir/CheckPrototypeDefinition.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -MD -MT CMakeFiles/cmTC_46d8f.dir/CheckPrototypeDefinition.c.o -MF CMakeFiles/cmTC_46d8f.dir/CheckPrototypeDefinition.c.o.d -o CMakeFiles/cmTC_46d8f.dir/CheckPrototypeDefinition.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-YvjOrG/CheckPrototypeDefinition.c
+        /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-YvjOrG/CheckPrototypeDefinition.c:14:6: error: conflicting types for 'qsort_r'
+        void qsort_r(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *, void *), void *arg) {
+             ^
+        /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/usr/include/stdlib.h:346:7: note: previous declaration is here
+        void     qsort_r(void *__base, size_t __nel, size_t __width, void *,
+                 ^
+        1 error generated.
+        make[1]: *** [CMakeFiles/cmTC_46d8f.dir/CheckPrototypeDefinition.c.o] Error 1
+        make: *** [cmTC_46d8f/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "src/CMakeLists.txt:69 (check_function_exists)"
+    checks:
+      - "Looking for qsort_s"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-HXRLjy"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-HXRLjy"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "GIT_QSORT_S"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-HXRLjy'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_65707/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_65707.dir/build.make CMakeFiles/cmTC_65707.dir/build
+        Building C object CMakeFiles/cmTC_65707.dir/CheckFunctionExists.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security -DCHECK_FUNCTION_EXISTS=qsort_s -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -MD -MT CMakeFiles/cmTC_65707.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_65707.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_65707.dir/CheckFunctionExists.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-HXRLjy/CheckFunctionExists.c
+        Linking C executable cmTC_65707
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_65707.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security -DCHECK_FUNCTION_EXISTS=qsort_s -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_65707.dir/CheckFunctionExists.c.o -o cmTC_65707 
+        ld: Undefined symbols:
+          _qsort_s, referenced from:
+              _main in CheckFunctionExists.c.o
+        clang: error: linker command failed with exit code 1 (use -v to see invocation)
+        make[1]: *** [cmTC_65707] Error 1
+        make: *** [cmTC_65707/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "src/CMakeLists.txt:73 (check_function_exists)"
+    checks:
+      - "Looking for getentropy"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-NIvzZT"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-NIvzZT"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "GIT_RAND_GETENTROPY"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-NIvzZT'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_5fc56/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_5fc56.dir/build.make CMakeFiles/cmTC_5fc56.dir/build
+        Building C object CMakeFiles/cmTC_5fc56.dir/CheckFunctionExists.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security -DCHECK_FUNCTION_EXISTS=getentropy -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -MD -MT CMakeFiles/cmTC_5fc56.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_5fc56.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_5fc56.dir/CheckFunctionExists.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-NIvzZT/CheckFunctionExists.c
+        Linking C executable cmTC_5fc56
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5fc56.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security -DCHECK_FUNCTION_EXISTS=getentropy -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_5fc56.dir/CheckFunctionExists.c.o -o cmTC_5fc56 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "src/CMakeLists.txt:74 (check_function_exists)"
+    checks:
+      - "Looking for getloadavg"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-7reerI"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-7reerI"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "GIT_RAND_GETLOADAVG"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-7reerI'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_25d57/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_25d57.dir/build.make CMakeFiles/cmTC_25d57.dir/build
+        Building C object CMakeFiles/cmTC_25d57.dir/CheckFunctionExists.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security -DCHECK_FUNCTION_EXISTS=getloadavg -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -MD -MT CMakeFiles/cmTC_25d57.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_25d57.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_25d57.dir/CheckFunctionExists.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-7reerI/CheckFunctionExists.c
+        Linking C executable cmTC_25d57
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_25d57.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security -DCHECK_FUNCTION_EXISTS=getloadavg -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_25d57.dir/CheckFunctionExists.c.o -o cmTC_25d57 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckLibraryExists.cmake:69 (try_compile)"
+      - "src/CMakeLists.txt:106 (check_library_exists)"
+    checks:
+      - "Looking for clock_gettime in rt"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-HLJ0Ig"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-HLJ0Ig"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "NEED_LIBRT"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-HLJ0Ig'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_08d41/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_08d41.dir/build.make CMakeFiles/cmTC_08d41.dir/build
+        Building C object CMakeFiles/cmTC_08d41.dir/CheckFunctionExists.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security -DCHECK_FUNCTION_EXISTS=clock_gettime -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -MD -MT CMakeFiles/cmTC_08d41.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_08d41.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_08d41.dir/CheckFunctionExists.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-HLJ0Ig/CheckFunctionExists.c
+        Linking C executable cmTC_08d41
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_08d41.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security -DCHECK_FUNCTION_EXISTS=clock_gettime -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_08d41.dir/CheckFunctionExists.c.o -o cmTC_08d41   -L/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-HLJ0Ig/time.h  -Wl,-rpath,/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-HLJ0Ig/time.h -lrt 
+        ld: warning: search path '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-HLJ0Ig/time.h' not found
+        ld: library 'rt' not found
+        clang: error: linker command failed with exit code 1 (use -v to see invocation)
+        make[1]: *** [cmTC_08d41] Error 1
+        make: *** [cmTC_08d41/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:101 (try_compile)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:18 (cmake_check_source_compiles)"
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckCCompilerFlag.cmake:51 (cmake_check_compiler_flag)"
+      - "cmake/AddCFlagIfSupported.cmake:25 (check_c_compiler_flag)"
+      - "cmake/EnableWarnings.cmake:6 (add_c_flag_if_supported)"
+      - "deps/ntlmclient/CMakeLists.txt:6 (disable_warnings)"
+    checks:
+      - "Performing Test IS_WNO_IMPLICIT_FALLTHROUGH_SUPPORTED"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-PUzu5r"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-PUzu5r"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "IS_WNO_IMPLICIT_FALLTHROUGH_SUPPORTED"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-PUzu5r'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_76e8f/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_76e8f.dir/build.make CMakeFiles/cmTC_76e8f.dir/build
+        Building C object CMakeFiles/cmTC_76e8f.dir/src.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -DIS_WNO_IMPLICIT_FALLTHROUGH_SUPPORTED  -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk   -Wno-implicit-fallthrough -MD -MT CMakeFiles/cmTC_76e8f.dir/src.c.o -MF CMakeFiles/cmTC_76e8f.dir/src.c.o.d -o CMakeFiles/cmTC_76e8f.dir/src.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-PUzu5r/src.c
+        Linking C executable cmTC_76e8f
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_76e8f.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_76e8f.dir/src.c.o -o cmTC_76e8f 
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/homebrew/Cellar/cmake/3.28.1/share/cmake/Modules/CheckFunctionExists.cmake:86 (try_compile)"
+      - "cmake/FindIconv.cmake:15 (check_function_exists)"
+      - "src/CMakeLists.txt:163 (find_package)"
+    checks:
+      - "Looking for iconv_open"
+    directories:
+      source: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-ABidca"
+      binary: "/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-ABidca"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "-D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/Users/cbartschat/repo/libgit8/cmake"
+      CMAKE_OSX_ARCHITECTURES: ""
+      CMAKE_OSX_DEPLOYMENT_TARGET: ""
+      CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk"
+    buildResult:
+      variable: "libc_has_iconv"
+      cached: true
+      stdout: |
+        Change Dir: '/Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-ABidca'
+        
+        Run Build Command(s): /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_fc1fe/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_fc1fe.dir/build.make CMakeFiles/cmTC_fc1fe.dir/build
+        Building C object CMakeFiles/cmTC_fc1fe.dir/CheckFunctionExists.c.o
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc   -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security -DCHECK_FUNCTION_EXISTS=iconv_open -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -MD -MT CMakeFiles/cmTC_fc1fe.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_fc1fe.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_fc1fe.dir/CheckFunctionExists.c.o -c /Users/cbartschat/repo/libgit8/build2/CMakeFiles/CMakeScratch/TryCompile-ABidca/CheckFunctionExists.c
+        Linking C executable cmTC_fc1fe
+        /opt/homebrew/Cellar/cmake/3.28.1/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fc1fe.dir/link.txt --verbose=1
+        /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -D_GNU_SOURCE  -Werror -Wno-error -Wall -Wextra -fvisibility=hidden -fPIC -Wdocumentation -Wno-documentation-deprecated-sync -Wno-missing-field-initializers -Wmissing-declarations -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wint-conversion -Wc11-extensions -Wformat -Wformat-security -DCHECK_FUNCTION_EXISTS=iconv_open -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_fc1fe.dir/CheckFunctionExists.c.o -o cmTC_fc1fe 
+        ld: Undefined symbols:
+          _iconv_open, referenced from:
+              _main in CheckFunctionExists.c.o
+        clang: error: linker command failed with exit code 1 (use -v to see invocation)
+        make[1]: *** [cmTC_fc1fe] Error 1
+        make: *** [cmTC_fc1fe/fast] Error 2
+        
+      exitCode: 2
+...
