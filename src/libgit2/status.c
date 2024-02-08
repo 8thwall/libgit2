@@ -363,7 +363,6 @@ int git_status_list_new(
 		git_vector_foreach(&status->idx2wd->deltas, i, delta) {
 			git_diff_delta *delta = git_vector_get(&status->idx2wd->deltas, i);
 			if (delta->old_file.skip_worktree && delta->status == GIT_DELTA_DELETED) {
-				// printf("Skipping \"deleted\" sparse file %s\n", delta->old_file.path);
 				continue;
 			}
 			git_vector_insert(&filtered_diffs, delta);
