@@ -258,6 +258,14 @@ static int status_validate_options(const git_status_options *opts)
 	return 0;
 }
 
+static int is_ignored_delta(const git_vector *deltas, size_t idx, void *p)
+{
+	GIT_UNUSED(p);
+	git_diff_delta *delta = deltas->contents[idx];
+	return delta->old_file.skip_worktree && delta->status == GIT_DELTA_DELETED;
+}
+
+
 int git_status_list_new(
 	git_status_list **out,
 	git_repository *repo,
@@ -354,6 +362,8 @@ int git_status_list_new(
 				&status->idx2wd, repo, index, &diffopt)) < 0) {
 			goto done;
 		}
+
+		git_vector_remove_matching(&status->idx2wd->deltas, is_ignored_delta, NULL);
 
 		if ((flags & GIT_STATUS_OPT_RENAMES_INDEX_TO_WORKDIR) != 0 &&
 			(error = git_diff_find_similar(status->idx2wd, &findopt)) < 0)

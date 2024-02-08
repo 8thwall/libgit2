@@ -1,6 +1,7 @@
 #include "clar_libgit2.h"
 #include "futils.h"
 #include "git2/attr.h"
+#include "attr_file.h"
 #include "sparse.h"
 #include "status/status_helpers.h"
 
@@ -70,8 +71,6 @@ void test_sparse_status__cache_attr(void)
 	define_test_cases
 	git_sparse_checkout_init_options scopts = GIT_SPARSE_CHECKOUT_INIT_OPTIONS_INIT;
 	g_repo = cl_git_sandbox_init("sparse");
-
-	clar__skip();
 
 	cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
 
@@ -227,6 +226,20 @@ void test_sparse_status__append_file(void)
 		assert_checkout(one_test->expected, one_test->path);
 }
 
+void test_sparse_status__reapply(void)
+{
+	status_entry_single st;
+	git_sparse_checkout_init_options scopts = GIT_SPARSE_CHECKOUT_INIT_OPTIONS_INIT;
+	g_repo = cl_git_sandbox_init("sparse");
+
+	cl_assert(git_fs_path_exists("sparse/file1"));
+	cl_assert(git_fs_path_exists("sparse/a/file3"));
+
+	cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
+
+	cl_assert(git_fs_path_exists("sparse/file1"));
+	cl_assert(!git_fs_path_exists("sparse/a/file3"));
+}
 
 void test_sparse_status__clean(void)
 {
@@ -234,7 +247,9 @@ void test_sparse_status__clean(void)
 	git_sparse_checkout_init_options scopts = GIT_SPARSE_CHECKOUT_INIT_OPTIONS_INIT;
 	g_repo = cl_git_sandbox_init("sparse");
 
-	clar__skip();
+	memset(&st, 0, sizeof(st));
+	cl_git_pass(git_status_foreach(g_repo, cb_status__single, &st));
+	cl_assert_equal_i(0, st.count);
 
 	cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
 	
@@ -266,8 +281,6 @@ void test_sparse_status__new_file(void)
 	git_sparse_checkout_init_options scopts = GIT_SPARSE_CHECKOUT_INIT_OPTIONS_INIT;
 	g_repo = cl_git_sandbox_init("sparse");
 
-	clar__skip();
-
 	cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
 	
 	cl_git_mkfile("sparse/newfile", "/hello world\n");
@@ -284,8 +297,6 @@ void test_sparse_status__new_file_new_folder(void)
 	status_entry_single st;
 	git_sparse_checkout_init_options scopts = GIT_SPARSE_CHECKOUT_INIT_OPTIONS_INIT;
 	g_repo = cl_git_sandbox_init("sparse");
-
-	clar__skip();
 
 	cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
 	
@@ -305,8 +316,6 @@ void test_sparse_status__new_file_sparse_folder(void)
 	git_sparse_checkout_init_options scopts = GIT_SPARSE_CHECKOUT_INIT_OPTIONS_INIT;
 	g_repo = cl_git_sandbox_init("sparse");
 
-	clar__skip();
-
 	cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
 	
 	cl_must_pass(git_futils_mkdir("sparse/a", 0777, 0));
@@ -325,15 +334,13 @@ void test_sparse_status__new_sparse_file_sparse_folder(void)
 	git_sparse_checkout_init_options scopts = GIT_SPARSE_CHECKOUT_INIT_OPTIONS_INIT;
 	g_repo = cl_git_sandbox_init("sparse");
 
-	clar__skip();
-
 	cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
 	
 	cl_must_pass(git_futils_mkdir("sparse/a", 0777, 0));
 	cl_git_mkfile("sparse/a/file3", "/hello world\n");
 	memset(&st, 0, sizeof(st));
 	cl_git_pass(git_status_foreach(g_repo, cb_status__single, &st));
-	cl_assert_equal_i(0, st.count);
+	cl_assert_equal_i(1, st.count);
 	
 	refute_is_checkout("new/newfile");
 }
