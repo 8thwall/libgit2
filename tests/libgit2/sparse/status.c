@@ -356,7 +356,7 @@ void test_sparse_status__ignorecase(void)
 
 	cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
 	{
-		char *pattern_strings[] = { "/b/file5/" };
+		char *pattern_strings[] = { "/b/file5" };
 		git_strarray patterns = { pattern_strings, ARRAY_SIZE(pattern_strings) };
 		cl_git_pass(git_sparse_checkout_add(g_repo, &patterns));
 	}
