@@ -415,7 +415,7 @@ int git_sparse_checkout__reapply(git_repository *repo, git_sparse *sparse)
 		/* Don't touch files that aren't current */
 		if ((error = git_status_file(&status_flags, repo, entry->path)) < 0)
 			goto done;
-		if (status_flags != GIT_STATUS_CURRENT)
+		if (status_flags != GIT_STATUS_CURRENT && status_flags != GIT_STATUS_WT_DELETED)
 			continue;
 
 		if ((error = git_str_joinpath(&fullpath, repo->workdir, entry->path)) < 0)
