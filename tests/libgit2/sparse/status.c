@@ -375,3 +375,24 @@ void test_sparse_status__ignorecase(void)
 	
 	git_index_free(index);
 }
+
+
+void test_sparse_status__cmb(void)
+{
+	define_test_cases
+	git_sparse_checkout_init_options scopts = GIT_SPARSE_CHECKOUT_INIT_OPTIONS_INIT;
+	g_repo = cl_git_sandbox_init("sparse");
+
+	cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
+	{
+		char *pattern_strings[] = { "/a/" };
+		git_strarray patterns = { pattern_strings, ARRAY_SIZE(pattern_strings) };
+		cl_git_pass(git_sparse_checkout_add(g_repo, &patterns));
+	}
+
+	test_cases[3].expected = 1;
+	test_cases[4].expected = 1;
+	test_cases[5].expected = 1;
+
+  assert(false);
+}
