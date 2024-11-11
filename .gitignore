@@ -1,3 +1,4 @@
+/build2/
 /build/
 .DS_Store
 *~
@@ -6,3 +7,4 @@
 CMakeSettings.json
 .vs
 .idea
+/build2/

@@ -238,6 +238,15 @@ void test_sparse_status__reapply(void)
 	cl_git_pass(git_sparse_checkout_init(g_repo, &scopts));
 
 	cl_assert(git_fs_path_exists("sparse/file1"));
+	// cl_assert(!git_fs_path_exists("sparse/a/file3"));
+
+	{
+		char *pattern_strings[] = { "/b/" };
+		git_strarray patterns = { pattern_strings, ARRAY_SIZE(pattern_strings) };
+		cl_git_pass(git_sparse_checkout_add(g_repo, &patterns));
+	}
+
+	cl_assert(git_fs_path_exists("sparse/b/file5"));
 	cl_assert(!git_fs_path_exists("sparse/a/file3"));
 }
 

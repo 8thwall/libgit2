@@ -12,6 +12,7 @@
 #include "filebuf.h"
 #include "index.h"
 #include "ignore.h"
+#include "status.h"
 
 #define HAS_FLAG(entity, flag) (((entity->flags & flag) != 0))
 
@@ -235,6 +236,7 @@ int git_sparse_attr_file__init_(
 			goto done;
     }
 
+		// printf("init attr file\n");
     error = git_attr_cache__get(&sparse->sparse, repo, NULL, &source, parse_sparse_file, false);
 
 done:
@@ -378,20 +380,16 @@ done:
     return error;
 }
 
-int git_sparse_checkout__reapply(git_repository *repo, git_sparse *sparse)
-{
+int git_sparse_checkout__apply_sparse_to_index(git_repository *repo, git_sparse *sparse) {
+
 	int error = 0;
 	git_index *index;
 	size_t i = 0;
 	git_index_entry *entry;
-	git_vector paths_to_checkout;
-	git_checkout_options copts;
-	const char *workdir = repo->workdir;
+
+printf("git_sparse_checkout__apply_sparse_to_index\n");
 
 	if ((error = git_repository_index(&index, repo)) < 0)
-		goto done;
-
-	if ((error = git_vector_init(&paths_to_checkout, 0, NULL)) < 0)
 		goto done;
 
 	git_vector_foreach(&index->entries, i, entry)
@@ -400,44 +398,123 @@ int git_sparse_checkout__reapply(git_repository *repo, git_sparse *sparse)
 		int has_conflict = false;
 		unsigned int status_flags;
 		int checkout = GIT_SPARSE_CHECKOUT;
-		git_str fullpath = GIT_STR_INIT;
-
-		/* Don't touch submodules */
-		is_submodule = S_ISGITLINK(entry->mode);
-		if (is_submodule)
-			continue;
-
-		/* Don't touch files with conflicts */
-		has_conflict = GIT_INDEX_ENTRY_STAGE(entry) > 0;
-		if (has_conflict)
-			continue;
-
-		/* Don't touch files that aren't current */
-		if ((error = git_status_file(&status_flags, repo, entry->path)) < 0)
-			goto done;
-		if (status_flags != GIT_STATUS_CURRENT)
-			continue;
-
-		if ((error = git_str_joinpath(&fullpath, repo->workdir, entry->path)) < 0)
+		if ((error = git_sparse__lookup(&checkout, sparse, entry->path, GIT_DIR_FLAG_FALSE)) < 0)
 			goto done;
 
-		if (git_sparse__lookup(&checkout, sparse, entry->path, GIT_DIR_FLAG_FALSE) == 0 &&
-			checkout == GIT_SPARSE_NOCHECKOUT)
-		{
-			entry->flags_extended |= GIT_INDEX_ENTRY_SKIP_WORKTREE;
-
-			if (!git_fs_path_exists(git_str_cstr(&fullpath)))
-				continue;
-
-			if ((error = git_futils_rmdir_r(entry->path, workdir, GIT_RMDIR_REMOVE_FILES | GIT_RMDIR_EMPTY_PARENTS)) < 0)
-				goto done;
+		uint16_t new_extended_flags = entry->flags_extended;
+		if (checkout == GIT_SPARSE_NOCHECKOUT) {
+			printf("Excluding:             %s", entry->path);
+			new_extended_flags |= GIT_INDEX_ENTRY_SKIP_WORKTREE;
+		} else {
+			printf("Including:      %s", entry->path);
+			new_extended_flags &= ~GIT_INDEX_ENTRY_SKIP_WORKTREE;
 		}
-		else
-		{
-			entry->flags_extended &= ~GIT_INDEX_ENTRY_SKIP_WORKTREE;
-			git_vector_insert(&paths_to_checkout, (void*) entry->path);
+		if (new_extended_flags != entry->flags_extended) {
+			printf("*\n");
+			entry->flags_extended = new_extended_flags;
+		} else {
+			printf("\n");
 		}
 	}
+
+	error = git_index_write(index);
+
+	printf("Wrote index back...\n");
+done:
+	git_index_free(index);
+
+	return error;
+}
+
+int git_sparse_checkout__reapply(git_repository *repo, git_sparse *sparse)
+{
+	int error = 0;
+	git_index *index;
+	size_t i = 0;
+	git_index_entry *entry;
+	git_vector paths_to_checkout;
+	git_checkout_options copts;
+	git_status_list *status = NULL;
+	const git_status_entry *status_entry;
+	git_status_options status_opts = GIT_STATUS_OPTIONS_INIT;
+
+	const char *workdir = repo->workdir;
+
+
+	if ((error = git_vector_init(&paths_to_checkout, 0, NULL)) < 0)
+		goto done;
+
+	if ((error = git_sparse_checkout__apply_sparse_to_index(repo, sparse)) < 0)
+		goto done;
+
+	// status_opts.flags |= GIT_STATUS_OPT_RECURSE_UNTRACKED_DIRS;
+	if ((error = git_status_list_new(&status, repo, &status_opts)) < 0) {
+		return error;
+	}
+
+	printf("Status: %d\n", git_status_list_entrycount(status));
+
+	git_vector_foreach(&status->paired, i, status_entry) {
+			const char *path = status_entry->head_to_index ?
+				status_entry->head_to_index->old_file.path :
+				status_entry->index_to_workdir->old_file.path;
+			printf("\n\nPath: %s\n", path);
+			if (status_entry->head_to_index) {
+				printf("Head to index:\n");
+				switch (status_entry->head_to_index->status) {
+					case GIT_STATUS_CURRENT:
+						printf("  Current\n");
+						break;
+					case GIT_STATUS_INDEX_NEW:
+						printf("  Index New\n");
+						break;
+					case GIT_STATUS_INDEX_MODIFIED:
+						printf("  Index Modified\n");
+						break;
+					case GIT_STATUS_INDEX_DELETED:
+						printf("  Index Deleted\n");
+						break;
+					case GIT_STATUS_INDEX_RENAMED:
+						printf("  Index Renamed\n");
+						break;
+					case GIT_STATUS_INDEX_TYPECHANGE:
+						printf("  Index Typechange\n");
+						break;
+					case GIT_STATUS_WT_NEW:
+						printf("  WT New\n");
+						break;
+					case GIT_STATUS_WT_MODIFIED:
+						printf("  WT Modified\n");
+						break;
+					case GIT_STATUS_WT_DELETED:
+						printf("  WT Deleted\n");
+						break;
+					case GIT_STATUS_WT_TYPECHANGE:
+						printf("  WT Typechange\n");
+						break;
+					case GIT_STATUS_WT_RENAMED:
+						printf("  WT Renamed\n");
+						break;
+					case GIT_STATUS_CONFLICTED:
+						printf("  Conflict\n");
+						break;
+					default:
+						printf("  Unknown\n");
+						break;
+				}
+			} else {
+				printf("Head to index is null\n");
+			}
+
+
+		// Error out if conflicts
+		// Delete file if it shouldn't exist
+		// Add file to paths_to_checkout if it should exist
+		// Otherwise do nothing
+	}
+
+	if ((error = git_repository_index(&index, repo)) < 0)
+		goto done;
 
 	if ((error = git_checkout_options_init(&copts, GIT_CHECKOUT_OPTIONS_VERSION)) < 0)
 		goto done;
@@ -453,6 +530,7 @@ int git_sparse_checkout__reapply(git_repository *repo, git_sparse *sparse)
 done:
 	git_index_free(index);
 	git_vector_free(&paths_to_checkout);
+	git_status_list_free(status);
 
 	return error;
 }
