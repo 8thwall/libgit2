@@ -393,7 +393,7 @@ static int checkout_branch(git_repository *repo, git_remote *remote, const git_c
 	return error;
 }
 
-static int clone_into(git_repository *repo, git_remote *_remote, const git_fetch_options *opts, const git_checkout_options *co_opts, const char *branch)
+static int clone_into(git_repository *repo, git_remote *_remote, const git_fetch_options *opts, const git_checkout_options *co_opts, const char *branch, const git_strarray *refspecs)
 {
 	int error;
 	git_str reflog_message = GIT_STR_INIT;
@@ -416,7 +416,7 @@ static int clone_into(git_repository *repo, git_remote *_remote, const git_fetch
 	fetch_opts.download_tags = GIT_REMOTE_DOWNLOAD_TAGS_ALL;
 	git_str_printf(&reflog_message, "clone: from %s", git_remote_url(remote));
 
-	if ((error = git_remote_fetch(remote, NULL, &fetch_opts, git_str_cstr(&reflog_message))) != 0)
+	if ((error = git_remote_fetch(remote, refspecs, &fetch_opts, git_str_cstr(&reflog_message))) != 0)
 		goto cleanup;
 
 	error = checkout_branch(repo, remote, co_opts, branch, git_str_cstr(&reflog_message));
@@ -507,7 +507,7 @@ static int git__clone(
 		else if (clone_local == 0)
 			error = clone_into(
 				repo, origin, &options.fetch_opts, &options.checkout_opts,
-				options.checkout_branch);
+				options.checkout_branch, options.refspecs.count == 0 ? NULL : &options.refspecs);
 		else
 			error = -1;
 

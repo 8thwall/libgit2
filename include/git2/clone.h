@@ -161,6 +161,11 @@ typedef struct git_clone_options {
 	 * This parameter is ignored unless remote_cb is non-NULL.
 	 */
 	void *remote_cb_payload;
+	
+	/*
+	 * The refspecs to use for the clone. If empty, all refs will be cloned.
+	 */
+	git_strarray refspecs;
 } git_clone_options;
 
 #define GIT_CLONE_OPTIONS_VERSION 1
