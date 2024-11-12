@@ -1,0 +1,12 @@
+{
+  "files.associations": {
+    "BUILD": "python",
+    "*.bzl": "python",
+    "*.md": "markdown",
+    "*.BUILD": "python",
+    "WORKSPACE": "python",
+    "*.ts": "typescript",
+    "*.bazel": "python",
+    "wildmatch.h": "c"
+  }
+}
