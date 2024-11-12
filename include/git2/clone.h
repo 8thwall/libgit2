@@ -164,6 +164,7 @@ typedef struct git_clone_options {
 	
 	/*
 	 * The refspecs to use for the clone. If empty, all refs will be cloned.
+	 * example: {"main:main", "HEAD"}
 	 */
 	git_strarray refspecs;
 } git_clone_options;
