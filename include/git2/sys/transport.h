@@ -13,6 +13,7 @@ extern "C" {
 #endif
 
 #include "git2/net.h"
+#include "git2/oidarray.h"
 #include "git2/proxy.h"
 #include "git2/remote.h"
 #include "git2/strarray.h"
@@ -28,6 +29,14 @@ extern "C" {
  */
 
 GIT_BEGIN_DECL
+
+typedef struct {
+	const git_remote_head * const *refs;
+	size_t refs_len;
+	git_oid *shallow_roots;
+	size_t shallow_roots_len;
+	int depth;
+} git_fetch_negotiation;
 
 struct git_transport {
 	unsigned int version; /**< The struct version */
@@ -61,6 +70,18 @@ struct git_transport {
 		unsigned int *capabilities,
 		git_transport *transport);
 
+#ifdef GIT_EXPERIMENTAL_SHA256
+	/**
+	 * Gets the object type for the remote repository.
+	 *
+	 * This function may be called after a successful call to
+	 * `connect()`.
+	 */
+	int GIT_CALLBACK(oid_type)(
+		git_oid_t *object_type,
+		git_transport *transport);
+#endif
+
 	/**
 	 * Get the list of available references in the remote repository.
 	 *
@@ -88,8 +109,17 @@ struct git_transport {
 	int GIT_CALLBACK(negotiate_fetch)(
 		git_transport *transport,
 		git_repository *repo,
-		const git_remote_head * const *refs,
-		size_t count);
+		const git_fetch_negotiation *fetch_data);
+
+	/**
+	 * Return the shallow roots of the remote.
+	 *
+	 * This function may be called after a successful call to
+	 * `negotiate_fetch`.
+	 */
+	int GIT_CALLBACK(shallow_roots)(
+		git_oidarray *out,
+		git_transport *transport);
 
 	/**
 	 * Start downloading the packfile from the remote repository.
