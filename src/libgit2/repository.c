@@ -1319,13 +1319,6 @@ static int load_config(
 		if (error && error != GIT_ENOTFOUND)
 			goto on_error;
 
-<<<<<<< HEAD
-    if ((error = git_repository__item_path(&config_path, repo, GIT_REPOSITORY_ITEM_WORKTREE_CONFIG)) == 0)
-      error = git_config_add_file_ondisk(cfg, config_path.ptr, GIT_CONFIG_LEVEL_WORKTREE, repo, 0);
-
-    if (error && error != GIT_ENOTFOUND)
-      goto on_error;
-=======
 		if ((error = has_config_worktree(&has_worktree, cfg)) == 0 &&
 		    has_worktree &&
 		    (error = git_repository__item_path(&config_path, repo, GIT_REPOSITORY_ITEM_WORKTREE_CONFIG)) == 0)
@@ -1333,7 +1326,6 @@ static int load_config(
 
 		if (error && error != GIT_ENOTFOUND)
 			goto on_error;
->>>>>>> original-upstream
 
 		git_str_dispose(&config_path);
 	}
@@ -1888,12 +1880,8 @@ static int check_repositoryformatversion(int *version, git_config *config)
 
 static const char *builtin_extensions[] = {
 	"noop",
-<<<<<<< HEAD
-  "worktreeconfig",
-=======
 	"objectformat",
 	"worktreeconfig",
->>>>>>> original-upstream
 };
 
 static git_vector user_extensions = { 0, git__strcmp_cb };

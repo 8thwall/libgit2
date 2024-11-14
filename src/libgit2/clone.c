@@ -405,16 +405,13 @@ static int checkout_branch(git_repository *repo, git_remote *remote, const git_c
 	return error;
 }
 
-<<<<<<< HEAD
-static int clone_into(git_repository *repo, git_remote *_remote, const git_fetch_options *opts, const git_checkout_options *co_opts, const char *branch, const git_strarray *refspecs)
-=======
 static int clone_into(
 	git_repository *repo,
 	git_remote *_remote,
 	const git_fetch_options *opts,
 	const git_checkout_options *co_opts,
-	const char *branch)
->>>>>>> original-upstream
+	const char *branch,
+	const git_strarray *refspecs)
 {
 	int error;
 	git_str reflog_message = GIT_STR_INIT;
@@ -445,9 +442,6 @@ static int clone_into(
 
 	git_str_printf(&reflog_message, "clone: from %s", git_remote_url(remote));
 
-<<<<<<< HEAD
-	if ((error = git_remote_fetch(remote, refspecs, &fetch_opts, git_str_cstr(&reflog_message))) != 0)
-=======
 	/*
 	 * Connect to the server so that we can identify the remote
 	 * object format.
@@ -461,8 +455,7 @@ static int clone_into(
 	    (error = git_repository__set_objectformat(repo, oid_type)) < 0)
 		goto cleanup;
 
-	if ((error = git_remote_fetch(remote, NULL, &fetch_opts, git_str_cstr(&reflog_message))) != 0)
->>>>>>> original-upstream
+	if ((error = git_remote_fetch(remote, refspecs, &fetch_opts, git_str_cstr(&reflog_message))) != 0)
 		goto cleanup;
 
 	error = checkout_branch(repo, remote, co_opts, branch, git_str_cstr(&reflog_message));

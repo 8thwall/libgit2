@@ -59,13 +59,9 @@ typedef enum {
 	 */
 	GIT_CONFIG_LEVEL_LOCAL = 5,
 
-<<<<<<< HEAD
-  GIT_CONFIG_LEVEL_WORKTREE = 6,
-=======
 	/** Worktree specific configuration file; $GIT_DIR/config.worktree
 	 */
 	GIT_CONFIG_LEVEL_WORKTREE = 6,
->>>>>>> original-upstream
 
 	/** Application specific configuration file; freely defined by applications
 	 */

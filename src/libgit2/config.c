@@ -645,11 +645,6 @@ int git_config_foreach_match(
  {
 	backend_entry *entry;
 	size_t i;
-<<<<<<< HEAD
-	backend_internal *backend;
-  git_config_entry *entry;
-=======
->>>>>>> original-upstream
 
 	git_vector_foreach(&config->writers, i, entry) {
 		if (entry->instance->backend->readonly)
@@ -661,36 +656,8 @@ int git_config_foreach_match(
 		return entry->instance;
 	}
 
-<<<<<<< HEAD
-	git_vector_foreach(&cfg->backends, i, backend) {
-		if (!backend->backend->readonly) {
-      *out = backend->backend;
-      entry = NULL;
-
-      /* If this backend has an entry for this config, use it. */
-      backend->backend->get(backend->backend, name, &entry);
-      if (entry != NULL) {
-        git_config_entry_free(entry);
-        return 0;
-      }
-
-      /* Don't use worktree config as an eager implied destination. */
-      if (backend->level == GIT_CONFIG_LEVEL_WORKTREE) {
-        continue;
-      }
-
-      /* The original behavior was to return the first writeable backend found. */
-      return 0;
-    }
-  }
-
-  if (*out) {
-    return 0;
-  }
-=======
 	return NULL;
  }
->>>>>>> original-upstream
 
 static git_config_backend *get_writer(git_config *config)
 {

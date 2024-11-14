@@ -27,10 +27,7 @@
 #define iterator__honor_ignores(I)     iterator__flag(I,HONOR_IGNORES)
 #define iterator__ignore_dot_git(I)    iterator__flag(I,IGNORE_DOT_GIT)
 #define iterator__descend_symlinks(I)  iterator__flag(I,DESCEND_SYMLINKS)
-<<<<<<< HEAD
 #define iterator__honor_sparse(I)      iterator__flag(I,HONOR_SPARSE)
-=======
->>>>>>> original-upstream
 
 static void iterator_set_ignore_case(git_iterator *iter, bool ignore_case)
 {

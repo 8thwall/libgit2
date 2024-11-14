@@ -197,26 +197,16 @@ static int diff_delta__from_one(
 		delta->old_file.size = entry->file_size;
 		delta->old_file.flags |= GIT_DIFF_FLAG_EXISTS;
 		git_oid_cpy(&delta->old_file.id, &entry->id);
-<<<<<<< HEAD
-		git_oid_clear(&delta->new_file.id, GIT_OID_SHA1);
-		delta->old_file.id_abbrev = GIT_OID_SHA1_HEXSIZE;
-		delta->old_file.skip_worktree = (0 != (entry->flags_extended & GIT_INDEX_ENTRY_SKIP_WORKTREE));
-=======
-		git_oid_clear(&delta->new_file.id, oid_type);
 		delta->old_file.id_abbrev = (uint16_t)git_oid_hexsize(oid_type);
->>>>>>> original-upstream
+		delta->old_file.skip_worktree = (0 != (entry->flags_extended & GIT_INDEX_ENTRY_SKIP_WORKTREE));
 	} else /* ADDED, IGNORED, UNTRACKED */ {
 		delta->new_file.mode = entry->mode;
 		delta->new_file.size = entry->file_size;
 		delta->new_file.flags |= GIT_DIFF_FLAG_EXISTS;
 		git_oid_clear(&delta->old_file.id, oid_type);
 		git_oid_cpy(&delta->new_file.id, &entry->id);
-<<<<<<< HEAD
-		delta->new_file.id_abbrev = GIT_OID_SHA1_HEXSIZE;
-		delta->new_file.skip_worktree = (0 != (entry->flags_extended & GIT_INDEX_ENTRY_SKIP_WORKTREE));
-=======
 		delta->new_file.id_abbrev = (uint16_t)git_oid_hexsize(oid_type);
->>>>>>> original-upstream
+		delta->new_file.skip_worktree = (0 != (entry->flags_extended & GIT_INDEX_ENTRY_SKIP_WORKTREE));
 	}
 
 	delta->old_file.flags |= GIT_DIFF_FLAG_VALID_ID;
