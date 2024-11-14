@@ -100,7 +100,7 @@ GIT_INLINE(int) git_array__search(
 	const void *key)
 {
 	size_t lim;
-	unsigned char *part, *array = array_ptr, *base = array_ptr;
+	unsigned char *part, *array = (unsigned char *)array_ptr, *base = (unsigned char *)array_ptr;
 	int cmp = -1;
 
 	for (lim = array_len; lim != 0; lim >>= 1) {
