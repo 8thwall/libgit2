@@ -420,7 +420,7 @@ static int ng_pkt(git_pkt **out, const char *line, size_t len)
 	return 0;
 
 out_err:
-	git_error_set(GIT_ERROR_NET, "invalid packet line");
+	git_error_set(GIT_ERROR_NET, "invalid packet line (ng_pkt)");
 	git__free(pkt->ref);
 	git__free(pkt);
 	return -1;
@@ -477,7 +477,7 @@ static int shallow_pkt(
 	return 0;
 
 out_err:
-	git_error_set(GIT_ERROR_NET, "invalid packet line");
+	git_error_set(GIT_ERROR_NET, "invalid packet line (shallow_pkt)");
 	git__free(pkt);
 	return -1;
 }
@@ -516,7 +516,7 @@ static int unshallow_pkt(
 	return 0;
 
 out_err:
-	git_error_set(GIT_ERROR_NET, "invalid packet line");
+	git_error_set(GIT_ERROR_NET, "invalid packet line (unshallow_pkt)");
 	git__free(pkt);
 	return -1;
 }
