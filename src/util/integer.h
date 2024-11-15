@@ -57,7 +57,7 @@ GIT_INLINE(int) git__is_int(int64_t p)
 #  define git__add_sizet_overflow(out, one, two) \
      __builtin_uadd_overflow(one, two, out)
 #  define git__multiply_sizet_overflow(out, one, two) \
-     __builtin_umul_overflow(one, two, out)
+     __builtin_umull_overflow(one, two, out)
 # elif (SIZE_MAX == ULONG_MAX)
 #  define git__add_sizet_overflow(out, one, two) \
      __builtin_uaddl_overflow(one, two, out)
@@ -89,7 +89,9 @@ GIT_INLINE(int) git__is_int(int64_t p)
 /* Use Microsoft's safe integer handling functions where available */
 #elif defined(_MSC_VER)
 
-# define ENABLE_INTSAFE_SIGNED_FUNCTIONS
+# if !defined(ENABLE_INTSAFE_SIGNED_FUNCTIONS)
+#  define ENABLE_INTSAFE_SIGNED_FUNCTIONS
+# endif
 # include <intsafe.h>
 
 # define git__add_sizet_overflow(out, one, two) \

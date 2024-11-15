@@ -141,7 +141,7 @@ typedef enum {
 	GIT_INDEX_ADD_FORCE = (1u << 0),
 	GIT_INDEX_ADD_DISABLE_PATHSPEC_MATCH = (1u << 1),
 	GIT_INDEX_ADD_CHECK_PATHSPEC = (1u << 2),
-  // NOTE(pawel) Let git_index_add_all() know that we want to update the index.
+  /* NOTE(pawel) Let git_index_add_all() know that we want to update the index. */
   GIT_INDEX_UPDATE_INDEX = (1u << 7)
 } git_index_add_option_t;
 
@@ -186,7 +186,12 @@ typedef enum {
  * @param index_path the path to the index file in disk
  * @return 0 or an error code
  */
+
+#ifdef GIT_EXPERIMENTAL_SHA256
+GIT_EXTERN(int) git_index_open(git_index **out, const char *index_path, git_oid_t oid_type);
+#else
 GIT_EXTERN(int) git_index_open(git_index **out, const char *index_path);
+#endif
 
 /**
  * Create an in-memory index object.
@@ -199,7 +204,11 @@ GIT_EXTERN(int) git_index_open(git_index **out, const char *index_path);
  * @param out the pointer for the new index
  * @return 0 or an error code
  */
+#ifdef GIT_EXPERIMENTAL_SHA256
+GIT_EXTERN(int) git_index_new(git_index **out, git_oid_t oid_type);
+#else
 GIT_EXTERN(int) git_index_new(git_index **out);
+#endif
 
 /**
  * Free an existing index object.
