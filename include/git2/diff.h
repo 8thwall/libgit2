@@ -285,7 +285,7 @@ typedef struct {
 	/**
 	 * Sparse checkout file that should not be checked out.
 	*/
-	bool skip_worktree;
+	int skip_worktree;
 } git_diff_file;
 
 /**
@@ -471,7 +471,7 @@ typedef struct {
 
 	/** Skip files in the diff that are excluded by the `sparse-checkout` file.
 	 */
-	bool skip_sparse_files;
+	int skip_sparse_files;
 } git_diff_options;
 
 /* The current version of the diff options structure */
