@@ -459,14 +459,19 @@ static int shallow_pkt(
 
 	pkt->type = GIT_PKT_SHALLOW;
 
-	if (git__prefixncmp(line, len, "shallow "))
+	if (git__prefixncmp(line, len, "shallow ")) {
+		printf("line: %s should start with shallow\n", line);
 		goto out_err;
+	}
 
 	line += 8;
 	len -= 8;
 
-	if (len != oid_hexsize)
+	if (len != oid_hexsize) {
+		
+		printf("incorrect length: %d vs %d\n", len, oid_hexsize);
 		goto out_err;
+	}
 
 	git_oid__fromstr(&pkt->oid, line, data->oid_type);
 	line += oid_hexsize + 1;
@@ -630,6 +635,11 @@ int git_pkt_parse_line(
 	}
 
 	len -= PKT_LEN_SIZE; /* the encoded length includes its own size */
+	
+	char * extractedLine = malloc(len + 1);
+	strncpy(extractedLine, line, len);
+	printf("Extracted line: [%s]\n", extractedLine);
+	free(extractedLine);
 
 	if (*line == GIT_SIDE_BAND_DATA)
 		error = data_pkt(pkt, line, len);
